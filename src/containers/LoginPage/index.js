@@ -42,7 +42,7 @@ const LoginPage = (props) => {
     <div>
       <LeftSide />
       <RightSide>
-        <h2>Log in</h2>
+        <h2>Log in hhhh</h2>
         <Card>
           <form onSubmit={userLogin}>
             <label for="email">Email:</label>

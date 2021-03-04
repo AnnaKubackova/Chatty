@@ -76,39 +76,41 @@ const HomePage = (props) => {
   return (
     <div>
         <LeftSide>
-        <section className="container">
+        <section className="container allUsers">
             <div className="onlineUsers">
-            {
-              user.isOnline = true ?                
+              <h3>Online</h3>
+            {              
                 user.users.length > 0 ? 
                   user.users.map(user => {
-                    return(
-                      <User 
-                        getUserToChat={initChat}
-                        key={user.uid} 
-                        user={user} 
-                      />
-                    );
+                      return(
+                        user.isOnline ?  
+                          <User 
+                            getUserToChat={initChat}
+                            key={user.uid} 
+                            user={user} 
+                          />
+                        : null
+                      ) 
                   })
                 : null
-              : null
             }
             </div>
             
             <div className="offlineUsers">
-              {
-                user.isOnline = false ?                
-                  user.users.length > 0 ? 
-                    user.users.map(user => {
-                      return(
+              <h3> Offline </h3>
+              {              
+                user.users.length > 0 ? 
+                  user.users.map(user => {
+                    return(
+                      !user.isOnline ?  
                         <User 
                           getUserToChat={initChat}
                           key={user.uid} 
                           user={user} 
                         />
-                      );
-                    })
-                  : null
+                      : null
+                    ) 
+                  })
                 : null
               }
             </div>            

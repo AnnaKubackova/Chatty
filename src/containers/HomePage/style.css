@@ -97,3 +97,24 @@
     background: grey;
     box-shadow: 0 0 0 0;
 }
+
+.allUsers{
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+    padding: 35px 10px;
+    width: 100%;
+}
+
+.allUsers h3{
+    font-size: 22px;
+    color: #35747A;
+}
+
+.onlineUsers{
+    border-bottom: 1px solid black;
+}
+
+.offlineUsers{
+
+}

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 import LeftSide from '../../components/LeftSide';
+import RightSide from '../../components/RightSide';
 import Card from '../../components/UI/Card';
 import { signup } from '../../actions';
 
@@ -33,53 +35,53 @@ const RegisterPage = (props) => {
   }
 
   return(
-    <LeftSide>
-      <div className="registerContainer">
-        <Card>
-          <form onSubmit={registerUser}>
-            <h3>Sign up</h3>
+    <div>
+      <LeftSide />
+      <RightSide>        
+          <h2>Register</h2>
+          <Card>
+            <form onSubmit={registerUser}>
+              <label for="firstName">First Name:</label>
+              <input 
+                name="firstName"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
 
-            <input 
-              name="firstName"
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
-            />
+              <label for="laststName">Last Name:</label>
+              <input 
+                name="lastName"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
 
-            <input 
-              name="lastName"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
-            />
+              <label for="email">Email:</label>
+              <input 
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-            <input 
-              name="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-            />
+              <label for="password">Password:</label>
+              <input 
+                name="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-            <input 
-              name="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
+              <button>Sign up</button>
+            </form>
+          </Card>
 
-            <div>
-              <button>
-                Sign up
-              </button>
-            </div>
-          </form>
-        </Card>
-      </div>
-    </LeftSide>    
+          <p className="linkToRegisterLogin">
+            Already have an account? <NavLink to={'/login'}>Log in</NavLink>
+          </p>
+      </RightSide>
+    </div>
    )
 
  }

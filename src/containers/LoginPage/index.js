@@ -42,7 +42,7 @@ const LoginPage = (props) => {
     <div>
       <LeftSide />
       <RightSide>
-        <h2>Log in hhhhhhhhh</h2>
+        <h2>Log in</h2>
         <Card>
           <form onSubmit={userLogin}>
             <label for="email">Email:</label>
@@ -66,7 +66,7 @@ const LoginPage = (props) => {
           </form>
         </Card>
 
-        <p>
+        <p className="linkToRegisterLogin">
           No account yet? <NavLink to={'/signup'}>Register</NavLink>
         </p>
       </RightSide>

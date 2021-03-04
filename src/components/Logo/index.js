@@ -18,11 +18,11 @@ const Header = (props) => {
             {
                 !auth.authenticated ?
                 <div>
-                    <img src={logo} className="App-logo" alt="logo" />
+                    <img src={logo} />
                 </div>
                 : 
                 <div className="loggedInLogo">
-                    <img src={logo} className="App-logo" alt="logo" />
+                    <img src={logo} />
                 </div>
             }       
         </header>

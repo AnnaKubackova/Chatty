@@ -5,9 +5,14 @@
     justify-content: center;
 }
 
-.rightSection h2 {
-    color: #61C6D4;
-    font-size: 40px;
-    margin-bottom: 55px;
+.linkToRegisterLogin {
+    color: #35747A;
+    margin-top: 25px;
+    font-size: 18px;
 }
 
+.linkToRegisterLogin a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #35747A;
+}

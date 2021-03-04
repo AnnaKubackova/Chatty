@@ -4,6 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 import './style.css';
 import { logout } from '../../actions'
 import Logo from '../Logo';
+import Navigation from '../Navigation';
 
 /**
 * @author
@@ -17,6 +18,13 @@ const LeftSide = (props) => {
   return(     
     <section className="leftSection">
       <Logo />
+      {
+        auth.authenticated ?
+          <Navigation />
+        : 
+          null
+      }
+
       {props.children}
     </section>
    )

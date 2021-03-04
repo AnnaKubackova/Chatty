@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LeftSide from '../../components/LeftSide';
+import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMessages, getOnlineUsers, updateMessage } from '../../actions';
@@ -72,60 +73,33 @@ const HomePage = (props) => {
   }
 
   return (
-    <LeftSide>
-      <section className="container">
-        <div className="listOfUsers">
-          {
-            user.users.length > 0 ?
-            user.users.map(user => {
-              return(
-                <User 
-                  getUserToChat={initChat}
-                  key={user.uid} 
-                  user={user} 
-                />
-              );
-            })
-            :
-            null
-          }
-        </div>
-
-        <div className="chatArea">
-          
-          <div className="chatHeader"> 
+    <div>
+        <LeftSide>
+        <section className="container">
+          <div className="listOfUsers">
             {
-              chatStarted ? chatUser : ''
+              user.users.length > 0 ?
+              user.users.map(user => {
+                return(
+                  <User 
+                    getUserToChat={initChat}
+                    key={user.uid} 
+                    user={user} 
+                  />
+                );
+              })
+              :
+              null
             }
           </div>
+        </section>
+      </LeftSide>
 
-          <div className="messageSections">
-            {
-              chatStarted ? 
-              user.messages.map(msg => 
-                <div style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
-                    <p className="messageStyle" >{msg.message}</p>
-                </div> 
-              )            
-              : null
-            }
-          </div>
-
-          {
-            chatStarted ?
-              <div className="chatControls">
-                <textarea 
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write here"
-                />
-                <button onClick={sendMessage}>Send</button>
-              </div>
-            : null
-          }          
-        </div>
-      </section>
-    </LeftSide>
+      <RightSide>
+        <h3>Profile</h3>
+      </RightSide>
+    </div>
+    
   );
 }
 

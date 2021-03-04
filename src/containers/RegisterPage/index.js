@@ -31,7 +31,7 @@ const RegisterPage = (props) => {
   }
 
   if(auth.authenticated) {
-    return <Redirect to={'/'} />
+    return <Redirect to={'/profile'} />
   }
 
   return(

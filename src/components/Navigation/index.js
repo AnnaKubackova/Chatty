@@ -16,7 +16,7 @@ const Navigation = (props) => {
     return(
         <nav>
             <ul>
-                <li><NavLink to={'/'}>All users</NavLink></li>
+                <li><NavLink to={'/profile'}>All users</NavLink></li>
                 <li><NavLink to={'/chats'}>Your chats</NavLink></li>
                 <li><NavLink to={'/groups'}>Your groups</NavLink></li>
             </ul> 

@@ -3,7 +3,8 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { getMessages, getOnlineUsers, updateMessage } from '../../actions';
+import { getMessages, getOnlineUsers, updateMessage, logout } from '../../actions';
+import { Link } from "react-router-dom";
 
 const User = (props) => {
   const {user, getUserToChat} = props;
@@ -76,27 +77,58 @@ const HomePage = (props) => {
     <div>
         <LeftSide>
         <section className="container">
-          <div className="listOfUsers">
+            <div className="onlineUsers">
             {
-              user.users.length > 0 ?
-              user.users.map(user => {
-                return(
-                  <User 
-                    getUserToChat={initChat}
-                    key={user.uid} 
-                    user={user} 
-                  />
-                );
-              })
-              :
-              null
+              user.isOnline = true ?                
+                user.users.length > 0 ? 
+                  user.users.map(user => {
+                    return(
+                      <User 
+                        getUserToChat={initChat}
+                        key={user.uid} 
+                        user={user} 
+                      />
+                    );
+                  })
+                : null
+              : null
             }
-          </div>
+            </div>
+            
+            <div className="offlineUsers">
+              {
+                user.isOnline = false ?                
+                  user.users.length > 0 ? 
+                    user.users.map(user => {
+                      return(
+                        <User 
+                          getUserToChat={initChat}
+                          key={user.uid} 
+                          user={user} 
+                        />
+                      );
+                    })
+                  : null
+                : null
+              }
+            </div>            
         </section>
       </LeftSide>
 
       <RightSide>
         <h3>Profile</h3>
+        <div>
+          {
+            auth.authenticated ?
+                <li>
+                    <Link to={'#'} onClick={() => {
+                        dispatch(logout(auth.uid))
+                    }}>Logout</Link>
+                </li>
+            : 
+                null
+          }  
+        </div>
       </RightSide>
     </div>
     

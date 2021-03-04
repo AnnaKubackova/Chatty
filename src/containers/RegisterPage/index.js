@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Layout from '../../components/Layout';
+import LeftSide from '../../components/LeftSide';
 import Card from '../../components/UI/Card';
 import { signup } from '../../actions';
 
@@ -17,7 +17,7 @@ const RegisterPage = (props) => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
- 
+
   const registerUser = (e) => {
     e.preventDefault();
 
@@ -33,7 +33,7 @@ const RegisterPage = (props) => {
   }
 
   return(
-    <Layout>
+    <LeftSide>
       <div className="registerContainer">
         <Card>
           <form onSubmit={registerUser}>
@@ -70,6 +70,7 @@ const RegisterPage = (props) => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
+
             <div>
               <button>
                 Sign up
@@ -78,7 +79,7 @@ const RegisterPage = (props) => {
           </form>
         </Card>
       </div>
-    </Layout>    
+    </LeftSide>    
    )
 
  }

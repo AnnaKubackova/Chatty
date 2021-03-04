@@ -4,19 +4,11 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
+.App > div {
+    display: flex;
 }
 
-ul {
-    margin: 0;
-    padding: 0;
-}
-
-ul li {
-    list-style: none;
-}
-
-a {
-    text-decoration: none;
+.App > div > section {
+    flex-grow: 1;
+    flex-basis: 0;
 }

@@ -6,7 +6,7 @@ import LoginPage from './containers/LoginPage';
 import RegisterPage from './containers/RegisterPage';
 import PrivateRoute from './components/PrivateRoute';
 import { useDispatch, useSelector } from 'react-redux';
-import { isUserLoggedIn } from './actions'
+import { isUserLoggedIn } from './actions';
 
 function App() {
   const auth = useSelector(state => state.auth);

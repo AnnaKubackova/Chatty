@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { isUserLoggedIn, sigin } from '../../actions';
-import Layout from '../../components/Layout';
+import { NavLink } from "react-router-dom";
+import LeftSide from '../../components/LeftSide';
+import RightSide from '../../components/RightSide';
 import Card from '../../components/UI/Card';
 import './style.css';
 
@@ -37,35 +39,38 @@ const LoginPage = (props) => {
   }
 
   return(
-    <Layout>
-      <div className="loginContainer">
+    <div>
+      <LeftSide />
+      <RightSide>
+        <h2>Log in</h2>
         <Card>
           <form onSubmit={userLogin}>
+            <label for="email">Email:</label>
             <input 
               name="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
             />
 
+            <label for="password">Password:</label>
             <input 
               name="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
             />
 
-            <div>
-              <button>
-                Log in
-              </button>
-            </div>
+            
+            <button>Log in</button>
           </form>
         </Card>
-      </div>
-    </Layout>
+
+        <p>
+          No account yet? <NavLink to={'/signup'}>Register</NavLink>
+        </p>
+      </RightSide>
+    </div>
    )
 
  }

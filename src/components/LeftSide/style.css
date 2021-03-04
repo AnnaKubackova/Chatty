@@ -1,0 +1,6 @@
+.leftSection {
+    background-image: linear-gradient(to bottom right, #78EBDA, #61C6D4);
+    width: 50vw;
+    height: 100vh;
+    position: relative;
+}

@@ -1,0 +1,26 @@
+.header{
+    width: 100%;
+}
+
+.header > div {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header img {
+    width: 20vw;
+}
+
+.header > .loggedInLogo {
+    height: 12vh;
+    width: 100%;
+    justify-content: start;
+    padding-top: 25px;
+    padding-left: 25px;
+}
+
+.header > .loggedInLogo > img {
+    width: 5vw;
+}

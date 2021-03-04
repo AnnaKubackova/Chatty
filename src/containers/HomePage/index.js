@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
+import LeftSide from '../../components/LeftSide';
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMessages, getOnlineUsers, updateMessage } from '../../actions';
@@ -72,7 +72,7 @@ const HomePage = (props) => {
   }
 
   return (
-    <Layout>
+    <LeftSide>
       <section className="container">
         <div className="listOfUsers">
           {
@@ -125,7 +125,7 @@ const HomePage = (props) => {
           }          
         </div>
       </section>
-    </Layout>
+    </LeftSide>
   );
 }
 

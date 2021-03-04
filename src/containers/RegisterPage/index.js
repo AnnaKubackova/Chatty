@@ -17,7 +17,7 @@ const RegisterPage = (props) => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
-
+ 
   const registerUser = (e) => {
     e.preventDefault();
 
@@ -70,7 +70,6 @@ const RegisterPage = (props) => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
-
             <div>
               <button>
                 Sign up

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMessages, getOnlineUsers, updateMessage, logout } from '../../actions';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import icon from '../../icon.svg';
 
 const Button = 
   styled.a`
@@ -34,6 +35,8 @@ const HomePage = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [chatStarted, setChatStarted] = useState(false);
   const [chatUser, setChatUser] = useState('');
   const [message, setMessage] = useState('');
@@ -88,10 +91,22 @@ const HomePage = (props) => {
     hiddenFileInput.current.click();
   };
 
+
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
-    setuploadedImage(fileUploaded.name);
+    var fileUploadedName = '';
+    if(fileUploaded.name.length > 12) {
+      fileUploadedName = "..." + fileUploaded.name.substr(-12);
+    } else {
+      fileUploadedName = fileUploaded.name;
+    }    
+    setuploadedImage(fileUploadedName);
   };
+
+  const testingButton = (event) => {
+    event.preventDefault();
+    console.log("Button is enabled");
+  }
 
   return (
     <div>
@@ -154,6 +169,8 @@ const HomePage = (props) => {
                     name="firstName"
                     type="text"
                     placeholder={auth.firstName}
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
 
@@ -163,10 +180,12 @@ const HomePage = (props) => {
                     name="lastName"
                     type="text"
                     placeholder={auth.lastName}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
 
-                <div>
+                <div className="imageUploadContainer">
                   <label for="image"> Profile Picture:</label>
                   <Button onClick={handleClick}>
                     Upload a file
@@ -180,15 +199,23 @@ const HomePage = (props) => {
                   />
                 </div>
 
-                <button>Update</button>
+                <div className="updateButton">
+                  <button 
+                    disabled={ firstName || lastName ? false : true } 
+                    onClick={testingButton}
+                  >Update</button>
+                </div>
+                
               </form>
-              <li>
-                  <Link to={'#'} onClick={() => {
-                      dispatch(logout(auth.uid))
-                  }}>Logout</Link>
-              </li>
 
-              <button>Delete</button>
+              <div className="bottomProfileMenu">
+                <a className="deleteProfile">Delete profile</a>
+
+                <Link to={'#'} onClick={() => {
+                  dispatch(logout(auth.uid))
+                }}>Log out <img src={icon} /></Link>              
+              </div>
+                  
             </div>
           : 
               null

@@ -16,7 +16,8 @@
 
 .onlineUsers {
     border-bottom: 1px solid #35747A;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .onlineUsers .user img {
@@ -26,7 +27,7 @@
 .allUsers h3 {
     font-size: 22px;
     color: #35747A;
-    margin: 15px 0 15px 15px;
+    margin-bottom: 15px;
 }
 
 .usersContainer {
@@ -39,13 +40,14 @@
     display: flex;
     flex-direction: column;
     color: #35747A;
-    padding: 15px;
+    width: 20%;
+    margin-bottom: 20px;
 }
 
 .user img {
     width: 3.5vw;
     border-radius: 50%;
-    margin-bottom: 7px;
+    margin-bottom: 3px;
 }
 
 ::-webkit-scrollbar {

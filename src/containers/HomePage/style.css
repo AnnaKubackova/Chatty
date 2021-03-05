@@ -1,12 +1,17 @@
 
 .allUsers {
     display: flex;
+    flex-wrap: wrap;
+    flex-flow:nowrap;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 22px;
     padding: 25px 35px 35px;
     width: 75%;
     margin: 35px auto 0;
+    height: 72vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .onlineUsers {
@@ -21,17 +26,28 @@
 .allUsers h3 {
     font-size: 22px;
     color: #35747A;
-    margin: 15px 0;
+    margin: 15px 0 15px 15px;
+}
+
+.usersContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .user {
     display: flex;
     flex-direction: column;
     color: #35747A;
+    padding: 15px;
 }
 
 .user img {
     width: 3.5vw;
     border-radius: 50%;
     margin-bottom: 7px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
 }

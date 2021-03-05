@@ -74,40 +74,45 @@ const HomePage = (props) => {
         <section className="container allUsers">
             <div className="onlineUsers">
               <h3>Online</h3>
-              {              
-                user.users.length > 0 ? 
-                  user.users.map(user => {
-                    return(
-                      user.isOnline ?  
-                        <User 
-                          getUserToChat={initChat}
-                          key={user.uid} 
-                          user={user} 
-                        />
-                      : null
-                    ) 
-                  })
-                : null
-              }
+              <div className="usersContainer">
+                {              
+                  user.users.length > 0 ? 
+                    user.users.map(user => {
+                      return(
+                        user.isOnline ?  
+                          <User 
+                            getUserToChat={initChat}
+                            key={user.uid} 
+                            user={user} 
+                          />
+                        : null
+                      ) 
+                    })
+                  : null
+                }
+              </div>
+              
             </div>
             
             <div className="offlineUsers">
               <h3>Offline</h3>
-              {              
-                user.users.length > 0 ? 
-                  user.users.map(user => {
-                    return(
-                      !user.isOnline ?  
-                        <User 
-                          getUserToChat={initChat}
-                          key={user.uid} 
-                          user={user} 
-                        />
-                      : null
-                    ) 
-                  })
-                : null
-              }
+              <div className="usersContainer">
+                {              
+                  user.users.length > 0 ? 
+                    user.users.map(user => {
+                      return(
+                        !user.isOnline ?  
+                          <User 
+                            getUserToChat={initChat}
+                            key={user.uid} 
+                            user={user} 
+                          />
+                        : null
+                      ) 
+                    })
+                  : null
+                }
+              </div>
             </div>            
         </section>
       </LeftSide>

@@ -107,29 +107,9 @@ const HomePage = (props) => {
   const submitUpdate = (event) => {
     event.preventDefault();
 
-    const formData = new FormData(this);
-    const entries = formData.entries();
-    var i=0;
-    for (i; i < entries.length; i++) {
-      console.log("TEEEEST", entries[i]);
-    }
-    
     dispatch(updateInfo({ firstName, lastName }));
   }
           
-  const orginalFirstName = auth.firstName;
-  const originalLastName = auth.lastName;
-
-  const wtf = e => {
-    console.log('wtf');
-    console.log(e.target);
-    if (e.target.value != "") {
-      setFirstName(e.target.value);
-    } else {
-      setFirstName(orginalFirstName);
-    }    
-  }
-
   return (
     <div>
       <LeftSide>
@@ -181,7 +161,6 @@ const HomePage = (props) => {
 
       <RightSide>
         {
-
           auth.authenticated ?
             <div className="updateForm">
               <form onSubmit={submitUpdate}>
@@ -191,9 +170,9 @@ const HomePage = (props) => {
                   <input
                     name="firstName"
                     type="text"
-                    placeholder={orginalFirstName}
+                    placeholder={auth.firstName}
                     value={firstName}
-                    onChange={wtf}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />{}
                 </div>
 
@@ -202,9 +181,9 @@ const HomePage = (props) => {
                   <input
                     name="lastName"
                     type="text"
-                    placeholder={originalLastName}
+                    placeholder={auth.lastName}
                     value={lastName}
-                    onChange={(e) => e.target.value="" ? setLastName(originalLastName) : setLastName(e.target.value)}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
 
@@ -224,8 +203,7 @@ const HomePage = (props) => {
 
                 <div className="updateButton">
                   <button 
-                    disabled={ firstName || lastName ? false : true } 
-                    onClick={submitUpdate}
+                    disabled={ firstName || lastName ? false : true }
                   >Update</button>
                 </div>
                 

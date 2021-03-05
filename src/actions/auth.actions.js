@@ -110,10 +110,25 @@ export const isUserLoggedIn = () => {
         const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
         if(user) {
-            dispatch({
-                type: `${authConstant.USER_LOGIN}_SUCCESS`,
-                payload: { user }
-            })
+            const db = firebase.firestore();
+
+            const checkUserInfo = db.collection("users").doc(user.uid)
+            .onSnapshot((doc) => {
+                const userInfo = doc.data();
+                console.log("userInfo: ", userInfo);    
+
+                localStorage.setItem('user', JSON.stringify(userInfo));
+
+                dispatch({
+                    type: `${authConstant.USER_LOGIN}_SUCCESS`,
+                    payload: { user: userInfo }
+                })       
+            });
+
+            console.log("this is checkUserInfo: ", checkUserInfo);
+            return checkUserInfo; 
+
+            
         } else {
             dispatch({
                 type: `${authConstant.USER_LOGIN}_FAILURE`,
@@ -157,14 +172,30 @@ export const logout = (uid) => {
 export const updateInfo = (user) => {
     return async dispatch => {
         const db = firebase.firestore();
-        console.log("in update function");
-        console.log(user);
+        console.log("USER IN UPDATE FUNCTION", user);
         dispatch({ type: `${authConstant.UPDATE_PROFILE}_REQUEST`});
         
         const currentUser = firebase.auth().currentUser;
         console.log(currentUser);
 
-        const name = `${user.firstName} ${user.lastName}`;
+        
+        const localStorageUser = JSON.parse(localStorage.getItem('user'));        
+        var newFirstName;
+        var newLastName;
+
+        if(!user.firstName) {
+            newFirstName = localStorageUser.firstName
+        } else {
+            newFirstName = user.firstName
+        }
+
+        if(!user.lastName) {
+            newLastName = localStorageUser.lastName
+        } else {
+            newLastName = user.lastName
+        }
+
+        const name = `${newFirstName} ${newLastName}`;
 
         currentUser.updateProfile({
             displayName: name
@@ -173,13 +204,13 @@ export const updateInfo = (user) => {
             db.collection('users')
             .doc(currentUser.uid)
             .update({
-                firstName: user.firstName,
-                lastName: user.lastName,
+                firstName: newFirstName,
+                lastName: newLastName,
             })
             .then(() => {
                 const loggedInUser = {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstName: newFirstName,
+                    lastName: newLastName,
                     image: currentUser.photoURL,
                     uid: currentUser.uid,
                     email: currentUser.email
@@ -201,6 +232,6 @@ export const updateInfo = (user) => {
         })
         .catch(error => {
             console.log(error);
-    }) 
+        }) 
     }
 }

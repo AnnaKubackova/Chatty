@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { isUserLoggedIn, sigin } from '../../actions';
+import { sigin } from '../../actions';
 import { NavLink } from "react-router-dom";
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide';

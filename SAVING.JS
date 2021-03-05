@@ -1,28 +1,15 @@
-<ul className="leftMenu">
-          <li><NavLink to={'/login'}>Login</NavLink></li>
-          <li><NavLink to={'/signup'}>Sign up</NavLink></li>
-        </ul>
+export const isUserLoggedIn = () => {
+    return async dispatch => {
+        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+        const db = firebase.firestore();
 
-      
+        const checkUserInfo = db.collection("users").doc(user.uid)
+        .onSnapshot((doc) => {
+            const userInfo = doc.data();
+            console.log(userInfo);           
+        });
 
-        <div style={{margin: '20px 0', color: '#fff', fontWeight: 'bold'}}>
-          {
-          auth.authenticated ? 
-              `Hi ${auth.firstName} ${auth.lastName}`
-          :
-              null
-          }                
-        </div>
-
-        <ul className="menu">
-            {
-                auth.authenticated ?
-                    <li>
-                        <Link to={'#'} onClick={() => {
-                            dispatch(logout(auth.uid))
-                        }}>Logout</Link>
-                    </li>
-                : 
-                    null
-            }                  
-        </ul>
+        console.log("this is checkUserInfo: ", checkUserInfo);
+        return checkUserInfo;    
+    }
+}    

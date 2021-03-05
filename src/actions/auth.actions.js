@@ -10,11 +10,13 @@ export const signup = (user) => {
         firebase.auth()
         .createUserWithEmailAndPassword(user.email, user.password)
         .then(data => {
-            console.log(data);
             const currentUser = firebase.auth().currentUser;
             const name = `${user.firstName} ${user.lastName}`;
+            const image = `${user.image}`;
+            console.log(image);
             currentUser.updateProfile({
-                displayName: name
+                displayName: name,
+                photoURL: image
             })
             .then(() =>{
                 db.collection('users')
@@ -25,14 +27,15 @@ export const signup = (user) => {
                     uid: data.user.uid,
                     createdAt: new Date(),
                     isOnline: true,
-                    image: "gs://web-messenger-23489.appspot.com/images/profile_placeholder.jpg"
+                    image: user.image
                 })
                 .then(() => {
                     const loggedInUser = {
                         firstName: user.firstName,
                         lastName: user.lastName,
                         uid: data.user.uid,
-                        email: user.email
+                        email: user.email,
+                        image: user.image
                     }
                     localStorage.setItem('user', JSON.stringify(loggedInUser));
                     console.log('User logged in');
@@ -62,8 +65,6 @@ export const sigin = (user) => {
         firebase.auth()
         .signInWithEmailAndPassword(user.email, user.password)
         .then((data) => {
-            console.log(data);
-
             const db = firebase.firestore();
             db.collection("users")
             .doc(data.user.uid)
@@ -72,14 +73,18 @@ export const sigin = (user) => {
             })
             .then(() => {
                 const name = data.user.displayName.split(" ");
+                const image = data.user.photoURL;
                 const firstName = name[0];
                 const lastName = name[1];
                 const loggedInUser = {
                     firstName,
                     lastName,
+                    image,
                     uid: data.user.uid,
-                    email: data.user.email
+                    email: data.user.email,
+                    data: data.user
                 }
+                console.log("livecheck: ", loggedInUser);
                 localStorage.setItem('user', JSON.stringify(loggedInUser));
 
                 dispatch({

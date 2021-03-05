@@ -10,7 +10,8 @@ const User = (props) => {
     return (
       <div onClick={() => getUserToChat(user)} className="displayName">
         <div className="displayPic">
-          <img src="https://i.pinimg.com/originals/be/ac/96/beac96b8e13d2198fd4bb1d5ef56cdcf.jpg" alt="" />
+          < img src="https://firebasestorage.googleapis.com/v0/b/web-messenger-23489.appspot.com/o/images%2Fprofile_placeholder.jpg?alt=media&token=bb2e4561-0fe7-4d97-a7aa-d25c5a52b499"
+          alt = "" / >
         </div>
         <div style={{margin: '0 10px', flex: 1, display: 'flex', justifyContent: 'space-between'}}>
           <span style={{fontWeight: 500}}>{user.firstName} {user.lastName}</span>

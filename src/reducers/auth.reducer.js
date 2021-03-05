@@ -4,14 +4,13 @@ const initState = {
     firstName: '',
     lastName: '',
     email: '',
+    image: '',
     authenticating: false,
     authenticated: false,
     error: null
 }
 
-export default (state = initState, action) => {
-    console.log(action);
-    
+export default (state = initState, action) => {    
     switch(action.type) {
         case `${authConstant.USER_LOGIN}_REQUEST`:
             state = {

@@ -9,6 +9,7 @@ import './style.css';
 
 const Info = (props) => { 
     const auth = useSelector(state => state.auth);
+    console.log("THIS IS THE AUTH: ", auth);
     return(
     <div className="info">
         <p>{`${auth.firstName} ${auth.lastName}`}</p>

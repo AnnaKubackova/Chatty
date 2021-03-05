@@ -81,8 +81,7 @@ export const sigin = (user) => {
                     lastName,
                     image,
                     uid: data.user.uid,
-                    email: data.user.email,
-                    data: data.user
+                    email: data.user.email
                 }
                 console.log("livecheck: ", loggedInUser);
                 localStorage.setItem('user', JSON.stringify(loggedInUser));
@@ -152,5 +151,56 @@ export const logout = (uid) => {
         .catch(error => {
             console.log(error);
         })
+    }
+}
+
+export const updateInfo = (user) => {
+    return async dispatch => {
+        const db = firebase.firestore();
+        console.log("in update function");
+        console.log(user);
+        dispatch({ type: `${authConstant.UPDATE_PROFILE}_REQUEST`});
+        
+        const currentUser = firebase.auth().currentUser;
+        console.log(currentUser);
+
+        const name = `${user.firstName} ${user.lastName}`;
+
+        currentUser.updateProfile({
+            displayName: name
+        })
+        .then(() =>{
+            db.collection('users')
+            .doc(currentUser.uid)
+            .update({
+                firstName: user.firstName,
+                lastName: user.lastName,
+            })
+            .then(() => {
+                const loggedInUser = {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    image: currentUser.photoURL,
+                    uid: currentUser.uid,
+                    email: currentUser.email
+                }
+                console.log("current user:", currentUser);
+                localStorage.setItem('user', JSON.stringify(loggedInUser));
+                dispatch({
+                    type: `${authConstant.UPDATE_PROFILE}_SUCCESS`,
+                    payload: { user: loggedInUser }
+                });
+            })
+            .catch(error =>{
+                console.log(error);
+                dispatch({ 
+                    type: `${authConstant.UPDATE_PROFILE}_FAILURE`,
+                    payload: { error }
+                });
+            });
+        })
+        .catch(error => {
+            console.log(error);
+    }) 
     }
 }

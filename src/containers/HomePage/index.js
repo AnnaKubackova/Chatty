@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { getMessages, getOnlineUsers, updateMessage, logout } from '../../actions';
+import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo } from '../../actions';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import icon from '../../icon.svg';
@@ -35,8 +35,8 @@ const HomePage = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  var [firstName, setFirstName] = useState('');
+  var [lastName, setLastName] = useState('');
   const [chatStarted, setChatStarted] = useState(false);
   const [chatUser, setChatUser] = useState('');
   const [message, setMessage] = useState('');
@@ -44,6 +44,7 @@ const HomePage = (props) => {
   const [uploadedImage, setuploadedImage] = useState('');
   let unsubscribe;
 
+  
   useEffect(() => {
     unsubscribe = dispatch(getOnlineUsers(auth.uid))
     .then(unsubscribe => {
@@ -103,9 +104,10 @@ const HomePage = (props) => {
     setuploadedImage(fileUploadedName);
   };
 
-  const testingButton = (event) => {
+  const submitUpdate = (event) => {
     event.preventDefault();
-    console.log("Button is enabled");
+    
+    dispatch(updateInfo({ firstName, lastName }));
   }
 
   return (
@@ -161,7 +163,7 @@ const HomePage = (props) => {
         {
           auth.authenticated ?
             <div className="updateForm">
-              <form>
+              <form onSubmit={submitUpdate}>
                 <h3>Update your profile</h3>
                 <div>
                   <label for="firstName">First Name: </label>
@@ -170,8 +172,8 @@ const HomePage = (props) => {
                     type="text"
                     placeholder={auth.firstName}
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
+                    onChange={(e) => e.target.value="" ? setFirstName(e.target.placeholder) : setFirstName(e.target.value)}
+                    />{}
                 </div>
 
                 <div>
@@ -181,7 +183,7 @@ const HomePage = (props) => {
                     type="text"
                     placeholder={auth.lastName}
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) => e.target.value="" ? setLastName(e.target.placeholder) : setLastName(e.target.value)}
                   />
                 </div>
 
@@ -202,7 +204,7 @@ const HomePage = (props) => {
                 <div className="updateButton">
                   <button 
                     disabled={ firstName || lastName ? false : true } 
-                    onClick={testingButton}
+                    onClick={submitUpdate}
                   >Update</button>
                 </div>
                 

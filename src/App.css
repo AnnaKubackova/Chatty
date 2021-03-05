@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+:root {
+    --light-blue: #78EBDA;
+    --midlle-blue: #61C6D4;
+    --dark-blue: #35747A;
+    --red: #D46161;
+    --gray: #E9E9E9;
+  }
+
 .App > div {
     display: flex;
 }
@@ -17,4 +25,28 @@ h2 {
     color: #61C6D4;
     font-size: 40px;
     margin-bottom: 55px;
+}
+
+.allUsers::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 22px;
+}
+ 
+.allUsers::-webkit-scrollbar-thumb{
+    background-color: rgba(0, 0, 0, 0.6);
+        border-top-left-radius: 0px;
+        border-top-right-radius: 22px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 22px;
+}
+.allUsers::-webkit-scrollbar-track-piece:end {
+    margin-bottom: 8px;
+}
+ 
+.allUsers::-webkit-scrollbar-track-piece:start {
+    margin-top: 8px;
 }

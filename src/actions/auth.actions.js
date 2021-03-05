@@ -24,7 +24,8 @@ export const signup = (user) => {
                     lastName: user.lastName,
                     uid: data.user.uid,
                     createdAt: new Date(),
-                    isOnline: true
+                    isOnline: true,
+                    image: "gs://web-messenger-23489.appspot.com/images/profile_placeholder.jpg"
                 })
                 .then(() => {
                     const loggedInUser = {

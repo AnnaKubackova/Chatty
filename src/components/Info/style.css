@@ -1,0 +1,15 @@
+.info {
+    padding: 25px;
+    display: flex;
+    justify-content: right;
+    align-items: baseline;
+}
+
+.info p {
+    color: #61C6D4;
+}
+
+.info img {    
+    width: 3.5vw;
+    border-radius: 50%;
+}

@@ -16,3 +16,9 @@
     text-decoration: none;
     color: #35747A;
 }
+
+.rightSectionLoggedIn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

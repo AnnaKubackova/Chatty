@@ -70,7 +70,7 @@ const HomePage = (props) => {
 
   return (
     <div>
-        <LeftSide>
+      <LeftSide>
         <section className="container allUsers">
             <div className="onlineUsers">
               <h3>Online</h3>
@@ -122,11 +122,36 @@ const HomePage = (props) => {
         <div>
           {
             auth.authenticated ?
+              <div>
+                <form>
+                  <label for="firstName">First Name: </label>
+                  <input
+                    name="firstName"
+                    type="text"
+                    placeholder={auth.firstName}
+                  />
+
+                  <label for="lastName">Last Name: </label>
+                  <input
+                    name="lastName"
+                    type="text"
+                    placeholder={auth.lastName}
+                  />
+
+                  <label for="image">Profile Picture: </label>
+                  <input
+                    name="image"
+                    type="file"
+                  />
+                </form>
                 <li>
                     <Link to={'#'} onClick={() => {
                         dispatch(logout(auth.uid))
                     }}>Logout</Link>
                 </li>
+
+                <button>Delete</button>
+              </div>
             : 
                 null
           }  

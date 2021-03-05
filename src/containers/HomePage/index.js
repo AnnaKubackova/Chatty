@@ -10,14 +10,9 @@ const User = (props) => {
   const {user, getUserToChat} = props;
 
   return (
-    <div onClick={() => getUserToChat(user)} className="displayName">
-      <div className="displayPic">
+    <div onClick={() => getUserToChat(user)} className="user">
         <img src="https://i.pinimg.com/originals/be/ac/96/beac96b8e13d2198fd4bb1d5ef56cdcf.jpg" alt="" />
-      </div>
-      <div style={{margin: '0 10px', flex: 1, display: 'flex', justifyContent: 'space-between'}}>
-        <span style={{fontWeight: 500}}>{user.firstName} {user.lastName}</span>
-        <span className={user.isOnline ? 'onlineStatus' : 'onlineStatus off'}></span>
-      </div>
+        <p>{user.firstName} <br /> {user.lastName}</p>
     </div>
   )
 }
@@ -79,25 +74,25 @@ const HomePage = (props) => {
         <section className="container allUsers">
             <div className="onlineUsers">
               <h3>Online</h3>
-            {              
+              {              
                 user.users.length > 0 ? 
                   user.users.map(user => {
-                      return(
-                        user.isOnline ?  
-                          <User 
-                            getUserToChat={initChat}
-                            key={user.uid} 
-                            user={user} 
-                          />
-                        : null
-                      ) 
+                    return(
+                      user.isOnline ?  
+                        <User 
+                          getUserToChat={initChat}
+                          key={user.uid} 
+                          user={user} 
+                        />
+                      : null
+                    ) 
                   })
                 : null
-            }
+              }
             </div>
             
             <div className="offlineUsers">
-              <h3> Offline </h3>
+              <h3>Offline</h3>
               {              
                 user.users.length > 0 ? 
                   user.users.map(user => {

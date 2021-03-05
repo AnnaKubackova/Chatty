@@ -1,120 +1,37 @@
-.container{
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: calc(100% - 60px);
-    overflow: hidden;
-}
-.listOfUsers{
-    width: 30%;
-    height: 100%;
-    overflow-x: hidden;
-    border-right: 1px solid #ccc;
-}
-.chatArea{
-    width: 70%;
-    height: 100%;
-    overflow-x: hidden;
-    position: relative;
-}
-.chatHeader{
-    position: fixed;
-    width: 70%;
-    height: 40px;
-    background: #e2e0e0;
-    text-align: center;
-    line-height: 40px;
-    color: #000;
-    font-weight: bold;
-    font-family: sans-serif;
-}
-.chatControls{
-    display: flex;
-    position: fixed;
-    width: 70%;
-    height: 50px;
-    bottom: 0;
-}
-.chatControls textarea{
-    width: 90%;
-}
-.chatControls button{
-    width: 10%;
-}
 
-.displayName{
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-.displayName.active{
-    background: #ccc;
-}
-
-.displayName .displayPic{
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
-    border-radius: 25px;
-}
-
-.displayName .displayPic img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.messageStyle{
-    background: skyblue;
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 10px;
-    margin: 5px;
-    display: inline-block;
-}
-
-.messageSections{
-    height: calc(100% - 90px);
-    width: 100%;
-    overflow-x: hidden;
-    position: relative;
-    top: 40px;
-}
-
-.onlineStatus {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: #16e316;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 0 #16e316;
-}
-
-.onlineStatus.off{
-    background: grey;
-    box-shadow: 0 0 0 0;
-}
-
-.allUsers{
+.allUsers {
     display: flex;
     flex-direction: column;
-    background-color: red;
-    padding: 35px 10px;
-    width: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 22px;
+    padding: 25px 35px 35px;
+    width: 75%;
+    margin: 35px auto 0;
 }
 
-.allUsers h3{
+.onlineUsers {
+    border-bottom: 1px solid #35747A;
+    padding-bottom: 15px;
+}
+
+.onlineUsers .user img {
+    box-shadow: 0 0 15px #00AC56;
+}
+
+.allUsers h3 {
     font-size: 22px;
+    color: #35747A;
+    margin: 15px 0;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
     color: #35747A;
 }
 
-.onlineUsers{
-    border-bottom: 1px solid black;
-}
-
-.offlineUsers{
-
+.user img {
+    width: 3.5vw;
+    border-radius: 50%;
+    margin-bottom: 7px;
 }

@@ -1,12 +1,16 @@
 .info {
-    padding: 25px;
+    margin: 25px;
+    padding-bottom: 25px;
     display: flex;
     justify-content: right;
     align-items: baseline;
+    border-bottom: solid 1px var(--dark-blue);
 }
 
 .info p {
-    color: #61C6D4;
+    color: var(--midlle-blue);
+    font-size: 25px;
+    margin-right: 18px;
 }
 
 .info img {    

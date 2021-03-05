@@ -5,6 +5,19 @@ import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMessages, getOnlineUsers, updateMessage, logout } from '../../actions';
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const Button = 
+  styled.a`
+    background-color: var(--dark-blue);
+    color: white;
+    border-radius: 10px;
+    padding: 5px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: ease .2s;
+    opacity: .8;`
+  ;
 
 const User = (props) => {
   const {user, getUserToChat} = props;
@@ -25,6 +38,7 @@ const HomePage = (props) => {
   const [chatUser, setChatUser] = useState('');
   const [message, setMessage] = useState('');
   const [userToMessageUid, setuserToMessageUid] = useState(null);
+  const [uploadedImage, setuploadedImage] = useState('');
   let unsubscribe;
 
   useEffect(() => {
@@ -67,6 +81,17 @@ const HomePage = (props) => {
       })
     }
   }
+
+  const hiddenFileInput = React.useRef(null);
+  
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleChange = event => {
+    const fileUploaded = event.target.files[0];
+    setuploadedImage(fileUploaded.name);
+  };
 
   return (
     <div>
@@ -118,44 +143,56 @@ const HomePage = (props) => {
       </LeftSide>
 
       <RightSide>
-        <h3>Profile</h3>
-        <div>
-          {
-            auth.authenticated ?
-              <div>
-                <form>
+        {
+          auth.authenticated ?
+            <div className="updateForm">
+              <form>
+                <h3>Update your profile</h3>
+                <div>
                   <label for="firstName">First Name: </label>
                   <input
                     name="firstName"
                     type="text"
                     placeholder={auth.firstName}
                   />
+                </div>
 
-                  <label for="lastName">Last Name: </label>
+                <div>
+                  <label for="lastName">Last Name:</label>
                   <input
                     name="lastName"
                     type="text"
                     placeholder={auth.lastName}
                   />
+                </div>
 
-                  <label for="image">Profile Picture: </label>
-                  <input
+                <div>
+                  <label for="image"> Profile Picture:</label>
+                  <Button onClick={handleClick}>
+                    Upload a file
+                  </Button>
+                  <span>{uploadedImage}</span>
+                  <input type="file"
                     name="image"
-                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleChange}
+                    style={{display:'none'}} 
                   />
-                </form>
-                <li>
-                    <Link to={'#'} onClick={() => {
-                        dispatch(logout(auth.uid))
-                    }}>Logout</Link>
-                </li>
+                </div>
 
-                <button>Delete</button>
-              </div>
-            : 
-                null
-          }  
-        </div>
+                <button>Update</button>
+              </form>
+              <li>
+                  <Link to={'#'} onClick={() => {
+                      dispatch(logout(auth.uid))
+                  }}>Logout</Link>
+              </li>
+
+              <button>Delete</button>
+            </div>
+          : 
+              null
+        }  
       </RightSide>
     </div>
     

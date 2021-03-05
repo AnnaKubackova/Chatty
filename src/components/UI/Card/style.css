@@ -35,18 +35,6 @@
     border-color: white;
 }
 
-.card form button {
-    border: none;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 10px;
-    padding: 5px 15px;
-    font-size: 18px;
-    cursor: pointer;
-    margin: 0 auto;
-    color: #636363;
-    transition: ease .2s;
-}
-
 .card form button:hover {
     background-color: white;
 }

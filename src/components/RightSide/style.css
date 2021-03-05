@@ -6,7 +6,7 @@
 }
 
 .linkToRegisterLogin {
-    color: #35747A;
+    color: var(--dark-blue);
     margin-top: 25px;
     font-size: 18px;
 }
@@ -14,7 +14,7 @@
 .linkToRegisterLogin a {
     font-weight: bold;
     text-decoration: none;
-    color: #35747A;
+    color: var(--dark-blue);
 }
 
 .rightSectionLoggedIn {

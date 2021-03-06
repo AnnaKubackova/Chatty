@@ -38,7 +38,7 @@ export const updateMessage = (messageObj) => {
         .then((data) => {
             console.log(data)
             dispatch({
-                type: userConstant.GET_MESSAGE
+                type: userConstant.GET_NEWMESSAGE
             })
         })
         .catch(error => {
@@ -49,27 +49,27 @@ export const updateMessage = (messageObj) => {
 
 export const getMessages = (user) => {
     return async dispatch => {
+
         const db = firebase.firestore();
+
+        const currentUser = firebase.auth().currentUser; 
+        console.log("user id - clicked: ", user.uid);
+        console.log("user id - currentuser: ", currentUser.uid);
+
         db.collection('messages')
-        .where("user_from", "in", [user.user_from, user.user_to])
+        .where('user_to', 'in', [user.uid, currentUser.uid])
         .orderBy('createdAt', 'asc')
         .onSnapshot((querySnapshot) => {
             const messages = [];
             querySnapshot.forEach(doc => {
-                if(
-                    //messages sent to the user
-                    (doc.data().user_from == user.user_from && doc.data().user_to == user.user_to)
-                    ||
-                    //messages recieved from user
-                    (doc.data().user_from == user.user_to && doc.data().user_to == user.user_from)
-                ) {
-                    messages.push(doc.data())
+                if (doc.data()) {
+                    messages.push(doc.data()); 
                 }
-
+                               
                 if(messages.length > 0) {
                     dispatch({
                         type:  userConstant.GET_MESSAGE,
-                        payload: { messages }
+                        payload: { messages: messages }
                     })
                 } else {
                     dispatch({

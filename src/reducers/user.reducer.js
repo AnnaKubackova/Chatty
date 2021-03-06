@@ -33,6 +33,9 @@ export default (state = initState, action) => {
             }
             break;
 
+        case userConstant.GET_NEWMESSAGE:
+            break;
+
         case userConstant.GET_CHAT:
             state = {
                 ...state,

@@ -41,12 +41,14 @@ const ChatPage = (props) => {
     useEffect(() => {
         chatUsers = dispatch(getChatUsers(user.chats))
         .then(chatUsers => {
+            console.log("chatusers: ", chatUsers);
             return chatUsers;
         })
         .catch(error => {
             console.log(error);
         })
     }, [user.chats]);
+
 
     const initChat = (user) => {
 
@@ -76,7 +78,7 @@ const ChatPage = (props) => {
 
     return (
       <div>
-        <LeftSide>
+        <LeftSide >
           <section className="container allUsers">
             <div className="listOfUsers">
             {

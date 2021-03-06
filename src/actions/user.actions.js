@@ -136,12 +136,16 @@ export const getChatUsers = (ids) => {
             .doc(ids[0][a])
             .onSnapshot((doc) => {
                 chatUsers.push(doc.data());
+
+                if(chatUsers.length > 0){
+                    dispatch({ 
+                    type: `${userConstant.GET_CHATUSERS}_REQUEST`,
+                    payload: { users: chatUsers }
+                    }); 
+                }
             });
         }
 
-        dispatch({ 
-            type: `${userConstant.GET_CHATUSERS}_REQUEST`,
-            payload: { users: chatUsers }
-        });
+
     }        
 }

@@ -115,7 +115,7 @@ export const isUserLoggedIn = () => {
             const checkUserInfo = db.collection("users").doc(user.uid)
             .onSnapshot((doc) => {
                 const userInfo = doc.data();
-                console.log("userInfo: ", userInfo);    
+                console.log("TEST - userInfo: ", userInfo);    
 
                 localStorage.setItem('user', JSON.stringify(userInfo));
 
@@ -172,16 +172,16 @@ export const logout = (uid) => {
 export const updateInfo = (user) => {
     return async dispatch => {
         const db = firebase.firestore();
-        console.log("USER IN UPDATE FUNCTION", user);
+        console.log("IMAGE FILE: ", user.uploadedImage);
+
         dispatch({ type: `${authConstant.UPDATE_PROFILE}_REQUEST`});
         
         const currentUser = firebase.auth().currentUser;
-        console.log(currentUser);
 
-        
         const localStorageUser = JSON.parse(localStorage.getItem('user'));        
         var newFirstName;
         var newLastName;
+        var newImage;
 
         if(!user.firstName) {
             newFirstName = localStorageUser.firstName
@@ -195,10 +195,16 @@ export const updateInfo = (user) => {
             newLastName = user.lastName
         }
 
+        if(!user.uploadedImage) {
+            newImage = localStorageUser.image
+        } else {
+            newImage = user.uploadedImage
+        }
+
         const name = `${newFirstName} ${newLastName}`;
 
         currentUser.updateProfile({
-            displayName: name
+            displayName: name,
         })
         .then(() =>{
             db.collection('users')
@@ -217,6 +223,7 @@ export const updateInfo = (user) => {
                 }
                 console.log("current user:", currentUser);
                 localStorage.setItem('user', JSON.stringify(loggedInUser));
+
                 dispatch({
                     type: `${authConstant.UPDATE_PROFILE}_SUCCESS`,
                     payload: { user: loggedInUser }

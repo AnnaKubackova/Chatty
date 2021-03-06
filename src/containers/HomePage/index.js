@@ -35,15 +35,15 @@ const HomePage = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
-  var [firstName, setFirstName] = useState('');
-  var [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [uploadedImage, setuploadedImage] = useState('');
+  const [uploadedImageName, setuploadedImageName] = useState('');
   const [chatStarted, setChatStarted] = useState(false);
   const [chatUser, setChatUser] = useState('');
   const [message, setMessage] = useState('');
   const [userToMessageUid, setuserToMessageUid] = useState(null);
-  const [uploadedImage, setuploadedImage] = useState('');
   let unsubscribe;
-
   
   useEffect(() => {
     unsubscribe = dispatch(getOnlineUsers(auth.uid))
@@ -96,18 +96,21 @@ const HomePage = (props) => {
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
     var fileUploadedName = '';
+    
     if(fileUploaded.name.length > 12) {
       fileUploadedName = "..." + fileUploaded.name.substr(-12);
     } else {
       fileUploadedName = fileUploaded.name;
     }    
-    setuploadedImage(fileUploadedName);
+
+    setuploadedImageName(fileUploadedName);
+    setuploadedImage(fileUploaded);
   };
 
   const submitUpdate = (event) => {
     event.preventDefault();
 
-    dispatch(updateInfo({ firstName, lastName }));
+    dispatch(updateInfo({ firstName, lastName, uploadedImage }));
   }
           
   return (
@@ -192,7 +195,7 @@ const HomePage = (props) => {
                   <Button onClick={handleClick}>
                     Upload a file
                   </Button>
-                  <span>{uploadedImage}</span>
+                  <span>{uploadedImageName}</span>
                   <input type="file"
                     name="image"
                     ref={hiddenFileInput}

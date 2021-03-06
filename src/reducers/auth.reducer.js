@@ -58,7 +58,10 @@ export default (state = initState, action) => {
 
         case `${authConstant.UPDATE_PROFILE}_SUCCESS`:
             state = {
-                ...initState
+                ...initState,
+                ...action.payload.user,
+                authenticated: true,
+                authenticating: false
             }
             break;
 

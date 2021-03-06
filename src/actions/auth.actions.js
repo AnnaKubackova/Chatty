@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import 'firebase/storage';
 import { authConstant } from "./constant";
 
 export const signup = (user) => {
@@ -172,7 +173,6 @@ export const logout = (uid) => {
 export const updateInfo = (user) => {
     return async dispatch => {
         const db = firebase.firestore();
-        console.log("IMAGE FILE: ", user.uploadedImage);
 
         dispatch({ type: `${authConstant.UPDATE_PROFILE}_REQUEST`});
         
@@ -202,9 +202,39 @@ export const updateInfo = (user) => {
         }
 
         const name = `${newFirstName} ${newLastName}`;
+        const image = `${newImage}`;
+
+        console.log("IMAGE FILE: ", user.uploadedImage);
+        console.log(newImage.name);
+
+        // Create a root reference
+        var storageRef = firebase.storage().ref();
+
+        // Create a reference to 'mountains.jpg'
+        var mountainsRef = storageRef.child(newImage.name);
+
+        console.log("TESTING IMAGE REF: ", mountainsRef);
+
+        mountainsRef.put(newImage).then(() => {
+            console.log('Uploaded a blob or file!');
+        });
+
+        /*// Create a reference to 'images/mountains.jpg'
+        var mountainImagesRef = storageRef.child('images/mountains.jpg');
+
+        // While the file names are the same, the references point to different files
+        mountainsRef.name === mountainImagesRef.name;           // true
+        mountainsRef.fullPath === mountainImagesRef.fullPath;   // false 
+
+        // 'file' comes from the Blob or File API
+        ref.put(file).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });*/
+
 
         currentUser.updateProfile({
             displayName: name,
+            photoURL: image
         })
         .then(() =>{
             db.collection('users')

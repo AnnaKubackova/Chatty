@@ -125,7 +125,23 @@ export const getMessageCollection = (uid) => {
 }
 
 export const getChatUsers = (ids) => {
-    return async () => {
-        console.log("here")
+    return async dispatch => {
+        const chatUsers = [];
+
+        const db = firebase.firestore();
+        for (let a = 0; a < ids[0].length; a++) {
+            console.log('here are you ids:', ids[0][a]);
+
+            db.collection("users")
+            .doc(ids[0][a])
+            .onSnapshot((doc) => {
+                chatUsers.push(doc.data());
+            });
+        }
+
+        dispatch({ 
+            type: `${userConstant.GET_CHATUSERS}_REQUEST`,
+            payload: { users: chatUsers }
+        });
     }        
 }

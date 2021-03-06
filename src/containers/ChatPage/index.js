@@ -40,13 +40,13 @@ const ChatPage = (props) => {
 
     useEffect(() => {
         chatUsers = dispatch(getChatUsers(user.chats))
-        .then(chatUser => {
-            return chatUser;
+        .then(chatUsers => {
+            return chatUsers;
         })
         .catch(error => {
             console.log(error);
         })
-    })
+    }, [user.chats]);
 
     const initChat = (user) => {
 
@@ -75,62 +75,63 @@ const ChatPage = (props) => {
     }
 
     return (
-        <div>
-            <LeftSide>
-                <section className="container allUsers">
-                <div className="listOfUsers">
+      <div>
+        <LeftSide>
+          <section className="container allUsers">
+            <div className="listOfUsers">
             {
-                console.log("userlist: ", user),
-                user.chats.length > 0 ?
-                user.chats.map(user => {
-                    return(
-                        <User 
-                        getUserToChat={initChat}
-                        key={user.uid} 
-                        user={user} 
-                        />
-                    );
-                })
-                :
-                null
+              console.log("userlist: ", user.chatusers),
+              console.log("userlist length: ", user.chatusers.length),
+              user.chatusers.length > 0 ?
+              user.chatusers.map(user => {
+                console.log(user);
+                return(
+                  <User 
+                    getUserToChat={initChat}
+                    key={user.uid} 
+                    user={user} 
+                  />
+                );
+              })
+              :
+              null
             }
-        </div>
+            </div>
 
-        <div className="chatArea">
-          
-          <div className="chatHeader"> 
-            {
-              chatStarted ? chatUser : ''
-            }
-          </div>
-
-          <div className="messageSections">
-            {
-              chatStarted ? 
-              user.messages.map(msg => 
-                <div style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
-                    <p className="messageStyle" >{msg.message}</p>
-                </div> 
-              )            
-              : null
-            }
-          </div>
-
-          {
-            chatStarted ?
-              <div className="chatControls">
-                <textarea 
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write here"
-                />
-                <button onClick={sendMessage}>Send</button>
+            <div className="chatArea">          
+              <div className="chatHeader"> 
+                {
+                  chatStarted ? chatUser : ''
+                }
               </div>
-            : null
-          }          
-        </div>
-      </section>      
-            </LeftSide>
+
+              <div className="messageSections">
+                {
+                  chatStarted ? 
+                  user.messages.map(msg => 
+                    <div style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
+                      <p className="messageStyle" >{msg.message}</p>
+                    </div> 
+                  )            
+                  : null
+                }
+              </div>
+
+              {
+                chatStarted ?
+                  <div className="chatControls">
+                    <textarea 
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Write here"
+                    />
+                    <button onClick={sendMessage}>Send</button>
+                  </div>
+                : null
+              }          
+            </div>
+          </section>      
+        </LeftSide>
             <RightSide>
             <div className="chatArea">
                 
@@ -166,7 +167,7 @@ const ChatPage = (props) => {
                 }          
             </div>
             </RightSide>
-            </div>
+      </div>
     )
 }
 

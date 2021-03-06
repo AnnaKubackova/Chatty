@@ -47,17 +47,25 @@ export default (state = initState, action) => {
             }
             break;
 
+
+        case `${userConstant.GET_CHATUSERS}_REQUEST`:
+            state = {
+                ...state,
+                chatusers: action.payload.users
+            }
+            break;
+
         case userConstant.GET_CHATUSERS:
             state = {
                 ...state,
-                chatusers: action.payload.chatUsersTest
+                chatusers: action.payload.users
             }
             break;
 
         case `${userConstant.GET_CHATUSERS}_FAILURE`:
             state = {
                 ...state,
-                messages: action.payload.error
+                messages: action.payload.users
             }
             break;
     }

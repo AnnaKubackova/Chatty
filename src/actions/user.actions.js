@@ -86,39 +86,46 @@ export const getMessages = (user) => {
 
 export const getMessageCollection = (uid) => {
     return async dispatch => {
+        console.log("uid: ", uid);
         const db = firebase.firestore();
         db.collection('messages')
-            .where("user_from", "in", [uid.user_from, uid.user_to])
-            .orderBy('createdAt', 'asc')
-            .onSnapshot((querySnapshot) => {
-                const chats = [];
-                querySnapshot.forEach(doc => {
-                    if (
-                        //messages sent to the user
-                        (doc.data().user_from == uid && doc.data().user_to == uid)
-                    )
-                         {
-                        chats.push(doc.data())
-                    }
-
-                    if (chats.length > 0) {
-                        dispatch({
-                            type: userConstant.GET_CHAT,
-                            payload: {
-                                chats
-                            }
-                        })
-                    } else {
-                        dispatch({
-                            type: `${userConstant.GET_CHAT}_FAILURE`,
-                            payload: {
-                                chats
-                            }
-                        })
-                    }
-
-                })
-                console.log("chats: ", chats);
+        .orderBy('createdAt', 'asc')
+        .onSnapshot((querySnapshot) => {
+            const chats = [];
+            const unique = [];
+            querySnapshot.forEach(doc => {
+                if (doc.data().user_from == uid) {
+                    chats.push(doc.data().user_to);
+                } else if (doc.data().user_to == uid) {
+                    chats.push(doc.data().user_from);
+                }
             })
+
+            let uniqueids = chats.filter((item, i, ar) => ar.indexOf(item) === i);
+            console.log("chats: ", uniqueids);
+            unique.push(uniqueids);
+
+            if (unique.length > 0) {
+                dispatch({
+                    type: userConstant.GET_CHAT,
+                    payload: {
+                        unique
+                    }
+                })
+            } else {
+                dispatch({
+                    type: `${userConstant.GET_CHAT}_FAILURE`,
+                    payload: {
+                        unique
+                    }
+                })
+            }
+        })
     }
+}
+
+export const getChatUsers = (ids) => {
+    return async () => {
+        console.log("here")
+    }        
 }

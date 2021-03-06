@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
 import './style.css';
-import { getMessages, getOnlineUsers, updateMessage, getMessageCollection } from '../../actions';
+import { getMessages, getOnlineUsers, updateMessage, getMessageCollection, getChatUsers } from '../../actions';
 
 const User = (props) => {
     const {user, getUserToChat} = props;
@@ -24,23 +24,29 @@ const ChatPage = (props) => {
     const [chatUser, setChatUser] = useState('');
     const [message, setMessage] = useState('');
     const [userToMessageUid, setuserToMessageUid] = useState(null);
-    let unsubscribe;
+    let chats;
+    let chatUsers;
 
     useEffect(() => {
-        unsubscribe = dispatch(getOnlineUsers(auth.uid))
-        .then(unsubscribe => {
-        return unsubscribe;
+        chats = dispatch(getMessageCollection(auth.uid))
+        .then(chats => {
+            console.log("IN CHATPAGE THE CHAT:", user);
+            return chats;
         })
         .catch(error => {
-        console.log(error)
+            console.log(error)
         })
     }, []);
 
     useEffect(() => {
-        return () => {
-        unsubscribe.then(f => f()).catch(error => console.log(error));
-        }
-    }, []);
+        chatUsers = dispatch(getChatUsers(user.chats))
+        .then(chatUser => {
+            return chatUser;
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    })
 
     const initChat = (user) => {
 
@@ -75,19 +81,19 @@ const ChatPage = (props) => {
                 <div className="listOfUsers">
             {
                 console.log("userlist: ", user),
-            user.chats.length > 0 ?
-            user.chats.map(user => {
-              return(
-                <User 
-                  getUserToChat={initChat}
-                  key={user.uid} 
-                  user={user} 
-                />
-              );
-            })
-            :
-            null
-          }
+                user.chats.length > 0 ?
+                user.chats.map(user => {
+                    return(
+                        <User 
+                        getUserToChat={initChat}
+                        key={user.uid} 
+                        user={user} 
+                        />
+                    );
+                })
+                :
+                null
+            }
         </div>
 
         <div className="chatArea">

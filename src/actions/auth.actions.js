@@ -116,7 +116,6 @@ export const isUserLoggedIn = () => {
             const checkUserInfo = db.collection("users").doc(user.uid)
             .onSnapshot((doc) => {
                 const userInfo = doc.data();
-                console.log("TEST - userInfo: ", userInfo);    
 
                 localStorage.setItem('user', JSON.stringify(userInfo));
 

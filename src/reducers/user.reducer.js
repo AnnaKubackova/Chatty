@@ -3,7 +3,8 @@ import { userConstant } from "../actions/constant"
 const initState = {
     users: [],
     messages: [],
-    chats: []
+    chats: [],
+    chatusers: []
 }
 
 export default (state = initState, action) => {
@@ -31,20 +32,35 @@ export default (state = initState, action) => {
                 messages: action.payload.messages
             }
             break;
-            case userConstant.GET_CHAT:
-                state = {
-                    ...state,
-                    chats: action.payload.chats
-                }
-            break;
 
-            case `${userConstant.GET_CHAT}_FAILURE`:
+        case userConstant.GET_CHAT:
             state = {
                 ...state,
-                chats: action.payload.chats
+                chats: action.payload.unique
             }
             break;
+
+        case `${userConstant.GET_CHAT}_FAILURE`:
+            state = {
+                ...state,
+                chats: action.payload.unique
             }
+            break;
+
+        case userConstant.GET_CHATUSERS:
+            state = {
+                ...state,
+                chatusers: action.payload.chatUsersTest
+            }
+            break;
+
+        case `${userConstant.GET_CHATUSERS}_FAILURE`:
+            state = {
+                ...state,
+                messages: action.payload.error
+            }
+            break;
+    }
 
     return state;
 }

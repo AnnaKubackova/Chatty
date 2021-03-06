@@ -1,0 +1,21 @@
+.allUsers .listOfUsers {
+    display: flex;
+    flex-direction: column;
+}
+
+.allUsers .listOfUsers .user{
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.allUsers .listOfUsers .user img {
+    width: 5vw;
+    height: vw;
+}
+
+.allUsers .listOfUsers .user p {
+    align-self: center;
+    margin-left: 20px;
+    font-size: 18px;
+}

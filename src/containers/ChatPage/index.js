@@ -2,23 +2,18 @@ import React, { useEffect, useState } from 'react';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
+import './style.css';
 import { getMessages, getOnlineUsers, updateMessage } from '../../actions';
 
 const User = (props) => {
     const {user, getUserToChat} = props;
   
-    return (
-      <div onClick={() => getUserToChat(user)} className="displayName">
-        <div className="displayPic">
-          < img src="https://firebasestorage.googleapis.com/v0/b/web-messenger-23489.appspot.com/o/images%2Fprofile_placeholder.jpg?alt=media&token=bb2e4561-0fe7-4d97-a7aa-d25c5a52b499"
-          alt = "" / >
-        </div>
-        <div style={{margin: '0 10px', flex: 1, display: 'flex', justifyContent: 'space-between'}}>
-          <span style={{fontWeight: 500}}>{user.firstName} {user.lastName}</span>
-          <span className={user.isOnline ? 'onlineStatus' : 'onlineStatus off'}></span>
-        </div>
-      </div>
-    )
+  return (
+    <div onClick={() => getUserToChat(user)} className="user">
+        <img src={user.image} alt="" />
+        <p>{user.firstName} {user.lastName}</p>
+    </div>
+  )
 }
 
 const ChatPage = (props) => {
@@ -74,7 +69,60 @@ const ChatPage = (props) => {
 
     return (
         <div>
-            <LeftSide />
+            <LeftSide>
+                <section className="container allUsers">
+                <div className="listOfUsers">
+            {
+            user.users.length > 0 ?
+            user.users.map(user => {
+              return(
+                <User 
+                  getUserToChat={initChat}
+                  key={user.uid} 
+                  user={user} 
+                />
+              );
+            })
+            :
+            null
+          }
+        </div>
+
+        <div className="chatArea">
+          
+          <div className="chatHeader"> 
+            {
+              chatStarted ? chatUser : ''
+            }
+          </div>
+
+          <div className="messageSections">
+            {
+              chatStarted ? 
+              user.messages.map(msg => 
+                <div style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
+                    <p className="messageStyle" >{msg.message}</p>
+                </div> 
+              )            
+              : null
+            }
+          </div>
+
+          {
+            chatStarted ?
+              <div className="chatControls">
+                <textarea 
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Write here"
+                />
+                <button onClick={sendMessage}>Send</button>
+              </div>
+            : null
+          }          
+        </div>
+      </section>      
+            </LeftSide>
             <RightSide>
             <div className="chatArea">
                 
@@ -110,7 +158,7 @@ const ChatPage = (props) => {
                 }          
             </div>
             </RightSide>
-        </div>
+            </div>
     )
 }
 

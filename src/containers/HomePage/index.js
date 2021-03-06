@@ -4,7 +4,7 @@ import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo, deleteUser } from '../../actions';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import icon from '../../icon.svg';
 
@@ -62,6 +62,7 @@ const HomePage = (props) => {
   }, []);
 
   const initChat = (user) => {
+    
     setChatStarted(true);
     setChatUser(`${user.firstName} ${user.lastName}`);
     setuserToMessageUid(user.uid);

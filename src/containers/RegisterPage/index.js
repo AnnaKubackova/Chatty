@@ -17,7 +17,7 @@ const RegisterPage = (props) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [image] = useState('https://firebasestorage.googleapis.com/v0/b/web-messenger-23489.appspot.com/o/images%2Fprofile_placeholder.jpg?alt=media&token=bb2e4561-0fe7-4d97-a7aa-d25c5a52b499');
+  const [image] = useState('https://firebasestorage.googleapis.com/v0/b/web-messenger-23489.appspot.com/o/profile_placeholder.jpg?alt=media&token=f51f9f08-574b-4b1d-ba02-4e566877ca59');
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 

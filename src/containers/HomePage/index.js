@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo } from '../../actions';
+import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo, deleteUser } from '../../actions';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import icon from '../../icon.svg';
@@ -25,7 +25,7 @@ const User = (props) => {
 
   return (
     <div onClick={() => getUserToChat(user)} className="user">
-        <img src="https://firebasestorage.googleapis.com/v0/b/web-messenger-23489.appspot.com/o/images%2Fprofile_placeholder.jpg?alt=media&token=bb2e4561-0fe7-4d97-a7aa-d25c5a52b499" alt="" />
+        <img src={user.image} alt="" />
         <p>{user.firstName} {user.lastName}</p>
     </div>
   )
@@ -96,7 +96,7 @@ const HomePage = (props) => {
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
     var fileUploadedName = '';
-    
+
     if(fileUploaded.name.length > 12) {
       fileUploadedName = "..." + fileUploaded.name.substr(-12);
     } else {
@@ -112,7 +112,7 @@ const HomePage = (props) => {
 
     dispatch(updateInfo({ firstName, lastName, uploadedImage }));
   }
-          
+
   return (
     <div>
       <LeftSide>
@@ -206,18 +206,27 @@ const HomePage = (props) => {
 
                 <div className="updateButton">
                   <button 
-                    disabled={ firstName || lastName ? false : true }
+                    disabled={ firstName || lastName || uploadedImage ? false : true }
                   >Update</button>
                 </div>
                 
               </form>
 
               <div className="bottomProfileMenu">
-                <a className="deleteProfile">Delete profile</a>
+                <Link to={'#'}
+                  className="deleteProfile"
+                  onClick={() => {
+                    dispatch(deleteUser(auth.uid))
+                  }}
+                >
+                  Delete profile
+                </Link>
 
                 <Link to={'#'} onClick={() => {
                   dispatch(logout(auth.uid))
-                }}>Log out <img src={icon} /></Link>              
+                }}>
+                  Log out <img src={icon} />
+                </Link>              
               </div>
                   
             </div>

@@ -83,3 +83,42 @@ export const getMessages = (user) => {
         })
     }
 }
+
+export const getMessageCollection = (uid) => {
+    return async dispatch => {
+        const db = firebase.firestore();
+        db.collection('messages')
+            .where("user_from", "in", [uid.user_from, uid.user_to])
+            .orderBy('createdAt', 'asc')
+            .onSnapshot((querySnapshot) => {
+                const chats = [];
+                querySnapshot.forEach(doc => {
+                    if (
+                        //messages sent to the user
+                        (doc.data().user_from == uid && doc.data().user_to == uid)
+                    )
+                         {
+                        chats.push(doc.data())
+                    }
+
+                    if (chats.length > 0) {
+                        dispatch({
+                            type: userConstant.GET_CHAT,
+                            payload: {
+                                chats
+                            }
+                        })
+                    } else {
+                        dispatch({
+                            type: `${userConstant.GET_CHAT}_FAILURE`,
+                            payload: {
+                                chats
+                            }
+                        })
+                    }
+
+                })
+                console.log("chats: ", chats);
+            })
+    }
+}

@@ -7,5 +7,6 @@ export const authConstant = {
 
 export const userConstant = {
     GET_ONLINE_USERS: 'GET_ONLINE_USERS',
-    GET_MESSAGE: 'GET_MESSAGE'
+    GET_MESSAGE: 'GET_MESSAGE',
+    GET_CHAT: 'GET_CHAT'
 }

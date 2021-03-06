@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
 import './style.css';
-import { getMessages, getOnlineUsers, updateMessage } from '../../actions';
+import { getMessages, getOnlineUsers, updateMessage, getMessageCollection } from '../../actions';
 
 const User = (props) => {
     const {user, getUserToChat} = props;
@@ -43,13 +43,14 @@ const ChatPage = (props) => {
     }, []);
 
     const initChat = (user) => {
+
         setChatStarted(true);
         setChatUser(`${user.firstName} ${user.lastName}`);
         setuserToMessageUid(user.uid);
 
-        console.log(user);
+        console.log("init chat: ", user);
 
-        dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}))
+        dispatch(getMessageCollection(auth.uid))
     }
 
     const sendMessage = (e) => {
@@ -73,8 +74,9 @@ const ChatPage = (props) => {
                 <section className="container allUsers">
                 <div className="listOfUsers">
             {
-            user.users.length > 0 ?
-            user.users.map(user => {
+                console.log("userlist: ", user),
+            user.chats.length > 0 ?
+            user.chats.map(user => {
               return(
                 <User 
                   getUserToChat={initChat}

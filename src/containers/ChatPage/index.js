@@ -107,7 +107,7 @@ const ChatPage = (props) => {
               {
                 chatStarted ? 
                 user.messages.map(msg => 
-                  <div style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
+                  <div key={msg.createdAt}  style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
                     <p className="messageStyle" >{msg.message}</p>
                   </div> 
                 )            

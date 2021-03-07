@@ -36,7 +36,7 @@ export const updateMessage = (messageObj) => {
             createdAt: new Date()
         })
         .then((data) => {
-            console.log(data)
+            console.log("THIS IS THE NEW MESSAGE", data)
             dispatch({
                 type: userConstant.GET_NEWMESSAGE
             })
@@ -57,7 +57,7 @@ export const getMessages = (user) => {
         console.log("user id - currentuser: ", currentUser.uid);
 
         db.collection('messages')
-        .where('user_to', 'in', [user.uid, currentUser.uid])
+        .where('user_from', 'in', [`${user.uid}`, `${currentUser.uid}`])
         .orderBy('createdAt', 'asc')
         .onSnapshot((querySnapshot) => {
             const messages = [];

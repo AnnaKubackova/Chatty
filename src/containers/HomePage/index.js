@@ -25,8 +25,10 @@ const User = (props) => {
 
   return (
     <div onClick={() => getUserToChat(user)} className="user">
+      <Link to={'/chats'}>
         <img src={user.image} alt="" />
         <p>{user.firstName} {user.lastName}</p>
+      </Link>
     </div>
   )
 }
@@ -62,22 +64,19 @@ const HomePage = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initChat = (userT) => {
-      let test = [];
-      test.push(userT.uid);
-      if(userT){
-        user.chats.push(test);
-      }
-      localStorage.setItem('chatUsers', JSON.stringify(test[0]));
+    let test = userT.uid;
+    if(userT){
+      user.chats.push(test);
+    }
+    
+    localStorage.setItem('chatUsers', test);
     console.log("redirected info: ", user.chats);
-      getMessageCollection(userT.uid);
+
+    //getMessageCollection(userT.uid);
     //setChatStarted(true);
     //setChatUser(`${user.firstName} ${user.lastName}`);
     //setuserToMessageUid(user.uid);
-
-    console.log(user.chats);
-
     //dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}));
-
   }
 
   const hiddenFileInput = React.useRef(null);

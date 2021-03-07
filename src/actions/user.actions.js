@@ -49,7 +49,7 @@ export const updateMessage = (messageObj) => {
 
 export const getMessages = (user) => {
     return async dispatch => {
-
+        dispatch({ type:  `${userConstant.GET_MESSAGE}_REQUEST` })
         const db = firebase.firestore();
 
         const currentUser = firebase.auth().currentUser; 
@@ -62,7 +62,13 @@ export const getMessages = (user) => {
         .onSnapshot((querySnapshot) => {
             const messages = [];
             querySnapshot.forEach(doc => {
-                if (doc.data()) {
+                if(
+                    //messages user sent
+                    (doc.data().user_from == currentUser.uid && doc.data().user_to == user.uid)
+                    ||
+                    //messages user recieved 
+                    (doc.data().user_from == user.uid && doc.data().user_to == currentUser.uid)
+                ) {
                     messages.push(doc.data()); 
                 }
                                
@@ -94,11 +100,11 @@ export const getMessageCollection = (uid) => {
             const chats = [];
             const unique = [];
             let chatUsers = localStorage.getItem('chatUsers');
-            if(chatUsers){
+            if(chatUsers !== null){
                 chats.push(chatUsers);
                 localStorage.removeItem('chatUsers');
             }
-            console.log("TESTING1: ", chats);
+
             querySnapshot.forEach(doc => {
                 if (doc.data().user_from === uid) {
                     chats.push(doc.data().user_to);
@@ -106,7 +112,6 @@ export const getMessageCollection = (uid) => {
                     chats.push(doc.data().user_from);
                 }
             })
-            console.log("TESTING2: ", chats);
 
             let uniqueids = chats.filter((item, i, ar) => ar.indexOf(item) === i);
             console.log("chats: ", uniqueids);

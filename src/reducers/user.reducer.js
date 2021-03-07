@@ -1,4 +1,5 @@
 import { userConstant } from "../actions/constant"
+import { authConstant } from "../actions/constant"
 
 const initState = {
     users: [],
@@ -19,6 +20,12 @@ export default (state = initState, action) => {
             }
             break;
 
+        case `${userConstant.GET_ONLINE_USERS}_REQUEST`:
+            state = {
+                ...initState
+            }
+            break;
+            
         case userConstant.GET_MESSAGE:
             state = {
                 ...state,
@@ -68,6 +75,12 @@ export default (state = initState, action) => {
             state = {
                 ...state,
                 messages: action.payload.users
+            }
+            break;
+
+        case `${authConstant.USER_LOGOUT}_SUCCESS`:
+            state = {
+                ...initState
             }
             break;
     }

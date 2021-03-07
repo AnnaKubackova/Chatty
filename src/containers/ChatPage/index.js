@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
 import './style.css';
-import { getMessages, getOnlineUsers, updateMessage, getMessageCollection, getChatUsers } from '../../actions';
+import { getMessages, updateMessage, getMessageCollection, getChatUsers } from '../../actions';
 
 const User = (props) => {
   const {user, getUserToChat} = props;
@@ -95,7 +95,7 @@ const ChatPage = (props) => {
   return (
     <div>
       <LeftSide >
-        <section className="container allUsers">
+        <section className="allUsers">
           <div className="listOfUsers">
           {
             user.chatusers.length > 0 ?
@@ -129,7 +129,7 @@ const ChatPage = (props) => {
             {
               chatUser ? 
               user.messages.map(msg => 
-                <div key={msg.createdAt}  className={ msg.user_from == auth.uid ? 'rightMessage' : 'leftMessage' }>
+                <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
                   <p className="messageStyle" >{msg.message}</p>
                 </div> 
               )            

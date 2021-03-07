@@ -80,10 +80,10 @@ export const getMessages = (user) => {
             querySnapshot.forEach(doc => {
                 if(
                     //messages user sent
-                    (doc.data().user_from == currentUser.uid && doc.data().user_to == user.uid)
+                    (doc.data().user_from === currentUser.uid && doc.data().user_to === user.uid)
                     ||
                     //messages user recieved 
-                    (doc.data().user_from == user.uid && doc.data().user_to == currentUser.uid)
+                    (doc.data().user_from === user.uid && doc.data().user_to === currentUser.uid)
                 ) {
                     messages.push(doc.data()); 
                 }

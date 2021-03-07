@@ -4,9 +4,9 @@ import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { getOnlineUsers, logout, updateInfo, deleteUser, setNewPersonToChat } from '../../actions';
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import icon from '../../icon.svg';
+import icon from '../../logoutIcon.svg';
 
 const Button = 
   styled.a`
@@ -41,10 +41,6 @@ const HomePage = (props) => {
   const [lastName, setLastName] = useState('');
   const [uploadedImage, setuploadedImage] = useState('');
   const [uploadedImageName, setuploadedImageName] = useState('');
-  const [chatStarted, setChatStarted] = useState(false);
-  const [chatUser, setChatUser] = useState('');
-  const [message, setMessage] = useState('');
-  const [userToMessageUid, setuserToMessageUid] = useState(null);
   let unsubscribe;
   
   useEffect(() => {
@@ -65,18 +61,8 @@ const HomePage = (props) => {
 
   const initChat = (userT) => {
     let newperson = userT;
-    
-    console.log("redirected info: ", user.chats);
-
-    console.log("newperson: ", newperson);
 
     dispatch(setNewPersonToChat(newperson));
-
-    //getMessageCollection(userT.uid);
-    //setChatStarted(true);
-    //setChatUser(`${user.firstName} ${user.lastName}`);
-    //setuserToMessageUid(user.uid);
-    //dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}));
   }
 
   const hiddenFileInput = React.useRef(null);
@@ -109,7 +95,7 @@ const HomePage = (props) => {
   return (
     <div>
       <LeftSide>
-        <section className="container allUsers">
+        <section className="allUsers">
             <div className="onlineUsers">
               <h3>Online</h3>
               <div className="usersContainer">

@@ -1,0 +1,84 @@
+.createGroupPopup {
+    border-top: solid 1px var(--dark-blue);
+    text-align: center;
+}
+
+.createGroupPopup button {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: ease .2s;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.createGroupPopup button:focus {
+    outline: none;
+}
+
+.createGroupPopup button img {
+    width: 30px;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.modal {
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    width: 50vw;
+    height: 70vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: white;
+    margin: 7vw auto 0;
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    position: relative;
+    justify-content: center;
+    border-radius: 25px;
+}
+
+.modal-content h3 {
+    margin-bottom: 30px;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;    
+    position: absolute;
+    right: 15px;
+  }
+  
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content .user p {
+    text-align: left;
+}

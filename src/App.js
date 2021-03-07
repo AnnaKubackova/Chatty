@@ -18,7 +18,7 @@ function App() {
     if(!auth.authenticated) {
       dispatch(isUserLoggedIn());
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="App">

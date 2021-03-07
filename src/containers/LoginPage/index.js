@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { sigin } from '../../actions';
@@ -22,11 +22,11 @@ const LoginPage = (props) => {
   const userLogin = (e) => {
     e.preventDefault();
 
-    if(email == ""){
+    if(email === ""){
       alert('Email is required');
       return;
     }
-    if(password == ""){
+    if(password === ""){
       alert('Email is required');
       return;
     }
@@ -45,7 +45,7 @@ const LoginPage = (props) => {
         <h2>Log in</h2>
         <Card>
           <form onSubmit={userLogin}>
-            <label for="email">Email:</label>
+            <label htmlFor="email">Email:</label>
             <input 
               name="email"
               type="email"
@@ -53,7 +53,7 @@ const LoginPage = (props) => {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            <label for="password">Password:</label>
+            <label htmlFor="password">Password:</label>
             <input 
               name="password"
               type="password"

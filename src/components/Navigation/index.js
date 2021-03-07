@@ -1,8 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './style.css';
-import { logout } from '../../actions'
 
 /**
 * @author
@@ -10,9 +8,6 @@ import { logout } from '../../actions'
 **/
 
 const Navigation = (props) => {
-    const auth = useSelector(state => state.auth);
-    const dispatch = useDispatch();
-
     return(
         <nav>
             <ul>

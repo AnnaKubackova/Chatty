@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './style.css';
 
 /**
@@ -12,7 +12,7 @@ const Info = (props) => {
     return(
     <div className="info">
         <p>{`${auth.firstName} ${auth.lastName}`}</p>
-        <img src={`${auth.image}`}/>
+        <img src={`${auth.image}`} alt={`${auth.firstName} ${auth.lastName}`} />
     </div>
     )
 }

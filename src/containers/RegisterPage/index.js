@@ -42,7 +42,7 @@ const RegisterPage = (props) => {
           <h2>Register</h2>
           <Card>
             <form onSubmit={registerUser}>
-              <label for="firstName">First Name:</label>
+              <label htmlFor="firstName">First Name:</label>
               <input 
                 name="firstName"
                 type="text"
@@ -50,7 +50,7 @@ const RegisterPage = (props) => {
                 onChange={(e) => setFirstName(e.target.value)}
               />
 
-              <label for="laststName">Last Name:</label>
+              <label htmlFor="laststName">Last Name:</label>
               <input 
                 name="lastName"
                 type="text"
@@ -58,7 +58,7 @@ const RegisterPage = (props) => {
                 onChange={(e) => setLastName(e.target.value)}
               />
 
-              <label for="email">Email:</label>
+              <label htmlFor="email">Email:</label>
               <input 
                 name="email"
                 type="email"
@@ -66,7 +66,7 @@ const RegisterPage = (props) => {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
-              <label for="password">Password:</label>
+              <label htmlFor="password">Password:</label>
               <input 
                 name="password"
                 type="password"

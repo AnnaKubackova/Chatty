@@ -10,7 +10,7 @@ export const getOnlineUsers = (uid) => {
         .onSnapshot((querySnapshot) => {
             var users = [];
             querySnapshot.forEach((doc) => {
-                if (doc.data().uid != uid) {
+                if (doc.data().uid !== uid) {
                     users.push(doc.data());
                 }                
             });
@@ -100,9 +100,9 @@ export const getMessageCollection = (uid) => {
             }
             console.log("TESTING1: ", chats);
             querySnapshot.forEach(doc => {
-                if (doc.data().user_from == uid) {
+                if (doc.data().user_from === uid) {
                     chats.push(doc.data().user_to);
-                } else if (doc.data().user_to == uid) {
+                } else if (doc.data().user_to === uid) {
                     chats.push(doc.data().user_from);
                 }
             })

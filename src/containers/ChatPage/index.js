@@ -28,15 +28,15 @@ const ChatPage = (props) => {
     let chatUsers;
 
     useEffect(() => {
-        chats = dispatch(getMessageCollection(auth.uid))
-        .then(chats => {
-            console.log("IN CHATPAGE THE CHAT:", user);
-            return chats;
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }, []);
+      chats = dispatch(getMessageCollection(auth.uid))
+      .then(chats => {
+        console.log("IN CHATPAGE THE CHAT:", user);
+        return chats;
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         chatUsers = dispatch(getChatUsers(user.chats))
@@ -47,15 +47,15 @@ const ChatPage = (props) => {
         .catch(error => {
             console.log(error);
         })
-    }, [user.chats]);
+    }, [user.chats]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const initChat = (user) => {
-        setChatStarted(true);
-        setChatUser(`${user.firstName} ${user.lastName}`);
-        setuserToMessageUid(user.uid);
+      setChatStarted(true);
+      setChatUser(`${user.firstName} ${user.lastName}`);
+      setuserToMessageUid(user.uid);
 
-        dispatch(getMessages(user))
+      dispatch(getMessages(user))
     }
 
     const sendMessage = (e) => {

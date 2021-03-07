@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo, deleteUser } from '../../actions';
+import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo, deleteUser, getMessageCollection } from '../../actions';
 import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import icon from '../../icon.svg';
@@ -53,13 +53,13 @@ const HomePage = (props) => {
     .catch(error => {
       console.log(error)
     })
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     return () => {
       unsubscribe.then(f => f()).catch(error => console.log(error));
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initChat = (userT) => {
       let test = [];
@@ -69,6 +69,15 @@ const HomePage = (props) => {
       }
       localStorage.setItem('chatUsers', JSON.stringify(test[0]));
     console.log("redirected info: ", user.chats);
+      getMessageCollection(userT.uid);
+    //setChatStarted(true);
+    //setChatUser(`${user.firstName} ${user.lastName}`);
+    //setuserToMessageUid(user.uid);
+
+    console.log(user.chats);
+
+    //dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}));
+
   }
 
   const hiddenFileInput = React.useRef(null);
@@ -154,7 +163,7 @@ const HomePage = (props) => {
               <form onSubmit={submitUpdate}>
                 <h3>Update your profile</h3>
                 <div>
-                  <label for="firstName">First Name: </label>
+                  <label htmlFor="firstName">First Name: </label>
                   <input
                     name="firstName"
                     type="text"
@@ -165,7 +174,7 @@ const HomePage = (props) => {
                 </div>
 
                 <div>
-                  <label for="lastName">Last Name:</label>
+                  <label htmlFor="lastName">Last Name:</label>
                   <input
                     name="lastName"
                     type="text"
@@ -176,7 +185,7 @@ const HomePage = (props) => {
                 </div>
 
                 <div className="imageUploadContainer">
-                  <label for="image"> Profile Picture:</label>
+                  <label htmlFor="image"> Profile Picture:</label>
                   <Button onClick={handleClick}>
                     Upload a file
                   </Button>

@@ -47,7 +47,7 @@ form button {
     transition: ease .2s;
 }
 
-.allUsers::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 8px;
     background-color: transparent;
     border-top-left-radius: 0px;
@@ -56,17 +56,28 @@ form button {
     border-bottom-right-radius: 22px;
 }
  
-.allUsers::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb{
     background-color: rgba(0, 0, 0, 0.6);
         border-top-left-radius: 0px;
         border-top-right-radius: 22px;
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 22px;
 }
-.allUsers::-webkit-scrollbar-track-piece:end {
+::-webkit-scrollbar-track-piece:end {
     margin-bottom: 8px;
 }
  
-.allUsers::-webkit-scrollbar-track-piece:start {
+::-webkit-scrollbar-track-piece:start {
     margin-top: 8px;
+}
+
+.userImage {
+    background-size: cover;
+    width: 4vw;
+    height: 4vw;    
+    background-repeat: no-repeat;    
+    background-position: center;
+    border-radius: 50%;
+    border: 1px solid var(--light-blue);
+    margin-right: 15px;
 }

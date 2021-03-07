@@ -26,7 +26,7 @@ const User = (props) => {
   return (
     <div onClick={() => getUserToChat(user)} className="user">
       <Link to={'/chats'}>
-        <img src={user.image} alt="" />
+        <div className="userImage" style={{backgroundImage: `url(${user.image})`}}></div>
         <p>{user.firstName} {user.lastName}</p>
       </Link>
     </div>

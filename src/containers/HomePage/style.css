@@ -20,7 +20,7 @@
     margin-bottom: 15px;
 }
 
-.onlineUsers .user img {
+.onlineUsers .user .userImage {
     box-shadow: 0 0 15px var(--light-green);
 }
 

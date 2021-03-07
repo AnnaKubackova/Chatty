@@ -12,7 +12,7 @@ const Info = (props) => {
     return(
     <div className="info">
         <p>{`${auth.firstName} ${auth.lastName}`}</p>
-        <img src={`${auth.image}`} alt={`${auth.firstName} ${auth.lastName}`} />
+        <div className="userImage" style={{backgroundImage: `url(${auth.image})`}}></div>
     </div>
     )
 }

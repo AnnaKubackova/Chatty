@@ -10,7 +10,7 @@ const User = (props) => {
   
   return (
     <div onClick={() => getUserToChat(user)} className="user">
-      <img src={user.image} alt="" />
+      <div className="userImage" style={{backgroundImage: `url(${user.image})`}}></div>
       <p>{user.firstName} {user.lastName}</p>
     </div>
   )
@@ -22,6 +22,7 @@ const ChatPage = (props) => {
   const user = useSelector(state => state.user);
   const [chatStarted, setChatStarted] = useState(true);
   const [chatUser, setChatUser] = useState('');
+  const [userImage, setUserImage] = useState('');
   const [message, setMessage] = useState('');
   const [userToMessageUid, setuserToMessageUid] = useState('');
   let chats;
@@ -42,7 +43,8 @@ const ChatPage = (props) => {
       if (user.newchatperson.length === 0) {
         setChatUser('')        
       } else {
-        setChatUser(`${user.newchatperson.firstName} ${user.newchatperson.lastName}`)
+        setChatUser(`${user.newchatperson.firstName} ${user.newchatperson.lastName}`);
+        setUserImage(user.newchatperson.image);
       }      
     }
 
@@ -62,6 +64,7 @@ const ChatPage = (props) => {
   const initChat = (user) => {
     setChatStarted(true);
     setChatUser(`${user.firstName} ${user.lastName}`);
+    setUserImage(user.image);
     setuserToMessageUid(user.uid);
     dispatch(getMessages(user))
   }
@@ -113,17 +116,20 @@ const ChatPage = (props) => {
       </LeftSide>
       <RightSide>
         <div className="chatArea">
-          <div className="chatHeader"> 
-            {
-              chatStarted ? chatUser : ''
-            }
-          </div>
-
+          {
+            chatUser!=='' ? 
+              <div className="chatHeader"> 
+                <div className="userImage" style={{backgroundImage: `url(${userImage})`}}></div>
+                <p>{chatUser}</p>  
+              </div>            
+            : null
+          }
+          
           <div className="messageSections">
             {
               chatUser ? 
               user.messages.map(msg => 
-                <div key={msg.createdAt}  style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
+                <div key={msg.createdAt}  className={ msg.user_from == auth.uid ? 'rightMessage' : 'leftMessage' }>
                   <p className="messageStyle" >{msg.message}</p>
                 </div> 
               )            
@@ -131,23 +137,20 @@ const ChatPage = (props) => {
             }
           </div>
 
-          {
-            chatStarted ?
-              <div className="chatControls">
-                <textarea 
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write here"
-                />
-                <button 
-                  disabled={ chatUser==='' ? true : false } 
-                  onClick={sendMessage}
-                >
-                    Send
-                </button>
-              </div>
-            : null
-          }          
+          <div className="chatControls">
+            <textarea 
+              disabled={ chatUser==='' ? true : false } 
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Write here"
+            />
+            <button 
+              disabled={ chatUser==='' ? true : false } 
+              onClick={sendMessage}
+            >
+                Send
+            </button>
+          </div>
         </div>
       </RightSide>
     </div>

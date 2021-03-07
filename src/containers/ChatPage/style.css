@@ -7,19 +7,118 @@
     flex-direction: row;
     width: 100%;
     border-bottom: 1px solid black;
+    padding: 10px 0;
+    margin: 0;
 }
 
 .allUsers .listOfUsers .user img {
     width: 5vw;
-    height: vw;
+    cursor: pointer;
 }
 
 .allUsers .listOfUsers .user p {
     align-self: center;
     margin-left: 20px;
     font-size: 18px;
+    cursor: pointer;
 }
 
 .chatArea {
-    height: 80vh;
+    height: 100%;
+    padding: 0 25px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chatHeader {
+    display: flex;
+    align-items: center;
+}
+
+.chatHeader p {
+    color: var(--dark-gray);
+    font-size: 20px;
+}
+
+.messageSections {
+    display: flex;
+    flex-direction: column;    
+    height: 25vw;    
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.messageSections div {
+    margin-bottom: 15px;
+}
+
+.messageSections div.rightMessage{
+    align-self: flex-end;
+}
+
+.messageSections div.leftMessage{
+    align-self: flex-start;
+}
+
+.messageSections p {
+    color: var(--dark-gray);
+    padding: 7px;
+    border-radius: 12px;
+    padding: 8px 18px;
+}
+
+.leftMessage p {
+    background-image: linear-gradient(to bottom right, #78ebdaaf, #61c7d4af);
+}
+
+.rightMessage p {
+    background-color: #F3F3F3;
+}
+
+.chatControls {
+    border-top: 1px solid var(--dark-blue);
+    border-bottom: 1px solid var(--dark-blue);
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatControls textarea {
+    border: none;
+    resize: none;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
+    width: 100%;
+    font-size: 18px;
+}
+
+.chatControls textarea:focus {
+    outline: none;
+}
+
+.chatControls textarea::placeholder {
+    color: #35747a86;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.chatControls textarea:disabled::placeholder {
+    color: #35747a38;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.chatControls button:disabled {
+    opacity: .5;
+    cursor: auto;
+    box-shadow: none;
+}
+
+.chatControls button {
+    background-color: var(--midlle-blue);
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    transition: ease .2s;
 }

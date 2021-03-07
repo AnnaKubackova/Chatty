@@ -50,7 +50,6 @@ export default (state = initState, action) => {
             }
             break;
 
-
         case `${userConstant.GET_CHATUSERS}_REQUEST`:
             state = {
                 ...state,

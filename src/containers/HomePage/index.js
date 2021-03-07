@@ -61,30 +61,22 @@ const HomePage = (props) => {
     }
   }, []);
 
-  const initChat = (user) => {
-    
-    setChatStarted(true);
-    setChatUser(`${user.firstName} ${user.lastName}`);
-    setuserToMessageUid(user.uid);
+  const initChat = (userT) => {
+      let test = [];
+      test.push(userT.uid);
+      if(userT){
+        user.chats.push(test);
+      }
+    //setChatStarted(true);
+    //setChatUser(`${user.firstName} ${user.lastName}`);
+    //setuserToMessageUid(user.uid);
 
-    console.log(user);
+    console.log(user.chats);
 
-    dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}))
-  }
+    //dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}));
 
-  const sendMessage = (e) => {
-    const messageObj = {
-      user_from: auth.uid,
-      user_to: userToMessageUid,
-      message
-    }
-
-    if(message !== "") {
-      dispatch(updateMessage(messageObj))
-      .then(() => {
-        setMessage('');
-      })
-    }
+    console.log("before redircet");
+    return <Redirect to={'/chats'} />
   }
 
   const hiddenFileInput = React.useRef(null);

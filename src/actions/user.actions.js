@@ -145,7 +145,5 @@ export const getChatUsers = (ids) => {
                 }
             });
         }
-
-
     }        
 }

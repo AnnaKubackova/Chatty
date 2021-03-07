@@ -1,17 +1,20 @@
-import { authConstant } from "../actions/constant"
+import {
+    authConstant
+} from "../actions/constant"
 
 const initState = {
     firstName: '',
     lastName: '',
     email: '',
-    image: '',
     authenticating: false,
     authenticated: false,
     error: null
 }
 
-export default (state = initState, action) => {    
-    switch(action.type) {
+export default (state = initState, action) => {
+    console.log(action);
+
+    switch (action.type) {
         case `${authConstant.USER_LOGIN}_REQUEST`:
             state = {
                 ...state,
@@ -51,37 +54,6 @@ export default (state = initState, action) => {
                 ...state,
                 error: action.payload.error
             }
-            break;
-
-        case `${authConstant.UPDATE_PROFILE}_REQUEST`:
-            break;
-
-        case `${authConstant.UPDATE_PROFILE}_SUCCESS`:
-            state = {
-                ...initState,
-                ...action.payload.user,
-                authenticated: true,
-                authenticating: false
-            }
-            break;
-
-        case `${authConstant.UPDATE_PROFILE}_FAILURE`:
-            state = {
-                ...state,
-                error: action.payload.error
-            }
-            break;
-
-        case `${authConstant.USER_DELETE}__REQUEST`:
-            break;
-
-        case `${authConstant.USER_DELETE}_SUCCESS`:
-            state = {
-                ...initState
-            }
-            break;
-
-        case `${authConstant.USER_DELETE}_FAILURE`:
             break;
     }
 

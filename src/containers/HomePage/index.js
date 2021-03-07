@@ -32,201 +32,116 @@ const User = (props) => {
 }
 
 const HomePage = (props) => {
-  const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const user = useSelector(state => state.user);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [uploadedImage, setuploadedImage] = useState('');
-  const [uploadedImageName, setuploadedImageName] = useState('');
-  const [chatStarted, setChatStarted] = useState(false);
-  const [chatUser, setChatUser] = useState('');
-  const [message, setMessage] = useState('');
-  const [userToMessageUid, setuserToMessageUid] = useState(null);
-  let unsubscribe;
-  
-  useEffect(() => {
-    unsubscribe = dispatch(getOnlineUsers(auth.uid))
-    .then(unsubscribe => {
-      return unsubscribe;
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
+    const [chatStarted, setChatStarted] = useState(false);
+    const [chatUser, setChatUser] = useState('');
+    const [message, setMessage] = useState('');
+    const [userToMessageUid, setuserToMessageUid] = useState(null);
+    let unsubscribe;
 
-  useEffect(() => {
-    return () => {
-      unsubscribe.then(f => f()).catch(error => console.log(error));
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      unsubscribe = dispatch(getOnlineUsers(auth.uid))
+        .then(unsubscribe => {
+          return unsubscribe;
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }, []);
 
-  const initChat = (userT) => {
-      let test = [];
-      test.push(userT.uid);
-      if(userT){
-        user.chats.push(test);
+    useEffect(() => {
+      return () => {
+        unsubscribe.then(f => f()).catch(error => console.log(error));
       }
-      localStorage.setItem('chatUsers', JSON.stringify(test[0]));
-    console.log("redirected info: ", user.chats);
-      getMessageCollection(userT.uid);
-    //setChatStarted(true);
-    //setChatUser(`${user.firstName} ${user.lastName}`);
-    //setuserToMessageUid(user.uid);
+    }, []);
 
-    console.log(user.chats);
+    const initChat = (user) => {
+      setChatStarted(true);
+      setChatUser(`${user.firstName} ${user.lastName}`);
+      setuserToMessageUid(user.uid);
 
-    //dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}));
+      console.log(user);
 
-  }
+      dispatch(getMessages({
+        user_from: auth.uid,
+        user_to: user.uid
+      }))
+    }
 
-  const hiddenFileInput = React.useRef(null);
-  
-  const handleClick = event => {
-    hiddenFileInput.current.click();
-  };
+    const sendMessage = (e) => {
+      const messageObj = {
+        user_from: auth.uid,
+        user_to: userToMessageUid,
+        message
+      }
 
-
-  const handleChange = event => {
-    const fileUploaded = event.target.files[0];
-    var fileUploadedName = '';
-
-    if(fileUploaded.name.length > 12) {
-      fileUploadedName = "..." + fileUploaded.name.substr(-12);
-    } else {
-      fileUploadedName = fileUploaded.name;
-    }    
-
-    setuploadedImageName(fileUploadedName);
-    setuploadedImage(fileUploaded);
-  };
-
-  const submitUpdate = (event) => {
-    event.preventDefault();
-
-    dispatch(updateInfo({ firstName, lastName, uploadedImage }));
-  }
+      if (message !== "") {
+        dispatch(updateMessage(messageObj))
+          .then(() => {
+            setMessage('');
+          })
+      }
+    }
 
   return (
     <div>
       <LeftSide>
         <section className="container allUsers">
-            <div className="onlineUsers">
-              <h3>Online</h3>
-              <div className="usersContainer">
-                {              
-                  user.users.length > 0 ? 
-                    user.users.map(user => {
-                      return(
-                        user.isOnline ?  
-                          <User 
-                            getUserToChat={initChat}
-                            key={user.uid} 
-                            user={user} 
-                          />
-                        : null
-                      ) 
-                    })
-                  : null
-                }
-              </div>
-              
-            </div>
-            
-            <div className="offlineUsers">
-              <h3>Offline</h3>
-              <div className="usersContainer">
-                {              
-                  user.users.length > 0 ? 
-                    user.users.map(user => {
-                      return(
-                        !user.isOnline ?  
-                          <User 
-                            getUserToChat={initChat}
-                            key={user.uid} 
-                            user={user} 
-                          />
-                        : null
-                      ) 
-                    })
-                  : null
-                }
-              </div>
-            </div>            
+         <div className="listOfUsers">
+          {
+            user.users.length > 0 ?
+            user.users.map(user => {
+              return(
+                <User 
+                  getUserToChat={initChat}
+                  key={user.uid} 
+                  user={user} 
+                />
+              );
+            })
+            :
+            null
+          }
+        </div>      
         </section>
       </LeftSide>
 
       <RightSide>
-        {
-          auth.authenticated ?
-            <div className="updateForm">
-              <form onSubmit={submitUpdate}>
-                <h3>Update your profile</h3>
-                <div>
-                  <label htmlFor="firstName">First Name: </label>
-                  <input
-                    name="firstName"
-                    type="text"
-                    placeholder={auth.firstName}
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />{}
-                </div>
+<div className="chatArea">
+          
+          <div className="chatHeader"> 
+            {
+              chatStarted ? chatUser : ''
+            }
+          </div>
 
-                <div>
-                  <label htmlFor="lastName">Last Name:</label>
-                  <input
-                    name="lastName"
-                    type="text"
-                    placeholder={auth.lastName}
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
+          <div className="messageSections">
+            {
+              chatStarted ? 
+              user.messages.map(msg => 
+                <div style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
+                    <p className="messageStyle" >{msg.message}</p>
+                </div> 
+              )            
+              : null
+            }
+          </div>
 
-                <div className="imageUploadContainer">
-                  <label htmlFor="image"> Profile Picture:</label>
-                  <Button onClick={handleClick}>
-                    Upload a file
-                  </Button>
-                  <span>{uploadedImageName}</span>
-                  <input type="file"
-                    name="image"
-                    ref={hiddenFileInput}
-                    onChange={handleChange}
-                    style={{display:'none'}} 
-                  />
-                </div>
-
-                <div className="updateButton">
-                  <button 
-                    disabled={ firstName || lastName || uploadedImage ? false : true }
-                  >Update</button>
-                </div>
-                
-              </form>
-
-              <div className="bottomProfileMenu">
-                <Link to={'#'}
-                  className="deleteProfile"
-                  onClick={() => {
-                    dispatch(deleteUser(auth.uid))
-                  }}
-                >
-                  Delete profile
-                </Link>
-
-                <Link to={'#'} onClick={() => {
-                  dispatch(logout(auth.uid))
-                }}>
-                  Log out <img src={icon} />
-                </Link>              
+          {
+            chatStarted ?
+              <div className="chatControls">
+                <textarea 
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Write here"
+                />
+                <button onClick={sendMessage}>Send</button>
               </div>
-                  
-            </div>
-          : 
-              null
-        }  
+            : null
+          }          
+        </div>
       </RightSide>
     </div>
     

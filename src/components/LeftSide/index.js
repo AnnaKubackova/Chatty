@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import './style.css';
 import Logo from '../Logo';
-import Navigation from '../Navigation';
 
 /**
 * @author
@@ -15,12 +14,6 @@ const LeftSide = (props) => {
   return(     
     <section className="leftSection">
       <Logo />
-      {
-        auth.authenticated ?
-          <Navigation />
-        : 
-          null
-      }
 
       {props.children}
     </section>

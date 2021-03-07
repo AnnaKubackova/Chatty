@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-import Info from '../Info';
+import editProfile from '../editProfile';
 import './style.css';
 
 /**
@@ -13,9 +13,9 @@ const RightSide = (props) => {
 
   return(
     <section className={ auth.authenticated ? "rightSectionLoggedIn" : "rightSection"}>
-        {
+                {
           auth.authenticated ?
-            <Info />
+            <editProfile />
           : 
             null
         }

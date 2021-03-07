@@ -5,7 +5,8 @@ const initState = {
     users: [],
     messages: [],
     chats: [],
-    chatusers: []
+    chatusers: [],
+    newchatperson: []
 }
 
 export default (state = initState, action) => {
@@ -52,8 +53,7 @@ export default (state = initState, action) => {
 
         case `${userConstant.GET_CHAT}_FAILURE`:
             state = {
-                ...state,
-                chats: action.payload.unique
+                ...state
             }
             break;
 
@@ -75,6 +75,25 @@ export default (state = initState, action) => {
             state = {
                 ...state,
                 messages: action.payload.users
+            }
+            break;
+
+        case `${userConstant.SET_NEWPERSON}_REQUEST`:
+            state = {
+                ...state,
+            }
+            break;
+
+        case `${userConstant.SET_NEWPERSON}_SUCCESS`:
+            state = {
+                ...state,
+                newchatperson: action.payload.user
+            }
+            break;
+
+        case `${userConstant.SET_NEWPERSON}_FAILURE`:
+            state = {
+                ...state
             }
             break;
 

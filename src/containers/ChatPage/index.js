@@ -20,17 +20,16 @@ const ChatPage = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
-  const [chatStarted, setChatStarted] = useState(false);
+  const [chatStarted, setChatStarted] = useState(true);
   const [chatUser, setChatUser] = useState('');
   const [message, setMessage] = useState('');
-  const [userToMessageUid, setuserToMessageUid] = useState(null);
+  const [userToMessageUid, setuserToMessageUid] = useState('');
   let chats;
   let chatUsers;
 
   useEffect(() => {
     chats = dispatch(getMessageCollection(auth.uid))
     .then(chats => {
-      console.log("IN CHATPAGE THE CHAT:", user);
       return chats;
     })
     .catch(error => {
@@ -39,32 +38,50 @@ const ChatPage = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (chatUser === '') {
+      if (user.newchatperson.length === 0) {
+        setChatUser('')        
+      } else {
+        setChatUser(`${user.newchatperson.firstName} ${user.newchatperson.lastName}`)
+      }      
+    }
+
     chatUsers = dispatch(getChatUsers(user.chats))
     .then(chatUsers => {
-      console.log("chatusers: ", chatUsers);
       return chatUsers;
     })
     .catch(error => {
       console.log(error);
     })
+
+    if (chatUser === `${user.newchatperson.firstName} ${user.newchatperson.lastName}`) {
+      dispatch(getMessages(user.newchatperson));
+    }
   }, [user.chats]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initChat = (user) => {
     setChatStarted(true);
     setChatUser(`${user.firstName} ${user.lastName}`);
     setuserToMessageUid(user.uid);
-
     dispatch(getMessages(user))
   }
 
   const sendMessage = (e) => {
-    const messageObj = {
-      user_from: auth.uid,
-      user_to: userToMessageUid,
-      message
+    if (userToMessageUid === '') {
+      var messageObj = {
+        user_from: auth.uid,
+        user_to: user.newchatperson.uid,
+        message
+      }
+    } else {
+      var messageObj = {
+        user_from: auth.uid,
+        user_to: userToMessageUid,
+        message
+      }
     }
 
-    if(message !== "") {
+    if (message !== "") {
       dispatch(updateMessage(messageObj))
       .then(() => {
           setMessage('');
@@ -104,7 +121,7 @@ const ChatPage = (props) => {
 
           <div className="messageSections">
             {
-              chatStarted ? 
+              chatUser ? 
               user.messages.map(msg => 
                 <div key={msg.createdAt}  style={{ textAlign: msg.user_from == auth.uid ? 'right' : 'left' }}>
                   <p className="messageStyle" >{msg.message}</p>
@@ -122,7 +139,12 @@ const ChatPage = (props) => {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Write here"
                 />
-                <button onClick={sendMessage}>Send</button>
+                <button 
+                  disabled={ chatUser==='' ? true : false } 
+                  onClick={sendMessage}
+                >
+                    Send
+                </button>
               </div>
             : null
           }          

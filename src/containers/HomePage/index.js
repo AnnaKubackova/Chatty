@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { getMessages, getOnlineUsers, updateMessage, logout, updateInfo, deleteUser, getMessageCollection } from '../../actions';
+import { getOnlineUsers, logout, updateInfo, deleteUser, setNewPersonToChat } from '../../actions';
 import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import icon from '../../icon.svg';
@@ -64,13 +64,13 @@ const HomePage = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initChat = (userT) => {
-    let test = userT.uid;
-    if(userT){
-      user.chats.push(test);
-    }
+    let newperson = userT;
     
-    localStorage.setItem('chatUsers', test);
     console.log("redirected info: ", user.chats);
+
+    console.log("newperson: ", newperson);
+
+    dispatch(setNewPersonToChat(newperson));
 
     //getMessageCollection(userT.uid);
     //setChatStarted(true);

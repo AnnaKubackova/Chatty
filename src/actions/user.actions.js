@@ -21,13 +21,30 @@ export const getOnlineUsers = (uid) => {
             })
         });
 
-        console.log("this is unsubscribe: ", unsubscribe);
         return unsubscribe;        
+    }
+}
+
+export const setNewPersonToChat = (user) => {
+    return async dispatch => {
+        dispatch({ type: `${userConstant.SET_NEWPERSON}_REQUEST` });
+
+        if (user) {
+            dispatch({ 
+                type: `${userConstant.SET_NEWPERSON}_SUCCESS`,
+                payload: { user }
+            })
+        } else {
+            dispatch({ 
+                type: `${userConstant.SET_NEWPERSON}_FAILURE`
+            })
+        }
     }
 }
 
 export const updateMessage = (messageObj) => {
     return async dispatch => {
+        console.log(messageObj);
         const db = firebase.firestore();
         db.collection('messages')
         .add({
@@ -36,7 +53,6 @@ export const updateMessage = (messageObj) => {
             createdAt: new Date()
         })
         .then((data) => {
-            console.log("THIS IS THE NEW MESSAGE", data)
             dispatch({
                 type: userConstant.GET_NEWMESSAGE
             })
@@ -85,14 +101,12 @@ export const getMessages = (user) => {
                 }
                 
             })
-            console.log("messages: ", messages);
         })
     }
 }
 
 export const getMessageCollection = (uid) => {
     return async dispatch => {
-        console.log("uid: ", uid);
         const db = firebase.firestore();
         db.collection('messages')
         .orderBy('createdAt', 'asc')
@@ -114,7 +128,6 @@ export const getMessageCollection = (uid) => {
             })
 
             let uniqueids = chats.filter((item, i, ar) => ar.indexOf(item) === i);
-            console.log("chats: ", uniqueids);
             unique.push(uniqueids);
 
             if (unique.length > 0) {
@@ -126,10 +139,7 @@ export const getMessageCollection = (uid) => {
                 })
             } else {
                 dispatch({
-                    type: `${userConstant.GET_CHAT}_FAILURE`,
-                    payload: {
-                        unique
-                    }
+                    type: `${userConstant.GET_CHAT}_FAILURE`
                 })
             }
         })
@@ -142,7 +152,6 @@ export const getChatUsers = (ids) => {
 
         const db = firebase.firestore();
         for (let a = 0; a < ids[0].length; a++) {
-            console.log('here are you ids:', ids[0][a]);
 
             db.collection("users")
             .doc(ids[0][a])
@@ -151,8 +160,8 @@ export const getChatUsers = (ids) => {
 
                 if(chatUsers.length > 0){
                     dispatch({ 
-                    type: `${userConstant.GET_CHATUSERS}_REQUEST`,
-                    payload: { users: chatUsers }
+                        type: `${userConstant.GET_CHATUSERS}_REQUEST`,
+                        payload: { users: chatUsers }
                     }); 
                 }
             });

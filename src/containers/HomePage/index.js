@@ -67,16 +67,8 @@ const HomePage = (props) => {
       if(userT){
         user.chats.push(test);
       }
-    //setChatStarted(true);
-    //setChatUser(`${user.firstName} ${user.lastName}`);
-    //setuserToMessageUid(user.uid);
-
-    console.log(user.chats);
-
-    //dispatch(getMessages({ user_from: auth.uid, user_to: user.uid}));
-
-    console.log("before redircet");
-    return <Redirect to={'/chats'} />
+      localStorage.setItem('chatUsers', JSON.stringify(test[0]));
+    console.log("redirected info: ", user.chats);
   }
 
   const hiddenFileInput = React.useRef(null);

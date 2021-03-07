@@ -93,6 +93,12 @@ export const getMessageCollection = (uid) => {
         .onSnapshot((querySnapshot) => {
             const chats = [];
             const unique = [];
+            let chatUsers = localStorage.getItem('chatUsers');
+            if(chatUsers){
+                chats.push(chatUsers);
+                localStorage.removeItem('chatUsers');
+            }
+            console.log("TESTING1: ", chats);
             querySnapshot.forEach(doc => {
                 if (doc.data().user_from == uid) {
                     chats.push(doc.data().user_to);
@@ -100,6 +106,7 @@ export const getMessageCollection = (uid) => {
                     chats.push(doc.data().user_from);
                 }
             })
+            console.log("TESTING2: ", chats);
 
             let uniqueids = chats.filter((item, i, ar) => ar.indexOf(item) === i);
             console.log("chats: ", uniqueids);

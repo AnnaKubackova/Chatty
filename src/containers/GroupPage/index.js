@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
-import { getOnlineUsers, createGroup, getGroupList } from '../../actions';
+import { getOnlineUsers, createGroup, getGroupList, getGroupMessages, updateGroupMessage } from '../../actions';
 import icon from '../../addgroupIcon.svg';
 
 const User = (props) => {
@@ -17,6 +17,16 @@ const User = (props) => {
     )
 }
 
+const Group = (props) => {
+    const {group, getGroupToChat} = props;
+
+    return (
+        <div onClick={() => getGroupToChat(group)}>
+            <p>{group.groupname}</p>
+        </div>
+    )
+}
+
 const GroupPage = (props) => {
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
@@ -24,6 +34,10 @@ const GroupPage = (props) => {
     const group = useSelector(state => state.group);
     const [modalclicked, setModalclicked] = useState(false);
     const [groupMembers, setGroupMembers] = useState([]);
+    const [groupname, setGroupname] = useState('');
+    const [groupSelectedId, setgroupSelectedId] = useState('');
+    const [groupSelectedName, setgroupSelectedName] = useState('');
+    const [groupMessage, setgroupMessage] = useState('');
     let unsubscribe;
     let groups;
 
@@ -57,10 +71,39 @@ const GroupPage = (props) => {
         console.log(groupMembers);
     }
 
-    const createGroupMembers = () => {
+    const createGroupMembers = (e) => {
+        e.preventDefault(); 
         groupMembers.push(auth.uid);
-        console.log(groupMembers);
-        dispatch(createGroup(groupMembers))
+
+        const info = {
+            groupMembers, groupname
+        }
+       
+        console.log(info);
+        dispatch(createGroup(info));
+        setModalclicked(false);
+        setGroupname('');
+    }
+
+    const initGroupChat = (group) => {
+        setgroupSelectedId(group.groupId);
+        setgroupSelectedName(group.groupname);
+        dispatch(getGroupMessages(group));
+    }
+
+    const sendGroupMessage = () => {
+        var groupMessageObj = {
+            user_from: auth.uid,
+            group_to: groupSelectedId,
+            groupMessage
+        }
+
+        if (groupMessage !== "") {
+            dispatch(updateGroupMessage(groupMessageObj))
+            .then(() => {
+                setgroupMessage('');
+            })
+        }
     }
 
     return (
@@ -69,9 +112,17 @@ const GroupPage = (props) => {
                 <div className="modal-content">
                     <h3>Create new group</h3>
                     <span onClick={ () => { setModalclicked(false) } } className="close">&times;</span>
-                    <div>
-                        <button onClick={createGroupMembers}>Create group</button>
-                    </div>
+                    <form onSubmit={createGroupMembers}>
+                        <label htmlFor="groupname">Group Name:</label>
+                        <input 
+                            required
+                            name="groupname"
+                            type="text"
+                            value={groupname}
+                            onChange={(e) => setGroupname(e.target.value)}
+                        />
+                        <button>Create group</button>
+                    </form>
                     <div className="usersContainer">
                         {              
                             user.users.length > 0 ? 
@@ -92,6 +143,22 @@ const GroupPage = (props) => {
 
             <LeftSide>
                 <section className="allUsers">
+                    <div className="listOfUsers">
+                    {
+                        group.groups.length > 0 ?
+                        group.groups.map(group => {
+                            return(                                 
+                                <Group 
+                                    getGroupToChat={initGroupChat}
+                                    key={group.groupId} 
+                                    group={group} 
+                                />
+                            );
+                        })
+                        :
+                        null
+                    }
+                    </div>
                     <div className="createGroupPopup">
                         <button
                             onClick={openmodal}
@@ -103,7 +170,30 @@ const GroupPage = (props) => {
             </LeftSide>
 
             <RightSide>
-                <h3>Groups</h3>
+                <div className="chatArea">
+                    {
+                        groupSelectedId!=='' ? 
+                        <div className="chatHeader"> 
+                            <p>{groupSelectedName}</p>  
+                        </div>            
+                        : null
+                    }
+
+                    <div className="chatControls">
+                        <textarea 
+                            value={groupMessage}
+                            onChange={(e) => setgroupMessage(e.target.value)}
+                            disabled={ groupSelectedId==='' ? true : false } 
+                            placeholder="Write here"
+                        />
+                        <button 
+                            disabled={ groupSelectedId==='' ? true : false } 
+                            onClick={sendGroupMessage}
+                        >
+                            Send
+                        </button>
+                    </div>
+                </div>
             </RightSide>
         </div>
         

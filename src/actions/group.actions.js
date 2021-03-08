@@ -1,30 +1,36 @@
 import firebase from "firebase/app";
 import { groupConstant } from "./constant"
 
-export const createGroup = (memberIds) => {
+export const createGroup = (groupInfo) => {
     return async dispatch => {
         dispatch({ type: `${groupConstant.CREATE_GROUP}_REQUEST` });
 
         const db = firebase.firestore();
         var ids = [];
-        console.log("memberIds.length: ", memberIds.length)
-        for (let a = 0; a < memberIds.length; a++) {
-            ids.push(memberIds[a]);
+        console.log("groupInfo.groupMembers.length: ", groupInfo.groupMembers.length)
+        for (let a = 0; a < groupInfo.groupMembers.length; a++) {
+            ids.push(groupInfo.groupMembers[a]);
         }
-        console.log("ids: ", ids);
 
         db.collection('groupchats')
         .add({
-            members: memberIds,
+            members: groupInfo.groupMembers,
+            groupname: groupInfo.groupname,
             user_from: '',
             message: '',
             isSeen: false,
-            createdAt: new Date()
+            createdAt: new Date(),
         })
-        .then((data) => {
+        .then((docRef) => {
+            db.collection('groupchats')
+            .doc(docRef.id)
+            .update({
+                groupId: docRef.id
+            })
+
             dispatch({
                 type: groupConstant.CREATE_GROUP,
-                payload: { ids }
+                payload: { groupInfo: groupInfo, groupId: docRef.id }
             })
         })
         .catch(error => {
@@ -41,51 +47,51 @@ export const getGroupList = (uid) => {
         db.collection('groupchats')
         .where('members', 'array-contains', uid)
         .onSnapshot((querySnapshot) => {
-            const groups =[];
+            const grouplist =[];
             querySnapshot.forEach(doc => {
-                console.log("in here");
-                groups.push(doc.data());
-                console.log(groups);
-                /* if (doc.data().members === uid) {
-                    chats.push(doc.data().user_to);
-                } else if (doc.data().user_to === uid) {
-                    chats.push(doc.data().user_from);
-                } */
+                grouplist.push(doc.data());
             })
 
-
-
-        /* const chats = [];
-        const unique = [];
-        let chatUsers = localStorage.getItem('chatUsers');
-        if(chatUsers !== null){
-            chats.push(chatUsers);
-            localStorage.removeItem('chatUsers');
-        }
-
-        querySnapshot.forEach(doc => {
-            if (doc.data().user_from === uid) {
-                chats.push(doc.data().user_to);
-            } else if (doc.data().user_to === uid) {
-                chats.push(doc.data().user_from);
+            if (grouplist.length > 0) {
+                dispatch({
+                    type: `${groupConstant.GET_GROUPLIST}_SUCCESS`,
+                    payload: {
+                        grouplist
+                    }
+                })
+            } else {
+                dispatch({
+                    type: `${groupConstant.GET_GROUPLIST}_FAILURE`
+                })
             }
         })
+    }
+}
 
-        let uniqueids = chats.filter((item, i, ar) => ar.indexOf(item) === i);
-        unique.push(uniqueids);
+export const getGroupMessages = (group) => {
+    return async () => {
+        console.log("getGroupMessages function fires and this is the group: ", group);
+    }    
+}
 
-        if (unique.length > 0) {
+export const updateGroupMessage = (message) => {
+    return async dispatch => {
+        console.log("updateGroupMessage function fires and this is the groupmessage: ", message)
+        
+        const db = firebase.firestore();
+        db.collection('groupchatsmassages')
+        .add({
+            ...message,
+            createdAt: new Date()
+        })
+        .then(() => {
             dispatch({
-                type: userConstant.GET_CHAT,
-                payload: {
-                    unique
-                }
+                type: `${groupConstant.NEW_MESSAGE}_SENT`,
+                payload: { message }
             })
-        } else {
-            dispatch({
-                type: `${userConstant.GET_CHAT}_FAILURE`
-            })
-        } */
+        })
+        .catch(error => {
+            console.log(error)
         })
     }
 }

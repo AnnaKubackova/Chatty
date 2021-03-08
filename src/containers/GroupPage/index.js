@@ -78,7 +78,7 @@ const GroupPage = (props) => {
     const addMemberToGroup = (userInfo) => {
         groupMembers.push(userInfo.uid);
         
-        groupMembersNames.push(userInfo.firstName);
+        groupMembersNames.push(userInfo.firstName + ", ");
         let groupMembersUiName = [];
         groupMembersUiName.push(groupMembersNames);
         setGroupMembersNames(groupMembersUiName);
@@ -125,26 +125,27 @@ const GroupPage = (props) => {
         <div>
             <div id="myModal" className={ modalclicked === true ? "modal show" : "modal hide"}>
                 <div className="modal-content">
+                    <div>
+                        <h3>Create new group</h3>
+                        <span onClick={closemodal} className="close">&times;</span>
+
+                        <div>Members: {groupMembersNames}</div>
+
+                        <form onSubmit={createGroupMembers}>
+                            <label htmlFor="groupname">Group Name:</label>
+                            <input 
+                                required
+                                name="groupname"
+                                type="text"
+                                value={groupname}
+                                onChange={(e) => setGroupname(e.target.value)}
+                            />
+                            <button>Create group</button>
+                            
+                        </form>
+                    </div>
+
                     
-                    
-                    <h1>{groupMembersNames}</h1>
-
-
-
-                    <h3>Create new group</h3>
-                    <span onClick={closemodal} className="close">&times;</span>
-                    <form onSubmit={createGroupMembers}>
-                        <label htmlFor="groupname">Group Name:</label>
-                        <input 
-                            required
-                            name="groupname"
-                            type="text"
-                            value={groupname}
-                            onChange={(e) => setGroupname(e.target.value)}
-                        />
-                        <button>Create group</button>
-                        
-                    </form>
                     <div className="usersContainer">
                         {              
                             user.users.length > 0 ? 

@@ -53,6 +53,12 @@ export default (state = initState, action) => {
                 ...state,
                 messages: action.payload.messages
             }
+
+        case groupConstant.GROUP_MEMBERS:
+            state = {
+                ...state,
+                members: action.payload.membersList
+            }
     }
 
     return state;

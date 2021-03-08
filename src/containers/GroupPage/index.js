@@ -182,14 +182,24 @@ const GroupPage = (props) => {
 
                     <div className="messageSections">
                         {
-                        groupSelectedId ? 
-                        group.messages.map(msg => 
-                            <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
-                            <p className="messageStyle" >{msg.groupMessage}</p>
-                            </div> 
-                        )            
-                        : null
+                            groupSelectedId ? 
+                            group.messages.map(msg => 
+                                <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
+                                    <p className="messageStyle" >{msg.groupMessage}</p>                       
+                                </div> 
+                            )            
+                            : null
                         }
+
+                        <div>
+                            {
+                                group.members ?
+                                    <p>{group.members.length}</p> 
+                                : <p>nothing in here</p>
+                            }
+                        </div>
+
+                        <button onClick={() => {console.log(group.members, group.messages)}}>click</button>
                     </div>
 
                     <div className="chatControls">

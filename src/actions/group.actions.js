@@ -121,34 +121,33 @@ export const updateGroupMessage = (message) => {
 }
 
 export const getGroupMembers = (groupId) => {
-    return async dispatch => {
-        let membersList =[];
+    return dispatch => {
+        var membersList = [];
+
         const db = firebase.firestore();
         var docRef = db.collection("groupchats").doc(groupId);
+
         docRef
         .get()
         .then((doc) => {
-            db.collection("users")
-            .doc(doc.data().members)
-            .forEach((uid) => {
-                console.log('foreach member: ', uid); 
-                    /* console.log("we are here");
-                    db.collection("users")
-                    .get()
-                    .then((doc) => {
-                        membersList.push(doc.data().firstName)
-                    });
+            for (let u = 0; u < doc.data().members.length; u++) {
+                db.collection("users")
+                .doc(doc.data().members[u])
+                .get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        membersList.push(doc.data());
+                    }
+                })
+            }
 
-                     */
-            });
-
-            console.log('this is the memberlist length:', membersList.length);
-            console.log('this is the memberlist: ', membersList);
+            console.log(membersList.length);
+            console.log(membersList);
             
             dispatch({
                 type:  groupConstant.GROUP_MEMBERS,
                 payload: { membersList }
-            });
+            })
         })
         .catch((error) => {
             console.log("Error getting document:", error);

@@ -199,6 +199,13 @@ const GroupPage = (props) => {
                         groupSelectedId!=='' ? 
                         <div className="chatHeader"> 
                             <p>{groupSelectedName}</p>  
+                            {
+                                group.members ?
+                                    group.members.map(name =>
+                                        <span>{name.firstName}</span>
+                                    )
+                                : null
+                            }
                         </div>            
                         : null
                     }
@@ -208,22 +215,19 @@ const GroupPage = (props) => {
                         groupSelectedId ? 
                         group.messages.map(msg => 
                             <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
-                            <p className="messageStyle" >{msg.groupMessage}</p>
-                            <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
+                                <p className="messageStyle" >{msg.groupMessage}</p>
+                                <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
+                                {
+                                    group.members.map(name =>
+                                        name.uid === msg.user_from ?
+                                        <p>{name.firstName}</p>
+                                        : null
+                                    )
+                                }
                             </div> 
                         )            
                         : null
                         }
-
-                        <div>
-                            {
-                            group.members ?
-                                <p>{group.members.length}</p> 
-                            : <p>nothing in here</p>
-                            }
-                        </div>
-
-                        <button onClick={() => {console.log(group.members, group.messages)}}>click</button>
                     </div>
 
                     <div className="chatControls">

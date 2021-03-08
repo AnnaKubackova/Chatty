@@ -145,7 +145,7 @@ export const getGroupMembers = (groupId) => {
                 .doc(members[c])
                 .get()
                 .then((doc) => {
-                    membersList.push(doc.data().firstName);
+                    membersList.push(doc.data());
                     console.log("in then: ", membersList);
                     console.log("in then: ", membersList.length);
 

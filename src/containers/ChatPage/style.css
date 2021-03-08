@@ -1,6 +1,6 @@
 .allUsers .listOfUsers {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 
 .allUsers .listOfUsers .user{

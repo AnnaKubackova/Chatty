@@ -13,3 +13,8 @@ export const userConstant = {
     GET_CHAT: 'GET_CHAT',
     GET_CHATUSERS: 'GET_CHATUSERS'
 }
+
+export const groupConstant = {
+    CREATE_GROUP: 'CREATE_GROUP',
+    GET_GROUPLIST: 'GET_GROUPLIST'
+}

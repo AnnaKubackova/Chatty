@@ -14,7 +14,7 @@ export const getOnlineUsers = (uid) => {
                     users.push(doc.data());
                 }                
             });
-
+            console.log('users: ', users);
             dispatch({ 
                 type: `${userConstant.GET_ONLINE_USERS}_SUCCESS`,
                 payload: { users }

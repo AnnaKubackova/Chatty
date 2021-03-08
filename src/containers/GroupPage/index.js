@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
-import { getOnlineUsers, createGroup, getGroupList, getGroupMessages, updateGroupMessage } from '../../actions';
+import { getOnlineUsers, createGroup, getGroupList, getGroupMessages, updateGroupMessage, getGroupMembers } from '../../actions';
 import icon from '../../addgroupIcon.svg';
 
 const User = (props) => {
@@ -89,6 +89,7 @@ const GroupPage = (props) => {
         setgroupSelectedId(group.groupId);
         setgroupSelectedName(group.groupname);
         dispatch(getGroupMessages(group));
+        dispatch(getGroupMembers(group.groupId));
     }
 
     const sendGroupMessage = () => {

@@ -102,6 +102,13 @@ export default (state = initState, action) => {
                 ...initState
             }
             break;
+
+        case `${userConstant.SEARCH}_SUCCESS`:
+            state = {
+                ...state,
+                users: action.payload.users
+            }
+            break;
     }
 
     return state;

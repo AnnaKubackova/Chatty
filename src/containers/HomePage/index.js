@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { getOnlineUsers, logout, updateInfo, deleteUser, setNewPersonToChat } from '../../actions';
+import { getOnlineUsers, logout, updateInfo, deleteUser, setNewPersonToChat, searchUserName } from '../../actions';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import icon from '../../logoutIcon.svg';
@@ -41,6 +41,7 @@ const HomePage = (props) => {
   const [lastName, setLastName] = useState('');
   const [uploadedImage, setuploadedImage] = useState('');
   const [uploadedImageName, setuploadedImageName] = useState('');
+  const [searchName, setsearchName] = useState('');
   let unsubscribe;
   
   useEffect(() => {
@@ -92,10 +93,27 @@ const HomePage = (props) => {
     dispatch(updateInfo({ firstName, lastName, uploadedImage }));
   }
 
+  const searchUser = (e) => {
+    e.preventDefault();
+
+    dispatch(searchUserName(searchName));
+  }
+
   return (
     <div>
       <LeftSide>
         <section className="allUsers">
+            <form onSubmit={searchUser} className="searchFrom">
+              <input 
+                type="text"
+                placeholder="Search for users"
+                value={searchName}
+                onChange={(e) => setsearchName(e.target.value)}
+              />
+
+              <button>Search</button>
+            </form>
+
             <div className="onlineUsers">
               <h3>Online</h3>
               <div className="usersContainer">

@@ -1,4 +1,30 @@
 /* Left Side */
+.searchFrom {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.searchFrom input {
+    width: 50%;
+    margin-right: 25px;
+    border: none;
+    border-radius: 15px;
+    padding: 0 10px;
+}
+
+.searchFrom input[placeholder] {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.searchFrom button {
+    margin: 0;
+    background-color: var(--dark-blue);
+    color: white;
+    cursor: pointer;
+}
+
 .allUsers {
     display: flex;
     flex-wrap: wrap;
@@ -33,9 +59,13 @@
 .user {
     display: flex;
     flex-direction: column;
-    color: var(--dark-blue);
     width: 20%;
     margin-bottom: 20px;
+}
+
+.user a {
+    text-decoration: none;
+    color: var(--dark-blue);
 }
 
 .user img {

@@ -34,10 +34,13 @@ const GroupPage = (props) => {
     const group = useSelector(state => state.group);
     const [modalclicked, setModalclicked] = useState(false);
     const [groupMembers, setGroupMembers] = useState([]);
+    const [groupMembersNames, setGroupMembersNames] = useState([]);
     const [groupname, setGroupname] = useState('');
     const [groupSelectedId, setgroupSelectedId] = useState('');
     const [groupSelectedName, setgroupSelectedName] = useState('');
     const [groupMessage, setgroupMessage] = useState('');
+
+    const [testvalue, settestvalue] = useState(0);
     let unsubscribe;
     let groups;
 
@@ -65,10 +68,20 @@ const GroupPage = (props) => {
         setModalclicked(true)
     }
 
+    const closemodal = () => {
+        setModalclicked(false);
+        setGroupMembersNames([]);
+        setGroupMembers([]);
+        groupMembers.length = 0;
+    }
+
     const addMemberToGroup = (userInfo) => {
-        console.log("person clicked", userInfo.uid);
         groupMembers.push(userInfo.uid);
-        console.log(groupMembers);
+        
+        groupMembersNames.push(userInfo.firstName);
+        let groupMembersUiName = [];
+        groupMembersUiName.push(groupMembersNames);
+        setGroupMembersNames(groupMembersUiName);
     }
 
     const createGroupMembers = (e) => {
@@ -83,6 +96,7 @@ const GroupPage = (props) => {
         dispatch(createGroup(info));
         setModalclicked(false);
         setGroupname('');
+        groupMembers.length = 0;
     }
 
     const initGroupChat = (group) => {
@@ -111,8 +125,14 @@ const GroupPage = (props) => {
         <div>
             <div id="myModal" className={ modalclicked === true ? "modal show" : "modal hide"}>
                 <div className="modal-content">
+                    
+                    
+                    <h1>{groupMembersNames}</h1>
+
+
+
                     <h3>Create new group</h3>
-                    <span onClick={ () => { setModalclicked(false) } } className="close">&times;</span>
+                    <span onClick={closemodal} className="close">&times;</span>
                     <form onSubmit={createGroupMembers}>
                         <label htmlFor="groupname">Group Name:</label>
                         <input 
@@ -123,6 +143,7 @@ const GroupPage = (props) => {
                             onChange={(e) => setGroupname(e.target.value)}
                         />
                         <button>Create group</button>
+                        
                     </form>
                     <div className="usersContainer">
                         {              

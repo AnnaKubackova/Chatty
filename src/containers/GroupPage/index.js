@@ -179,6 +179,18 @@ const GroupPage = (props) => {
                         : null
                     }
 
+                    <div className="messageSections">
+                        {
+                        groupSelectedId ? 
+                        group.messages.map(msg => 
+                            <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
+                            <p className="messageStyle" >{msg.groupMessage}</p>
+                            </div> 
+                        )            
+                        : null
+                        }
+                    </div>
+
                     <div className="chatControls">
                         <textarea 
                             value={groupMessage}

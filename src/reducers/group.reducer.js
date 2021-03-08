@@ -47,6 +47,12 @@ export default (state = initState, action) => {
                 ...state
             }
             break;
+
+        case groupConstant.GROUP_MESSAGES:
+            state = {
+                ...state,
+                messages: action.payload.messages
+            }
     }
 
     return state;

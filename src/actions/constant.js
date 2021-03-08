@@ -18,5 +18,6 @@ export const userConstant = {
 export const groupConstant = {
     CREATE_GROUP: 'CREATE_GROUP',
     GET_GROUPLIST: 'GET_GROUPLIST',
-    NEW_MESSAGE: 'NEW_MESSAGE'
+    NEW_MESSAGE: 'NEW_MESSAGE',
+    GROUP_MESSAGES: 'GROUP_MESSAGES'
 }

@@ -197,6 +197,11 @@ const GroupPage = (props) => {
                         <textarea 
                             value={groupMessage}
                             onChange={(e) => setgroupMessage(e.target.value)}
+                            onKeyPress={(e) => {
+                                if(e.key === 'Enter'){
+                                sendGroupMessage()
+                                }
+                            }}
                             disabled={ groupSelectedId==='' ? true : false } 
                             placeholder="Write here"
                         />

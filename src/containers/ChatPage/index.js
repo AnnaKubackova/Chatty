@@ -124,13 +124,6 @@ const ChatPage = (props) => {
               </div>            
             : null
           }
-
-          <button
-            onClick={() => {             
-              console.log(user.messages[0].createdAt);
-            }}>
-            here
-          </button>
           
           <div className="messageSections">
             {
@@ -150,6 +143,11 @@ const ChatPage = (props) => {
               disabled={ chatUser==='' ? true : false } 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={(e) => {
+                if(e.key === 'Enter'){
+                  sendMessage()
+                }
+              }}
               placeholder="Write here"
             />
             <button 

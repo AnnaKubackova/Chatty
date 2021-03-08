@@ -76,6 +76,13 @@
     background-color: #F3F3F3;
 }
 
+p.messageCreatedAt {
+    background-color: transparent;
+    font-style: italic;
+    font-size: 11px;
+    float: right;
+}
+
 .chatControls {
     border-top: 1px solid var(--dark-blue);
     border-bottom: 1px solid var(--dark-blue);

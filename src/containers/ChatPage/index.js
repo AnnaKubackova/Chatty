@@ -131,6 +131,7 @@ const ChatPage = (props) => {
               user.messages.map(msg => 
                 <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
                   <p className="messageStyle" >{msg.message}</p>
+                  <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
                 </div> 
               )            
               : null

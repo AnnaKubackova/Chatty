@@ -36,7 +36,7 @@ export default (state = initState, action) => {
                 error: action.payload.error
             }
             break;
-
+            // The GOOGLEUSER_LOGIN constant is not needed - changing to USER_LOGIN constant will be same result
             case `${authConstant.GOOGLEUSER_LOGIN}_REQUEST`:
             state = {
                 ...state,

@@ -168,3 +168,33 @@ export const getChatUsers = (ids) => {
         }
     }        
 }
+
+export const searchUserName = (searchQuery) => {
+    return async dispatch => {
+        let allUsers = []; 
+        let users = [];
+        const currentUserId = firebase.auth().currentUser.uid;
+
+        const db = firebase.firestore();
+        db.collection("users")
+        .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                if (doc.data().uid !== currentUserId) {
+                    allUsers.push(doc.data());
+                }          
+                      
+            });
+
+            for (let a = 0; a < allUsers.length; a++) {
+                if (allUsers[a].firstName.includes(searchQuery) || allUsers[a].lastName.includes(searchQuery))
+                    users.push(allUsers[a]);
+            }
+
+            dispatch({ 
+                type: `${userConstant.SEARCH}_SUCCESS`,
+                payload: { users }
+            })
+        });        
+        
+    }
+}

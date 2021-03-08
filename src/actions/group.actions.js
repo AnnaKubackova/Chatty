@@ -122,7 +122,55 @@ export const updateGroupMessage = (message) => {
 
 export const getGroupMembers = (groupId) => {
     return dispatch => {
-        var membersList = [];
+        let members = [];
+        let membersList = [];
+
+        const db = firebase.firestore();
+        db.collection("groupchats")
+        .doc(groupId)
+        .get()
+        .then((doc) => {
+            for (let b = 0; b < doc.data().members.length; b++) {
+                members.push(doc.data().members[b]);
+            }
+            /* .onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log("in here", doc.data());
+                })
+            }) */
+        })
+        .then(() => {
+            for (let c = 0; c < members.length; c++) {
+                db.collection("users")
+                .doc(members[c])
+                .get()
+                .then((doc) => {
+                    membersList.push(doc.data().firstName);
+                    console.log("in then: ", membersList);
+                    console.log("in then: ", membersList.length);
+
+                    dispatch({
+                        type:  groupConstant.GROUP_MEMBERS,
+                        payload: { membersList }
+                    })
+                })
+
+                console.log("in for loop: ", membersList);
+                console.log("in for loop: ", membersList.length);                
+            }
+
+            console.log(membersList);
+            console.log(membersList.length);
+        })
+        
+
+
+
+
+
+
+
+        /* var membersList = [];
 
         const db = firebase.firestore();
         var docRef = db.collection("groupchats").doc(groupId);
@@ -151,6 +199,6 @@ export const getGroupMembers = (groupId) => {
         })
         .catch((error) => {
             console.log("Error getting document:", error);
-        });
+        }); */
     }
 }

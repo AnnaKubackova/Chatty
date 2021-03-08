@@ -216,9 +216,9 @@ const GroupPage = (props) => {
 
                         <div>
                             {
-                                group.members ?
-                                    <p>{group.members.length}</p> 
-                                : <p>nothing in here</p>
+                            group.members ?
+                                <p>{group.members.length}</p> 
+                            : <p>nothing in here</p>
                             }
                         </div>
 

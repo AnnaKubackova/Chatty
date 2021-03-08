@@ -76,11 +76,19 @@
     background-color: #F3F3F3;
 }
 
+div.leftMessage p.messageCreatedAt {
+    text-align: start;
+}
+
+div.rightMessage p.messageCreatedAt{
+    text-align: end;
+}
+
 p.messageCreatedAt {
     background-color: transparent;
+    background-image: none;
     font-style: italic;
     font-size: 11px;
-    float: right;
 }
 
 .chatControls {

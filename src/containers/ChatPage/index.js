@@ -152,18 +152,18 @@ const ChatPage = (props) => {
 
           <div className="chatControls">
             <textarea 
-              disabled={ chatUser==='' ? true : false } 
+              disabled={ chatUser=== '' ? true : false } 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => {
-                if(e.key === 'Enter'){
+                if(e.key === 'Enter' && message !== ''){
                   sendMessage()
                 }
               }}
               placeholder="Write here"
             />
             <button 
-              disabled={ chatUser==='' ? true : false } 
+              disabled={ chatUser==='' || message === '' ? true : false } 
               onClick={sendMessage}
             >
                 Send

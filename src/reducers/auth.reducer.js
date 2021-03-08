@@ -37,6 +37,31 @@ export default (state = initState, action) => {
             }
             break;
 
+            case `${authConstant.GOOGLEUSER_LOGIN}_REQUEST`:
+            state = {
+                ...state,
+                authenticating: true
+            }
+            break;
+
+        case `${authConstant.GOOGLEUSER_LOGIN}_SUCCESS`:
+            state = {
+                ...state,
+                ...action.payload.user,
+                authenticated: true,
+                authenticating: false
+            }
+            break;
+
+        case `${authConstant.GOOGLEUSER_LOGIN}_FAILURE`:
+            state = {
+                ...state,
+                authenticated: false,
+                authenticating: false,
+                error: action.payload.error
+            }
+            break;
+
         case `${authConstant.USER_LOGOUT}_REQUEST`:
             break;
 

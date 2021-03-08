@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { sigin } from '../../actions';
+import { sigin, signInWithGoogle } from '../../actions';
 import { NavLink } from "react-router-dom";
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide';
@@ -44,6 +44,14 @@ const LoginPage = (props) => {
       <RightSide>
         <h2>Log in</h2>
         <Card>
+            <div>
+              <button onClick={
+                (e) => {dispatch(signInWithGoogle(e))}
+                }>
+                <img src="https://img.icons8.com/ios-filled/50/000000/google-logo.png" alt="google icon"/>
+                <span> Continue with Google</span>
+              </button>
+            </div>
           <form onSubmit={userLogin}>
             <label htmlFor="email">Email:</label>
             <input 

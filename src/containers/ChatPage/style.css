@@ -44,7 +44,7 @@
 .messageSections {
     display: flex;
     flex-direction: column;    
-    height: 25vw;    
+    height: 42vw;    
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -74,6 +74,13 @@
 
 .rightMessage p {
     background-color: #F3F3F3;
+}
+
+p.messageCreatedAt {
+    background-color: transparent;
+    font-style: italic;
+    font-size: 11px;
+    float: right;
 }
 
 .chatControls {

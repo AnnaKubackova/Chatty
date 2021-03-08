@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,8 +25,20 @@ const ChatPage = (props) => {
   const [userImage, setUserImage] = useState('');
   const [message, setMessage] = useState('');
   const [userToMessageUid, setuserToMessageUid] = useState('');
+  const messageRef = useRef();
   let chats;
   let chatUsers;
+
+
+  useEffect(() => {
+    if(messageRef.current){
+      messageRef.current.scrollIntoView(
+        {
+          block: 'end',
+          inline: 'nearest'
+        })
+    }
+  });
 
   useEffect(() => {
     chats = dispatch(getMessageCollection(auth.uid))
@@ -129,7 +141,7 @@ const ChatPage = (props) => {
             {
               chatUser ? 
               user.messages.map(msg => 
-                <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
+                <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' } ref={messageRef}>
                   <p className="messageStyle" >{msg.message}</p>
                   <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
                 </div> 

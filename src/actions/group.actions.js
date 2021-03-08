@@ -76,6 +76,7 @@ export const getGroupMessages = (group) => {
 
         db.collection('groupchatsmassages')
         .where('group_to', '==', group.groupId)
+        .orderBy('createdAt', 'asc')
         .onSnapshot((querySnapshot) => {
             const groupMessages = [];
             querySnapshot.forEach(doc => {
@@ -116,5 +117,29 @@ export const updateGroupMessage = (message) => {
         .catch(error => {
             console.log(error)
         })
+    }
+}
+
+export const getGroupMembers = (groupId) => {
+    return async dispatch => {
+        let members = [];
+
+        const db = firebase.firestore();
+        var docRef = db.collection("groupchats").doc(groupId);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                for (let u = 0; u < doc.data().members.length; u++) {
+                    members.push(doc.data().members[u]);
+                }
+                console.log("Members:", members);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
     }
 }

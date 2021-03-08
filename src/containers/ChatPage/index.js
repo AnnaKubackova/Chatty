@@ -66,7 +66,7 @@ const ChatPage = (props) => {
     setChatUser(`${user.firstName} ${user.lastName}`);
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
-    dispatch(getMessages(user))
+    dispatch(getMessages(user));
   }
 
   const sendMessage = (e) => {
@@ -124,6 +124,13 @@ const ChatPage = (props) => {
               </div>            
             : null
           }
+
+          <button
+            onClick={() => {             
+              console.log(user.messages[0].createdAt);
+            }}>
+            here
+          </button>
           
           <div className="messageSections">
             {

@@ -5,6 +5,7 @@ import RightSide from '../../components/RightSide'
 import './style.css';
 import { getOnlineUsers, createGroup, getGroupList, getGroupMessages, updateGroupMessage, getGroupMembers } from '../../actions';
 import icon from '../../addgroupIcon.svg';
+import creategrpicon from '../../creategroupIcon.svg';
 
 const User = (props) => {
     const {user, addToGroup} = props;
@@ -125,22 +126,22 @@ const GroupPage = (props) => {
         <div>
             <div id="myModal" className={ modalclicked === true ? "modal show" : "modal hide"}>
                 <div className="modal-content">
-                    <div>
+                    <div className="createGroup">
                         <h3>Create new group</h3>
                         <span onClick={closemodal} className="close">&times;</span>
 
-                        <div>Members: {groupMembersNames}</div>
+                        <div className="groupMembers"><p>Members:&nbsp;</p><p className="memberlist">{groupMembersNames}</p></div>
 
                         <form onSubmit={createGroupMembers}>
-                            <label htmlFor="groupname">Group Name:</label>
                             <input 
                                 required
                                 name="groupname"
                                 type="text"
                                 value={groupname}
+                                placeholder='Group name...'
                                 onChange={(e) => setGroupname(e.target.value)}
                             />
-                            <button>Create group</button>
+                            <button><img src={creategrpicon}/>Create</button>
                             
                         </form>
                     </div>

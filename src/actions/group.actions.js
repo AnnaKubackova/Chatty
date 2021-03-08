@@ -69,9 +69,32 @@ export const getGroupList = (uid) => {
 }
 
 export const getGroupMessages = (group) => {
-    return async () => {
-        console.log("getGroupMessages function fires and this is the group: ", group);
-    }    
+    return async dispatch => {
+        const db = firebase.firestore();
+
+        console.log("group id - clicked: ", group.groupId);
+
+        db.collection('groupchatsmassages')
+        .where('group_to', '==', group.groupId)
+        .onSnapshot((querySnapshot) => {
+            const groupMessages = [];
+            querySnapshot.forEach(doc => {
+                groupMessages.push(doc.data()); 
+                               
+                if(groupMessages.length > 0) {
+                    dispatch({
+                        type:  groupConstant.GROUP_MESSAGES,
+                        payload: { messages: groupMessages }
+                    })
+                } else {
+                    dispatch({
+                        type:  `${groupConstant.GROUP_MESSAGES}_FAILURE`
+                    })
+                }
+                
+            })
+        })
+    }
 }
 
 export const updateGroupMessage = (message) => {

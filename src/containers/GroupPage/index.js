@@ -180,6 +180,14 @@ const GroupPage = (props) => {
 
             <LeftSide>
                 <section className="allUsers">
+                    <div className="createGroupPopup">
+                        <button
+                            onClick={openmodal}
+                        >
+                            <img src={icon} /> Create new group
+                        </button>                        
+                    </div>
+                    
                     <div className="listOfUsers">
                     {
                         group.groups.length > 0 ?
@@ -195,13 +203,6 @@ const GroupPage = (props) => {
                         :
                         null
                     }
-                    </div>
-                    <div className="createGroupPopup">
-                        <button
-                            onClick={openmodal}
-                        >
-                            <img src={icon} /> Create new group
-                        </button>                        
                     </div>
                 </section>
             </LeftSide>
@@ -263,15 +264,15 @@ const GroupPage = (props) => {
                             value={groupMessage}
                             onChange={(e) => setgroupMessage(e.target.value)}
                             onKeyPress={(e) => {
-                                if(e.key === 'Enter'){
-                                sendGroupMessage()
+                                if(e.key === 'Enter' && groupMessage !== ""){
+                                    sendGroupMessage()
                                 }
                             }}
                             disabled={ groupSelectedId==='' ? true : false } 
                             placeholder="Write here"
                         />
                         <button 
-                            disabled={ groupSelectedId==='' ? true : false } 
+                            disabled={ groupSelectedId==='' || groupMessage == "" ? true : false } 
                             onClick={sendGroupMessage}
                         >
                             Send

@@ -186,7 +186,7 @@ export const searchUserName = (searchQuery) => {
             });
 
             for (let a = 0; a < allUsers.length; a++) {
-                if (allUsers[a].firstName.includes(searchQuery) || allUsers[a].lastName.includes(searchQuery))
+                if (allUsers[a].firstName.toLowerCase().includes(searchQuery) || allUsers[a].lastName.toLowerCase().includes(searchQuery))
                     users.push(allUsers[a]);
             }
 

@@ -1,5 +1,4 @@
 .createGroupPopup {
-    border-top: solid 1px var(--dark-blue);
     text-align: center;
 }
 
@@ -99,6 +98,7 @@
     border-top-left-radius: 0px;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
+    margin: 0;
 }
 
 .createGroup form button img {
@@ -154,4 +154,46 @@
 
 div.modal-content .usersContainer .user {
     place-items: center;
+}
+
+.chatGroupMembers {
+    display: flex;
+    flex-direction: row;
+}
+
+.groupchatHeader p {
+    margin-right: 15px;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.chatGroupMembers > div {
+    display: flex;
+    align-items: end;
+    margin-right: 10px;
+}
+
+.chatGroupMembers span {
+    color: var(--dark-gray);
+}
+
+.userImage {
+    width: 2.5vw;
+    height: 2.5vw;
+    margin-right: 5px;
+}
+
+p.messageFrom {
+    text-align: start;
+    background-color: transparent;
+    background-image: none;
+    font-size: 11px;
+    background-image: none;
+    color: var(--dark-blue);
+    padding: 0 0 6px 5px;
+}
+
+
+.rightMessage p.messageFrom {
+    text-align: right;
 }

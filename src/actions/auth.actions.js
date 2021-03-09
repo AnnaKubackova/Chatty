@@ -38,7 +38,7 @@ export const signup = (user) => {
                         email: user.email,
                         image: user.image
                     }
-                    localStorage.setItem('user', JSON.stringify(loggedInUser));
+                    sessionStorage.setItem('user', JSON.stringify(loggedInUser));
                     console.log('User logged in');
                     dispatch({
                         type: `${authConstant.USER_LOGIN}_SUCCESS`,
@@ -85,7 +85,7 @@ export const sigin = (user) => {
                     email: data.user.email
                 }
                 console.log("livecheck: ", loggedInUser);
-                localStorage.setItem('user', JSON.stringify(loggedInUser));
+                sessionStorage.setItem('user', JSON.stringify(loggedInUser));
 
                 dispatch({
                     type: `${authConstant.USER_LOGIN}_SUCCESS`,
@@ -136,7 +136,7 @@ export const signInWithGoogle = () => {
                     email: data.user.email,
                     image
                 }
-                localStorage.setItem('user', JSON.stringify(loggedInUser));
+                sessionStorage.setItem('user', JSON.stringify(loggedInUser));
                 console.log('User logged in');
 
                 dispatch({
@@ -163,7 +163,7 @@ export const signInWithGoogle = () => {
 
 export const isUserLoggedIn = () => {
     return async dispatch => {
-        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+        const user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
 
         if(user) {
             const db = firebase.firestore();
@@ -172,7 +172,7 @@ export const isUserLoggedIn = () => {
             .onSnapshot((doc) => {
                 const userInfo = doc.data();
 
-                localStorage.setItem('user', JSON.stringify(userInfo));
+                sessionStorage.setItem('user', JSON.stringify(userInfo));
 
                 dispatch({
                     type: `${authConstant.USER_LOGIN}_SUCCESS`,
@@ -207,7 +207,7 @@ export const logout = (uid) => {
             firebase.auth()
             .signOut()
             .then(() => {
-                localStorage.clear();
+                sessionStorage.clear();
                 dispatch({ type: `${authConstant.USER_LOGOUT}_SUCCESS` });
             })
             .catch(error => {
@@ -232,19 +232,19 @@ export const updateInfo = (user) => {
         
         const currentUser = firebase.auth().currentUser;
 
-        const localStorageUser = JSON.parse(localStorage.getItem('user'));        
+        const sessionStorageUser = JSON.parse(sessionStorage.getItem('user'));        
         var newFirstName;
         var newLastName;
         var newImage;
 
         if(!user.firstName) {
-            newFirstName = localStorageUser.firstName
+            newFirstName = sessionStorageUser.firstName
         } else {
             newFirstName = user.firstName
         }
 
         if(!user.lastName) {
-            newLastName = localStorageUser.lastName
+            newLastName = sessionStorageUser.lastName
         } else {
             newLastName = user.lastName
         }
@@ -252,7 +252,7 @@ export const updateInfo = (user) => {
         const name = `${newFirstName} ${newLastName}`;
 
         if(!user.uploadedImage) {
-            const image = localStorageUser.image
+            const image = sessionStorageUser.image
 
             currentUser.updateProfile({
                 displayName: name,
@@ -274,7 +274,7 @@ export const updateInfo = (user) => {
                         uid: currentUser.uid,
                         email: currentUser.email
                     }
-                    localStorage.setItem('user', JSON.stringify(loggedInUser));
+                    sessionStorage.setItem('user', JSON.stringify(loggedInUser));
 
                     dispatch({
                         type: `${authConstant.UPDATE_PROFILE}_SUCCESS`,
@@ -328,7 +328,7 @@ export const updateInfo = (user) => {
                                 uid: currentUser.uid,
                                 email: currentUser.email
                             }
-                            localStorage.setItem('user', JSON.stringify(loggedInUser));
+                            sessionStorage.setItem('user', JSON.stringify(loggedInUser));
     
                             dispatch({
                                 type: `${authConstant.UPDATE_PROFILE}_SUCCESS`,
@@ -369,7 +369,7 @@ export const deleteUser = (uid) => {
                 console.log("NOT deleted from authentication", error);
               });
               
-            localStorage.clear();
+            sessionStorage.clear();
             dispatch({ type: `${authConstant.USER_DELETE}_SUCCESS` });
             console.log("Document successfully deleted!");
         }).catch((error) => {            

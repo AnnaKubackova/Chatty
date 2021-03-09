@@ -5,6 +5,7 @@
     justify-content: flex-end;
     align-items: baseline;
     border-bottom: solid 1px var(--dark-blue);
+    height: 10vh;
 }
 
 .info p {

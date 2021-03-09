@@ -113,10 +113,10 @@ export const getMessageCollection = (uid) => {
         .onSnapshot((querySnapshot) => {
             const chats = [];
             const unique = [];
-            let chatUsers = localStorage.getItem('chatUsers');
+            let chatUsers = sessionStorage.getItem('chatUsers');
             if(chatUsers !== null){
                 chats.push(chatUsers);
-                localStorage.removeItem('chatUsers');
+                sessionStorage.removeItem('chatUsers');
             }
 
             querySnapshot.forEach(doc => {
@@ -186,7 +186,7 @@ export const searchUserName = (searchQuery) => {
             });
 
             for (let a = 0; a < allUsers.length; a++) {
-                if (allUsers[a].firstName.includes(searchQuery) || allUsers[a].lastName.includes(searchQuery))
+                if (allUsers[a].firstName.toLowerCase().includes(searchQuery) || allUsers[a].lastName.toLowerCase().includes(searchQuery))
                     users.push(allUsers[a]);
             }
 

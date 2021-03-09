@@ -71,32 +71,28 @@ export const getGroupList = (uid) => {
 export const getGroupMessages = (group) => {
     return async dispatch => {
         const db = firebase.firestore();
+        const groupMessages = [];
 
         db.collection('groupchatsmassages')
         .where('group_to', '==', group.groupId)
         .orderBy('createdAt', 'asc')
         .onSnapshot((querySnapshot) => {
-            const groupMessages = [];
             querySnapshot.forEach(doc => {
                 groupMessages.push(doc.data()); 
-                               
-                if(groupMessages == []) {
-                    console.log("!!!! it is NOT longer");
-                    dispatch({
-                        type:  `${groupConstant.GROUP_MESSAGES}_FAILURE`,
-                        payload: { messages: [] }
-                    })
-                } else {
-                    console.log("it is longer");
-                    dispatch({
-                        type:  `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
-                        payload: { messages: groupMessages }
-                    })
-                    
-                }
-                
+                            
+                dispatch({
+                    type:  `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
+                    payload: { messages: groupMessages }
+                })
             })
         })
+
+        if(groupMessages.length === 0) {
+            dispatch({
+                type:  `${groupConstant.GROUP_MESSAGES}_FAILURE`,
+                payload: { messages: groupMessages }
+            })
+        }
     }
 }
 

@@ -51,9 +51,36 @@ export const updateMessage = (messageObj) => {
             isSeen: false,
             createdAt: new Date()
         })
-        .then((data) => {
-            dispatch({
-                type: userConstant.GET_NEWMESSAGE
+        .then(() => {
+            db.collection('messages')
+            .where('user_from', 'in', [`${messageObj.user_from}`, `${messageObj.user_to}`])
+            .orderBy('createdAt', 'asc')
+            .onSnapshot((querySnapshot) => {
+                const messages = [];
+                querySnapshot.forEach(doc => {
+                    if(
+                        //messages user sent
+                        (doc.data().user_from === messageObj.user_from && doc.data().user_to === messageObj.user_to)
+                        ||
+                        //messages user recieved 
+                        (doc.data().user_from === messageObj.user_to && doc.data().user_to === messageObj.user_from)
+                    ) {
+                        messages.push(doc.data()); 
+                    }
+                                
+                    if(messages.length > 0) {
+                        dispatch({
+                            type:  userConstant.GET_NEWMESSAGE,
+                            payload: { messages: messages }
+                        })
+                    } else {
+                        dispatch({
+                            type:  `${userConstant.GET_NEWMESSAGE}_FAILURE`,
+                            payload: { messages }
+                        })
+                    }
+                    
+                })
             })
         })
         .catch(error => {

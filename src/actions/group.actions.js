@@ -137,7 +137,6 @@ export const getGroupMembers = (groupId) => {
                         membersList.push(doc.data());
                     }
                 }
-                
             })
             
             if (membersList.length > 0) {
@@ -151,8 +150,6 @@ export const getGroupMembers = (groupId) => {
                     payload: { membersList }
                 });
             }
-            
         })
-
     }
 }

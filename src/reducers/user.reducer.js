@@ -42,6 +42,17 @@ export default (state = initState, action) => {
             break;
 
         case userConstant.GET_NEWMESSAGE:
+            state = {
+                ...state,
+                messages: action.payload.messages
+            }
+            break;
+
+        case `${userConstant.GET_NEWMESSAGE}_FAILURE`:
+            state = {
+                ...state,
+                messages: action.payload.messages
+            }
             break;
 
         case userConstant.GET_CHAT:

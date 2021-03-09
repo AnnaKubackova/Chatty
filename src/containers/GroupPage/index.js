@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
@@ -22,7 +22,7 @@ const Group = (props) => {
     const {group, getGroupToChat} = props;
 
     return (
-        <div onClick={() => getGroupToChat(group)}>
+        <div onClick={() => getGroupToChat(group)} className="user">
             <p>{group.groupname}</p>
         </div>
     )
@@ -40,10 +40,19 @@ const GroupPage = (props) => {
     const [groupSelectedId, setgroupSelectedId] = useState('');
     const [groupSelectedName, setgroupSelectedName] = useState('');
     const [groupMessage, setgroupMessage] = useState('');
-
-    const [testvalue, settestvalue] = useState(0);
+    const messageRef = useRef(); 
     let unsubscribe;
     let groups;
+
+    useEffect(() => {
+        if(messageRef.current){
+          messageRef.current.scrollIntoView(
+            {
+              block: 'end',
+              inline: 'nearest'
+            })
+        }
+    });
 
     useEffect(() => {
         groups = dispatch(getGroupList(auth.uid))
@@ -201,18 +210,26 @@ const GroupPage = (props) => {
                 <div className="chatArea">
                     {
                         groupSelectedId!=='' ? 
-                        <div className="chatHeader"> 
+                        <div className="groupchatHeader"> 
                             <p>{groupSelectedName}</p>  
-                            {
-                                group.members.groupMembers ?
-                                    group.members.groupMembers.map(name => 
-                                        <span>{name.firstName}</span>
-                                    )
-                                : 
-                                    group.members.map(name =>
-                                        <span>{name.firstName}</span>
-                                    )
-                            }
+                            <div className="chatGroupMembers">
+                                {
+                                    group.members.groupMembers ?
+                                        group.members.groupMembers.map(name => 
+                                            <div>
+                                                <div className="userImage" style={{backgroundImage: `url(${name.image})`}}></div> 
+                                                <span>{name.firstName}</span>
+                                            </div>                                           
+                                        )
+                                    : 
+                                        group.members.map(name =>
+                                            <div>
+                                                <div className="userImage" style={{backgroundImage: `url(${name.image})`}}></div> 
+                                                <span>{name.firstName}</span>
+                                            </div>     
+                                        )
+                                }                                
+                            </div>
                         </div>            
                         : null
                     }
@@ -221,20 +238,20 @@ const GroupPage = (props) => {
                         {
                         groupSelectedId ? 
                         group.messages.map(msg => 
-                            <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }>
-                                <p className="messageStyle" >{msg.groupMessage}</p>
-                                <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
-                                
+                            <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }  ref={messageRef}>
                                 {   
                                     group.members.groupMembers ?
                                         null
                                     : 
                                         group.members.map(name =>
                                             name.uid === msg.user_from ?
-                                                <p>{name.firstName}</p>
+                                                <p className="messageCreatedAt">{name.firstName}</p>
                                             :null
                                         ) 
                                 }
+                                <p className="messageStyle" >{msg.groupMessage}</p>
+                                <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
+                                
                             </div> 
                         )            
                         : null

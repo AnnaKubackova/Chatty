@@ -44,7 +44,7 @@
 .messageSections {
     display: flex;
     flex-direction: column;    
-    height: 42vw;    
+    height: 25vw;    
     overflow-y: scroll;
     overflow-x: hidden;
 }

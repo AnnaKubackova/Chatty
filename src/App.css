@@ -47,7 +47,7 @@ form button {
     transition: ease .2s;
 }
 
-::-webkit-scrollbar {
+section.allUsers::-webkit-scrollbar {
     width: 8px;
     background-color: transparent;
     border-top-left-radius: 0px;
@@ -56,18 +56,18 @@ form button {
     border-bottom-right-radius: 22px;
 }
  
-::-webkit-scrollbar-thumb{
+section.allUsers::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.6);
         border-top-left-radius: 0px;
         border-top-right-radius: 22px;
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 22px;
 }
-::-webkit-scrollbar-track-piece:end {
+section.allUsers::-webkit-scrollbar-track-piece:end {
     margin-bottom: 8px;
 }
  
-::-webkit-scrollbar-track-piece:start {
+section.allUsers::-webkit-scrollbar-track-piece:start {
     margin-top: 8px;
 }
 
@@ -80,4 +80,23 @@ form button {
     border-radius: 50%;
     border: 1px solid var(--light-blue);
     margin-right: 15px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+    border-radius: 22px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 22px;
+}
+
+::-webkit-scrollbar-track-piece:end {
+    margin-bottom: 8px;
+}
+
+::-webkit-scrollbar-track-piece:start {
+    margin-top: 8px;
 }

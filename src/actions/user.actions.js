@@ -113,10 +113,10 @@ export const getMessageCollection = (uid) => {
         .onSnapshot((querySnapshot) => {
             const chats = [];
             const unique = [];
-            let chatUsers = localStorage.getItem('chatUsers');
+            let chatUsers = sessionStorage.getItem('chatUsers');
             if(chatUsers !== null){
                 chats.push(chatUsers);
-                localStorage.removeItem('chatUsers');
+                sessionStorage.removeItem('chatUsers');
             }
 
             querySnapshot.forEach(doc => {

@@ -98,16 +98,15 @@ const GroupPage = (props) => {
         setModalclicked(false);
         setGroupname('');
         groupMembers.length = 0;
+        setGroupMembersNames([]);
+        setGroupMembers([]);
     }
 
-    const initGroupChat = (groupT) => {
-        setgroupSelectedId(groupT.groupId);
-        setgroupSelectedName(groupT.groupname);
-        
-            dispatch(getGroupMessages(groupT)); 
-        
-            dispatch(getGroupMembers(groupT.groupId));
-        
+    const initGroupChat = (group) => {
+        setgroupSelectedId(group.groupId);
+        setgroupSelectedName(group.groupname);        
+        dispatch(getGroupMessages(group));     
+        dispatch(getGroupMembers(group.groupId));
     }
 
     const sendGroupMessage = () => {
@@ -205,11 +204,14 @@ const GroupPage = (props) => {
                         <div className="chatHeader"> 
                             <p>{groupSelectedName}</p>  
                             {
-                                group.members ?
+                                group.members.groupMembers ?
+                                    group.members.groupMembers.map(name => 
+                                        <span>{name.firstName}</span>
+                                    )
+                                : 
                                     group.members.map(name =>
                                         <span>{name.firstName}</span>
                                     )
-                                : null
                             }
                         </div>            
                         : null
@@ -224,13 +226,14 @@ const GroupPage = (props) => {
                                 <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
                                 
                                 {   
-                                    group.members ?
+                                    group.members.groupMembers ?
+                                        null
+                                    : 
                                         group.members.map(name =>
                                             name.uid === msg.user_from ?
                                                 <p>{name.firstName}</p>
                                             :null
-                                    ) 
-                                    : null
+                                        ) 
                                 }
                             </div> 
                         )            

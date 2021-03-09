@@ -1,3 +1,4 @@
+import { act } from "react-dom/test-utils";
 import { groupConstant } from "../actions/constant"
 
 const initState = {
@@ -17,7 +18,8 @@ export default (state = initState, action) => {
 
         case groupConstant.CREATE_GROUP:
             state = {
-                ...state,                
+                ...state,           
+                messages: [],     
                 members: action.payload.groupInfo,
                 newgroupId: action.payload.groupId
             }
@@ -48,7 +50,14 @@ export default (state = initState, action) => {
             }
             break;
 
-        case groupConstant.GROUP_MESSAGES:
+        case `${groupConstant.GROUP_MESSAGES}_SUCCESS`:
+            state = {
+                ...state,
+                messages: action.payload.messages
+            }
+            break;
+
+        case `${groupConstant.GROUP_MESSAGES}_FAILURE`:
             state = {
                 ...state,
                 messages: action.payload.messages
@@ -60,6 +69,13 @@ export default (state = initState, action) => {
                 ...state,
                 members: action.payload.membersList
             }
+            break;
+
+        case `${groupConstant.GROUP_MEMBERS}_FAILURE`:
+            state = {
+                ...state,
+                members: action.payload.membersList
+            }    
             break;
     }
 

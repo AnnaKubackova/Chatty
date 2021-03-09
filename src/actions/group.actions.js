@@ -72,8 +72,6 @@ export const getGroupMessages = (group) => {
     return async dispatch => {
         const db = firebase.firestore();
 
-        console.log("group id - clicked: ", group.groupId);
-
         db.collection('groupchatsmassages')
         .where('group_to', '==', group.groupId)
         .orderBy('createdAt', 'asc')
@@ -82,15 +80,19 @@ export const getGroupMessages = (group) => {
             querySnapshot.forEach(doc => {
                 groupMessages.push(doc.data()); 
                                
-                if(groupMessages.length > 0) {
+                if(groupMessages == []) {
+                    console.log("!!!! it is NOT longer");
                     dispatch({
-                        type:  groupConstant.GROUP_MESSAGES,
-                        payload: { messages: groupMessages }
+                        type:  `${groupConstant.GROUP_MESSAGES}_FAILURE`,
+                        payload: { messages: [] }
                     })
                 } else {
+                    console.log("it is longer");
                     dispatch({
-                        type:  `${groupConstant.GROUP_MESSAGES}_FAILURE`
+                        type:  `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
+                        payload: { messages: groupMessages }
                     })
+                    
                 }
                 
             })
@@ -153,11 +155,18 @@ export const getGroupMembers = (groupId) => {
             console.log("memberlist[0]: ", membersList[0]);
             console.log("memberlist.length: ", membersList.length);
             
+            if (membersList.length > 0) {
+                dispatch({
+                    type:  groupConstant.GROUP_MEMBERS,
+                    payload: { membersList }
+                });
+            } else {
+                dispatch({
+                    type:  `${groupConstant.GROUP_MEMBERS}_FAILURE`,
+                    payload: { membersList }
+                });
+            }
             
-            dispatch({
-                type:  groupConstant.GROUP_MEMBERS,
-                payload: { membersList }
-            });
         })
 
     }

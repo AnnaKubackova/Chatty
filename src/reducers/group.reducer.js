@@ -1,4 +1,3 @@
-import { act } from "react-dom/test-utils";
 import { groupConstant } from "../actions/constant"
 
 const initState = {

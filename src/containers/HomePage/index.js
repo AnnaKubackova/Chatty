@@ -222,7 +222,7 @@ const HomePage = (props) => {
                 <Link to={'#'} onClick={() => {
                   dispatch(logout(auth.uid))
                 }}>
-                  Log out <img src={icon} />
+                  Log out <img src={icon} alt="log out icon" />
                 </Link>              
               </div>
                   

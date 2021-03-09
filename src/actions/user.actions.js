@@ -44,7 +44,6 @@ export const setNewPersonToChat = (user) => {
 
 export const updateMessage = (messageObj) => {
     return async dispatch => {
-        console.log(messageObj);
         const db = firebase.firestore();
         db.collection('messages')
         .add({
@@ -69,8 +68,6 @@ export const getMessages = (user) => {
         const db = firebase.firestore();
 
         const currentUser = firebase.auth().currentUser; 
-        console.log("user id - clicked: ", user.uid);
-        console.log("user id - currentuser: ", currentUser.uid);
 
         db.collection('messages')
         .where('user_from', 'in', [`${user.uid}`, `${currentUser.uid}`])

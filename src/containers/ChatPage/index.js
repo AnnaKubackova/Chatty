@@ -20,7 +20,6 @@ const ChatPage = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
-  const [chatStarted, setChatStarted] = useState(true);
   const [chatUser, setChatUser] = useState('');
   const [userImage, setUserImage] = useState('');
   const [message, setMessage] = useState('');
@@ -28,7 +27,6 @@ const ChatPage = (props) => {
   const messageRef = useRef();
   let chats;
   let chatUsers;
-
 
   useEffect(() => {
     if(messageRef.current){
@@ -74,7 +72,6 @@ const ChatPage = (props) => {
   }, [user.chats]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initChat = (user) => {
-    setChatStarted(true);
     setChatUser(`${user.firstName} ${user.lastName}`);
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
@@ -82,14 +79,15 @@ const ChatPage = (props) => {
   }
 
   const sendMessage = (e) => {
+    var messageObj;
     if (userToMessageUid === '') {
-      var messageObj = {
+      messageObj = {
         user_from: auth.uid,
         user_to: user.newchatperson.uid,
         message
       }
     } else {
-      var messageObj = {
+      messageObj = {
         user_from: auth.uid,
         user_to: userToMessageUid,
         message

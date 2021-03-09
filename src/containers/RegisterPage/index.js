@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
+import { Redirect, NavLink } from 'react-router-dom';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide';
 import Card from '../../components/UI/Card';

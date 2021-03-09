@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import './App.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { isUserLoggedIn } from './actions';
+import './App.css';
 import HomePage from './containers/HomePage';
 import LoginPage from './containers/LoginPage';
 import RegisterPage from './containers/RegisterPage';
 import ChatPage from './containers/ChatPage';
 import GroupPage from './containers/GroupPage';
 import PrivateRoute from './components/PrivateRoute';
-import { useDispatch, useSelector } from 'react-redux';
-import { isUserLoggedIn } from './actions';
 
 function App() {
   const auth = useSelector(state => state.auth);

@@ -41,8 +41,6 @@ const GroupPage = (props) => {
     const [groupSelectedName, setgroupSelectedName] = useState('');
     const [groupMessage, setgroupMessage] = useState('');
     const messageRef = useRef(); 
-    let unsubscribe;
-    let groups;
 
     useEffect(() => {
         if(messageRef.current){
@@ -55,7 +53,7 @@ const GroupPage = (props) => {
     });
 
     useEffect(() => {
-        groups = dispatch(getGroupList(auth.uid))
+        dispatch(getGroupList(auth.uid))
         .then(groups => {
           return groups;
         })
@@ -65,7 +63,7 @@ const GroupPage = (props) => {
     }, []);
 
     useEffect(() => {
-        unsubscribe = dispatch(getOnlineUsers(auth.uid))
+        dispatch(getOnlineUsers(auth.uid))
         .then(unsubscribe => {
           return unsubscribe;
         })
@@ -102,7 +100,6 @@ const GroupPage = (props) => {
             groupMembers, groupname
         }
        
-        console.log(info);
         dispatch(createGroup(info));
         setModalclicked(false);
         setGroupname('');
@@ -154,7 +151,7 @@ const GroupPage = (props) => {
                                 placeholder='Group name...'
                                 onChange={(e) => setGroupname(e.target.value)}
                             />
-                            <button><img src={creategrpicon}/>Create</button>
+                            <button><img src={creategrpicon} alt="create icon"/>Create</button>
                             
                         </form>
                     </div>
@@ -184,7 +181,7 @@ const GroupPage = (props) => {
                         <button
                             onClick={openmodal}
                         >
-                            <img src={icon} /> Create new group
+                            <img src={icon} alt="create group icon" /> Create new group
                         </button>                        
                     </div>
                     
@@ -272,7 +269,7 @@ const GroupPage = (props) => {
                             placeholder="Write here"
                         />
                         <button 
-                            disabled={ groupSelectedId==='' || groupMessage == "" ? true : false } 
+                            disabled={ groupSelectedId==='' || groupMessage === "" ? true : false } 
                             onClick={sendGroupMessage}
                         >
                             Send

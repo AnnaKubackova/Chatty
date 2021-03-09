@@ -21,7 +21,7 @@ export default (state = initState, action) => {
             }
             break;
 
-        case `${userConstant.GET_ONLINE_USERS}_REQUEST`:
+        case `${userConstant.GET_ONLINE_USERS}_FAILURE`:
             state = {
                 ...initState
             }

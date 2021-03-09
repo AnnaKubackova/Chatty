@@ -14,7 +14,7 @@ export const signup = (user) => {
             const currentUser = firebase.auth().currentUser;
             const name = `${user.firstName} ${user.lastName}`;
             const image = `${user.image}`;
-            console.log(image);
+
             currentUser.updateProfile({
                 displayName: name,
                 photoURL: image
@@ -39,7 +39,7 @@ export const signup = (user) => {
                         image: user.image
                     }
                     sessionStorage.setItem('user', JSON.stringify(loggedInUser));
-                    console.log('User logged in');
+
                     dispatch({
                         type: `${authConstant.USER_LOGIN}_SUCCESS`,
                         payload: { user: loggedInUser }
@@ -84,7 +84,7 @@ export const sigin = (user) => {
                     uid: data.user.uid,
                     email: data.user.email
                 }
-                console.log("livecheck: ", loggedInUser);
+
                 sessionStorage.setItem('user', JSON.stringify(loggedInUser));
 
                 dispatch({
@@ -113,7 +113,6 @@ export const signInWithGoogle = () => {
         const googleProvider = new firebase.auth.GoogleAuthProvider()
         firebase.auth().signInWithPopup(googleProvider)
         .then((data) => {
-            console.log("this is the google uid: ", data.user.uid);
             const name = data.user.displayName.split(" ");
             const image = data.user.photoURL;
             const firstName = name[0];
@@ -137,14 +136,11 @@ export const signInWithGoogle = () => {
                     image
                 }
                 sessionStorage.setItem('user', JSON.stringify(loggedInUser));
-                console.log('User logged in');
 
                 dispatch({
                     type: `${authConstant.GOOGLEUSER_LOGIN}_SUCCESS`,
                     payload: { user: loggedInUser }
                 });
-
-                console.log("after dispatching logged in user");
             })
             .catch((error) => {
                 console.log(error)
@@ -159,7 +155,6 @@ export const signInWithGoogle = () => {
         })
     }
 }
-
 
 export const isUserLoggedIn = () => {
     return async dispatch => {
@@ -180,9 +175,7 @@ export const isUserLoggedIn = () => {
                 })       
             });
 
-            console.log("this is checkUserInfo: ", checkUserInfo);
             return checkUserInfo; 
-
             
         } else {
             dispatch({
@@ -305,7 +298,6 @@ export const updateInfo = (user) => {
                 var storage = firebase.storage();
                 storage.refFromURL(imageReference).getDownloadURL()
                 .then((url) => { 
-                    console.log("URL: ", url);
                     const image = `${url}`;
     
                     currentUser.updateProfile({
@@ -371,7 +363,6 @@ export const deleteUser = (uid) => {
               
             sessionStorage.clear();
             dispatch({ type: `${authConstant.USER_DELETE}_SUCCESS` });
-            console.log("Document successfully deleted!");
         }).catch((error) => {            
             dispatch({ 
                 type: `${authConstant.USER_DELETE}_FAILURE`,

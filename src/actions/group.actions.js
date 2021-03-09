@@ -7,7 +7,7 @@ export const createGroup = (groupInfo) => {
 
         const db = firebase.firestore();
         var ids = [];
-        console.log("groupInfo.groupMembers.length: ", groupInfo.groupMembers.length)
+
         for (let a = 0; a < groupInfo.groupMembers.length; a++) {
             ids.push(groupInfo.groupMembers[a]);
         }
@@ -16,10 +16,7 @@ export const createGroup = (groupInfo) => {
         .add({
             members: groupInfo.groupMembers,
             groupname: groupInfo.groupname,
-            user_from: '',
-            message: '',
-            isSeen: false,
-            createdAt: new Date(),
+            createdAt: new Date()
         })
         .then((docRef) => {
             db.collection('groupchats')
@@ -97,9 +94,7 @@ export const getGroupMessages = (group) => {
 }
 
 export const updateGroupMessage = (message) => {
-    return async dispatch => {
-        console.log("updateGroupMessage function fires and this is the groupmessage: ", message)
-        
+    return async dispatch => {        
         const db = firebase.firestore();
         db.collection('groupchatsmassages')
         .add({
@@ -131,9 +126,6 @@ export const getGroupMembers = (groupId) => {
                     members.push(doc.data().members);
                 }
             });
-
-            console.log("members: ", members);
-            console.log("members length: ", members.length);
         })
         
         
@@ -147,9 +139,6 @@ export const getGroupMembers = (groupId) => {
                 }
                 
             })
-            console.log("memberlist: ", membersList);
-            console.log("memberlist[0]: ", membersList[0]);
-            console.log("memberlist.length: ", membersList.length);
             
             if (membersList.length > 0) {
                 dispatch({
@@ -167,37 +156,3 @@ export const getGroupMembers = (groupId) => {
 
     }
 }
-
-
-
-
-        /* var membersList = [];
-
-        const db = firebase.firestore();
-        var docRef = db.collection("groupchats").doc(groupId);
-
-        docRef
-        .get()
-        .then((doc) => {
-            for (let u = 0; u < doc.data().members.length; u++) {
-                db.collection("users")
-                .doc(doc.data().members[u])
-                .get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        membersList.push(doc.data());
-                    }
-                })
-            }
-
-            console.log(membersList.length);
-            console.log(membersList);
-            
-            dispatch({
-                type:  groupConstant.GROUP_MEMBERS,
-                payload: { membersList }
-            })
-        })
-        .catch((error) => {
-            console.log("Error getting document:", error);
-        }); */

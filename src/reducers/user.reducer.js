@@ -1,5 +1,9 @@
-import { userConstant } from "../actions/constant"
-import { authConstant } from "../actions/constant"
+import {
+    userConstant
+} from "../actions/constant"
+import {
+    authConstant
+} from "../actions/constant"
 
 const initState = {
     users: [],
@@ -10,10 +14,10 @@ const initState = {
 }
 
 export default (state = initState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case `${userConstant.GET_ONLINE_USERS}_REQUEST`:
             break;
-        
+
         case `${userConstant.GET_ONLINE_USERS}_SUCCESS`:
             state = {
                 ...state,
@@ -26,7 +30,7 @@ export default (state = initState, action) => {
                 ...initState
             }
             break;
-            
+
         case userConstant.GET_MESSAGE:
             state = {
                 ...state,

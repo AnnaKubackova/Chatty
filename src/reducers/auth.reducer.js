@@ -1,4 +1,6 @@
-import { authConstant } from "../actions/constant"
+import {
+    authConstant
+} from "../actions/constant"
 
 const initState = {
     firstName: '',
@@ -10,8 +12,8 @@ const initState = {
     error: null
 }
 
-export default (state = initState, action) => {    
-    switch(action.type) {
+export default (state = initState, action) => {
+    switch (action.type) {
         case `${authConstant.USER_LOGIN}_REQUEST`:
             state = {
                 ...state,
@@ -36,8 +38,8 @@ export default (state = initState, action) => {
                 error: action.payload.error
             }
             break;
-            // The GOOGLEUSER_LOGIN constant is not needed - changing to USER_LOGIN constant will be same result
-            case `${authConstant.GOOGLEUSER_LOGIN}_REQUEST`:
+        
+        case `${authConstant.GOOGLEUSER_LOGIN}_REQUEST`:
             state = {
                 ...state,
                 authenticating: true

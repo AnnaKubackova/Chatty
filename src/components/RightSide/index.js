@@ -1,7 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
-import Info from '../Info';
+import { 
+  useSelector 
+} from 'react-redux';
 import './style.css';
+import Info from '../Info';
 
 /**
 * @author

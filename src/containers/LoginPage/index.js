@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { sigin, signInWithGoogle } from '../../actions';
-import { NavLink } from "react-router-dom";
+import React, { 
+  useState 
+} from 'react';
+import { 
+  useDispatch, 
+  useSelector 
+} from 'react-redux';
+import { 
+  Redirect 
+} from 'react-router-dom';
+import { 
+  NavLink 
+} from "react-router-dom";
+import { 
+  sigin, 
+  signInWithGoogle 
+} from '../../actions';
+import './style.css';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide';
 import Card from '../../components/UI/Card';
-import './style.css';
 
 /**
 * @author
@@ -41,15 +53,16 @@ const LoginPage = (props) => {
   return(
     <div>
       <LeftSide />
+
       <RightSide>
         <h2>Log in</h2>
         <Card>
-              <button className="googleSignUp" onClick={
-                (e) => {dispatch(signInWithGoogle(e))}
-                }>
-                <img src="https://developers.google.com/identity/images/g-logo.png" alt="google icon"/>
-                <span> Sign in with Google</span>
-              </button>
+          <button className="googleSignUp" onClick={
+            (e) => {dispatch(signInWithGoogle(e))}
+          }>
+            <img src="https://developers.google.com/identity/images/g-logo.png" alt="google icon"/>
+            <span> Sign in with Google</span>
+          </button>
           <form onSubmit={userLogin}>
             <label htmlFor="email">Email:</label>
             <input 
@@ -66,7 +79,6 @@ const LoginPage = (props) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             
             <button>Log in</button>
           </form>
@@ -77,8 +89,7 @@ const LoginPage = (props) => {
         </p>
       </RightSide>
     </div>
-   )
-
- }
+  )
+}
 
 export default LoginPage

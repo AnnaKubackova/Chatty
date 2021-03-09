@@ -1,7 +1,17 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { isUserLoggedIn } from './actions';
+import React, { 
+  useEffect 
+} from 'react';
+import { 
+  BrowserRouter as Router, 
+  Route 
+} from "react-router-dom";
+import { 
+  useDispatch, 
+  useSelector 
+} from 'react-redux';
+import { 
+  isUserLoggedIn 
+} from './actions';
 import './App.css';
 import HomePage from './containers/HomePage';
 import LoginPage from './containers/LoginPage';

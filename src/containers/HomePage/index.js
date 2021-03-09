@@ -1,12 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { 
+  useEffect, 
+  useState 
+} from 'react';
+import { 
+  useDispatch, 
+  useSelector 
+} from 'react-redux'
+import { 
+  Link 
+} from "react-router-dom";
+import { 
+  getOnlineUsers, 
+  logout, 
+  updateInfo, 
+  deleteUser, 
+  setNewPersonToChat, 
+  searchUserName 
+} from '../../actions';
+import styled from "styled-components";
+import './style.css';
+import icon from '../../logoutIcon.svg';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
-import './style.css';
-import { useDispatch, useSelector } from 'react-redux'
-import { getOnlineUsers, logout, updateInfo, deleteUser, setNewPersonToChat, searchUserName } from '../../actions';
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import icon from '../../logoutIcon.svg';
 
 const Button = 
   styled.a`
@@ -62,7 +77,6 @@ const HomePage = (props) => {
 
   const initChat = (userT) => {
     let newperson = userT;
-
     dispatch(setNewPersonToChat(newperson));
   }
 
@@ -71,7 +85,6 @@ const HomePage = (props) => {
   const handleClick = event => {
     hiddenFileInput.current.click();
   };
-
 
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
@@ -89,13 +102,11 @@ const HomePage = (props) => {
 
   const submitUpdate = (event) => {
     event.preventDefault();
-
     dispatch(updateInfo({ firstName, lastName, uploadedImage }));
   }
 
   const searchUser = (e) => {
     e.preventDefault();
-
     dispatch(searchUserName(searchName));
   }
 
@@ -127,10 +138,12 @@ const HomePage = (props) => {
                             key={user.uid} 
                             user={user} 
                           />
-                        : null
+                        : 
+                          null
                       ) 
                     })
-                  : null
+                  : 
+                    null
                 }
               </div>
               
@@ -149,10 +162,12 @@ const HomePage = (props) => {
                             key={user.uid} 
                             user={user} 
                           />
-                        : null
+                        : 
+                          null
                       ) 
                     })
-                  : null
+                  : 
+                    null
                 }
               </div>
             </div>            
@@ -232,7 +247,6 @@ const HomePage = (props) => {
         }  
       </RightSide>
     </div>
-    
   );
 }
 

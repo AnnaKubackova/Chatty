@@ -92,11 +92,3 @@ section.allUsers::-webkit-scrollbar-track-piece:start {
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 22px;
 }
-
-::-webkit-scrollbar-track-piece:end {
-    margin-bottom: 8px;
-}
-
-::-webkit-scrollbar-track-piece:start {
-    margin-top: 8px;
-}

@@ -44,14 +44,12 @@ const LoginPage = (props) => {
       <RightSide>
         <h2>Log in</h2>
         <Card>
-            <div>
-              <button onClick={
+              <button className="googleSignUp" onClick={
                 (e) => {dispatch(signInWithGoogle(e))}
                 }>
-                <img src="https://img.icons8.com/ios-filled/50/000000/google-logo.png" alt="google icon"/>
-                <span> Continue with Google</span>
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="google icon"/>
+                <span> Sign in with Google</span>
               </button>
-            </div>
           <form onSubmit={userLogin}>
             <label htmlFor="email">Email:</label>
             <input 

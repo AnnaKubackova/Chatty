@@ -53,12 +53,14 @@ export default (state = initState, action) => {
                 ...state,
                 messages: action.payload.messages
             }
+            break;
 
         case groupConstant.GROUP_MEMBERS:
             state = {
                 ...state,
                 members: action.payload.membersList
             }
+            break;
     }
 
     return state;

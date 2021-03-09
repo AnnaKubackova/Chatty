@@ -126,46 +126,42 @@ export const getGroupMembers = (groupId) => {
         let membersList = [];
 
         const db = firebase.firestore();
-        db.collection("groupchats")
-        .doc(groupId)
-        .get()
-        .then((doc) => {
-            for (let b = 0; b < doc.data().members.length; b++) {
-                members.push(doc.data().members[b]);
-            }
-            /* .onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log("in here", doc.data());
-                })
-            }) */
-        })
-        .then(() => {
-            for (let c = 0; c < members.length; c++) {
-                db.collection("users")
-                .doc(members[c])
-                .get()
-                .then((doc) => {
-                    membersList.push(doc.data());
-                    console.log("in then: ", membersList);
-                    console.log("in then: ", membersList.length);
+        db.collection("groupchats")        
+        .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                if (doc.data().groupId === groupId) {
+                    members.push(doc.data().members);
+                }
+            });
 
-                    dispatch({
-                        type:  groupConstant.GROUP_MEMBERS,
-                        payload: { membersList }
-                    })
-                })
-
-                console.log("in for loop: ", membersList);
-                console.log("in for loop: ", membersList.length);                
-            }
-
-            console.log(membersList);
-            console.log(membersList.length);
+            console.log("members: ", members);
+            console.log("members length: ", members.length);
         })
         
+        
+        db.collection("users")
+        .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                for (let c = 0; c < members[0].length; c++) {
+                    if (doc.data().uid === members[0][c]) {
+                        membersList.push(doc.data());
+                    }
+                }
+                
+            })
+            console.log("memberlist: ", membersList);
+            console.log("memberlist[0]: ", membersList[0]);
+            console.log("memberlist.length: ", membersList.length);
+            
+            
+            dispatch({
+                type:  groupConstant.GROUP_MEMBERS,
+                payload: { membersList }
+            });
+        })
 
-
-
+    }
+}
 
 
 
@@ -200,5 +196,3 @@ export const getGroupMembers = (groupId) => {
         .catch((error) => {
             console.log("Error getting document:", error);
         }); */
-    }
-}

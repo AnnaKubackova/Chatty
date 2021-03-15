@@ -47,7 +47,7 @@ const ChatPage = (props) => {
         inline: 'nearest'
       })
     }
-  }, [messageRef.current]);
+  });
 
   useEffect(() => {
     chats = dispatch(getMessageCollection(auth.uid))

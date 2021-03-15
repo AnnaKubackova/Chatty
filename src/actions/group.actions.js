@@ -51,7 +51,7 @@ export const getGroupList = (uid) => {
 
         const db = firebase.firestore();
         db.collection('groupchats')
-            .where('members', 'array-contains', uid)
+            .where('members', 'array-contains', `${uid}`)
             .onSnapshot((querySnapshot) => {
                 const grouplist = [];
                 querySnapshot.forEach(doc => {
@@ -76,15 +76,19 @@ export const getGroupList = (uid) => {
 
 export const getGroupMessages = (group) => {
     return async dispatch => {
-        const db = firebase.firestore();
         const groupMessages = [];
+        const resetGroupMessages = [];
+        const db = firebase.firestore();
 
-        db.collection('groupchatsmassages')
-            .where('group_to', '==', group.groupId)
-            .orderBy('createdAt', 'asc')
-            .onSnapshot((querySnapshot) => {
-                querySnapshot.forEach(doc => {
-                    groupMessages.push(doc.data());
+        db.collection("groupchatsmassages")
+        .where('group_to', '==', group.groupId)
+        .orderBy('createdAt', 'asc')
+        .onSnapshot({ includeMetadataChanges: false },(snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === "added") {
+                    groupMessages.push(change.doc.data());
+                    console.log("groupMessages: ", groupMessages)
+                    console.log("Added: ", change.doc.data());
 
                     dispatch({
                         type: `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
@@ -92,7 +96,62 @@ export const getGroupMessages = (group) => {
                             messages: groupMessages
                         }
                     })
-                })
+                }
+                if (change.type === "modified") {
+                    console.log("Modified: ", change.doc.data());
+                }
+                if (change.type === "removed") {
+                    console.log("Removed: ", change.doc.data());
+                }
+            });
+        });
+
+
+        /* db.collection('groupchatsmassages')
+            .where('group_to', '==', group.groupId)
+            .orderBy('createdAt', 'asc')
+            .onSnapshot((querySnapshot) => {
+                if (groupMessages.length === 0) {
+                    console.log('array is empty');
+                    querySnapshot.forEach(doc => {
+                        groupMessages.push(doc.data());
+                    })
+
+                    dispatch({
+                        type: `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
+                        payload: {
+                            messages: groupMessages
+                        }
+                    })
+                } else {
+                    console.log('array is NOT empty');
+                    dispatch({
+                        type: `${groupConstant.GROUP_MESSAGES}_REQUEST`,
+                        payload: {
+                            messages: []
+                        }
+                    })
+
+                    if (groupMessages.length > 0) {
+                        console.log('in 108');
+                        querySnapshot.forEach(doc => {
+                            console.log('in 109');
+
+                            resetGroupMessages.push(doc.data());
+                        })
+
+                        console.log('in 114');
+
+                        dispatch({
+                            type: `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
+                            payload: {
+                                messages: resetGroupMessages
+                            }
+                        })
+
+                        console.log('in 125');
+                    }
+                }
             })
 
         if (groupMessages.length === 0) {
@@ -102,46 +161,18 @@ export const getGroupMessages = (group) => {
                     messages: groupMessages
                 }
             })
-        }
-    }
-}
+        }*/
 
-export const updateGroupMessage = (message) => {
-    return async dispatch => {
-        const db = firebase.firestore();
-        db.collection('groupchatsmassages')
-            .add({
-                ...message,
-                createdAt: new Date()
-            })
-            .then(() => {
-                dispatch({
-                    type: `${groupConstant.NEW_MESSAGE}_SENT`,
-                    payload: {
-                        message
-                    }
-                })
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-}
-
-export const getGroupMembers = (groupId) => {
-    return dispatch => {
         let members = [];
         let membersList = [];
-
-        const db = firebase.firestore();
         db.collection("groupchats")
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    if (doc.data().groupId === groupId) {
+                    if (doc.data().groupId === group.groupId) {
                         members.push(doc.data().members);
                     }
                 });
-            })
+            }) 
 
 
         db.collection("users")
@@ -169,6 +200,24 @@ export const getGroupMembers = (groupId) => {
                         }
                     });
                 }
+            })
+    }
+}
+
+export const updateGroupMessage = (message) => {
+    return async () => {
+        const db = firebase.firestore();
+        db.collection('groupchatsmassages')
+            .add({
+                ...message,
+                createdAt: new Date()
+            })
+            .then((docRef) => {
+                db.collection('groupchatsmassages')
+                    .doc(docRef.id)
+                    .update({
+                        groupMessageId: docRef.id
+                    })
             })
     }
 }

@@ -47,7 +47,7 @@ const ChatPage = (props) => {
         inline: 'nearest'
       })
     }
-  });
+  }, [messageRef.current]);
 
   useEffect(() => {
     chats = dispatch(getMessageCollection(auth.uid))
@@ -152,7 +152,7 @@ const ChatPage = (props) => {
             {
               chatUser ? 
                 user.messages.map(msg => 
-                  <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' } ref={messageRef}>
+                  <div key={msg.createdAt} className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' } ref={messageRef}>
                     <p className="messageStyle" >{msg.message}</p>
                     <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
                   </div> 
@@ -169,7 +169,8 @@ const ChatPage = (props) => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => {
                 if(e.key === 'Enter' && message !== ''){
-                  sendMessage()
+                  sendMessage();
+                  e.preventDefault(); 
                 }
               }}
               placeholder="Write here"

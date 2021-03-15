@@ -12,8 +12,7 @@ import {
     createGroup, 
     getGroupList, 
     getGroupMessages, 
-    updateGroupMessage, 
-    getGroupMembers 
+    updateGroupMessage
 } from '../../actions';
 import icon from '../../addgroupIcon.svg';
 import creategrpicon from '../../creategroupIcon.svg';
@@ -64,7 +63,7 @@ const GroupPage = (props) => {
               inline: 'nearest'
             })
         }
-    });
+    }, [messageRef.current]);
 
     useEffect(() => {
         dispatch(getGroupList(auth.uid))
@@ -125,8 +124,7 @@ const GroupPage = (props) => {
     const initGroupChat = (group) => {
         setgroupSelectedId(group.groupId);
         setgroupSelectedName(group.groupname);        
-        dispatch(getGroupMessages(group));     
-        dispatch(getGroupMembers(group.groupId));
+        dispatch(getGroupMessages(group));
     }
 
     const sendGroupMessage = () => {
@@ -139,11 +137,9 @@ const GroupPage = (props) => {
         if (groupMessage !== "") {
             dispatch(updateGroupMessage(groupMessageObj))
             .then(() => {
-                setgroupMessage('');
+                setgroupMessage('');                                                                                              
             })
-        }     
-        
-        dispatch(getGroupMembers(groupMessageObj.group_to));   
+        }
     }
 
     return (
@@ -247,23 +243,26 @@ const GroupPage = (props) => {
                     <div className="messageSections">
                         {
                             groupSelectedId ? 
-                                group.messages.map(msg => 
-                                    <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }  ref={messageRef}>
-                                        {   
-                                            group.members.groupMembers ?
-                                                null
-                                            : 
-                                                group.members.map(name =>
-                                                    name.uid === msg.user_from ?
-                                                        <p className="messageCreatedAt">{name.firstName}</p>
-                                                    :
-                                                        null
-                                                ) 
-                                        }
-                                        <p className="messageStyle" >{msg.groupMessage}</p>
-                                        <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
-                                    </div> 
-                                )            
+                                group.messages.length === 0 ?
+                                    null
+                                :
+                                    group.messages.map((msg) => 
+                                        <div key={msg.groupMessageId} className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' }  ref={messageRef}>
+                                            {   
+                                                group.members.groupMembers ?
+                                                    null
+                                                : 
+                                                    group.members.map(name =>
+                                                        name.uid === msg.user_from ?
+                                                            <p className="messageCreatedAt">{name.firstName}</p>
+                                                        :
+                                                            null
+                                                    ) 
+                                            }
+                                            <p className="messageStyle" >{msg.groupMessage}</p>
+                                            <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
+                                        </div> 
+                                    )            
                             : 
                                 null
                         }
@@ -275,7 +274,8 @@ const GroupPage = (props) => {
                             onChange={(e) => setgroupMessage(e.target.value)}
                             onKeyPress={(e) => {
                                 if(e.key === 'Enter' && groupMessage !== ""){
-                                    sendGroupMessage()
+                                    sendGroupMessage();
+                                    e.preventDefault();
                                 }
                             }}
                             disabled={ groupSelectedId==='' ? true : false } 

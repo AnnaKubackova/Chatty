@@ -61,44 +61,6 @@ export const updateMessage = (messageObj) => {
                 isSeen: false,
                 createdAt: new Date()
             })
-            .then(() => {
-                db.collection('messages')
-                    .where('user_from', 'in', [`${messageObj.user_from}`, `${messageObj.user_to}`])
-                    .orderBy('createdAt', 'asc')
-                    .onSnapshot((querySnapshot) => {
-                        const messages = [];
-                        querySnapshot.forEach(doc => {
-                            if (
-                                //messages user sent
-                                (doc.data().user_from === messageObj.user_from && doc.data().user_to === messageObj.user_to) ||
-                                //messages user recieved 
-                                (doc.data().user_from === messageObj.user_to && doc.data().user_to === messageObj.user_from)
-                            ) {
-                                messages.push(doc.data());
-                            }
-
-                            if (messages.length > 0) {
-                                dispatch({
-                                    type: userConstant.GET_NEWMESSAGE,
-                                    payload: {
-                                        messages: messages
-                                    }
-                                })
-                            } else {
-                                dispatch({
-                                    type: `${userConstant.GET_NEWMESSAGE}_FAILURE`,
-                                    payload: {
-                                        messages
-                                    }
-                                })
-                            }
-
-                        })
-                    })
-            })
-            .catch(error => {
-                console.log(error)
-            })
     }
 }
 
@@ -107,6 +69,9 @@ export const getMessages = (user) => {
         dispatch({
             type: `${userConstant.GET_MESSAGE}_REQUEST`
         })
+
+        const messages = [];
+
         const db = firebase.firestore();
 
         const currentUser = firebase.auth().currentUser;
@@ -114,34 +79,38 @@ export const getMessages = (user) => {
         db.collection('messages')
             .where('user_from', 'in', [`${user.uid}`, `${currentUser.uid}`])
             .orderBy('createdAt', 'asc')
-            .onSnapshot((querySnapshot) => {
-                const messages = [];
-                querySnapshot.forEach(doc => {
-                    if (
+            .onSnapshot({ includeMetadataChanges: false }, (querySnapshot) => {
+                
+                querySnapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        if (
                         //messages user sent
-                        (doc.data().user_from === currentUser.uid && doc.data().user_to === user.uid) ||
+                        (change.doc.data().user_from === currentUser.uid && change.doc.data().user_to === user.uid) ||
                         //messages user recieved 
-                        (doc.data().user_from === user.uid && doc.data().user_to === currentUser.uid)
-                    ) {
-                        messages.push(doc.data());
-                    }
+                        (change.doc.data().user_from === user.uid && change.doc.data().user_to === currentUser.uid)
+                        ) {
+                            messages.push(change.doc.data());
+                        }
 
-                    if (messages.length > 0) {
-                        dispatch({
-                            type: userConstant.GET_MESSAGE,
-                            payload: {
-                                messages: messages
-                            }
-                        })
-                    } else {
-                        dispatch({
-                            type: `${userConstant.GET_MESSAGE}_FAILURE`,
-                            payload: {
-                                messages
-                            }
-                        })
-                    }
+                        console.log("before dispatch: ", messages);
 
+                        if (messages.length > 0) {
+                            console.log("ine success: ", messages);
+                            dispatch({
+                                type: userConstant.GET_MESSAGE,
+                                payload: {
+                                    messages: messages
+                                }
+                            })
+                        } else {
+                            dispatch({
+                                type: `${userConstant.GET_MESSAGE}_FAILURE`,
+                                payload: {
+                                    messages
+                                }
+                            })
+                        }
+                    }
                 })
             })
     }

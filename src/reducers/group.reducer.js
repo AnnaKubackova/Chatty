@@ -51,13 +51,6 @@ export default (state = initState, action) => {
             }
             break;
 
-        case `${groupConstant.GROUP_MESSAGES}_REQUEST`:
-            state = {
-                ...state,
-                messages: action.payload.messages
-            }
-            break;
-
         case `${groupConstant.GROUP_MESSAGES}_SUCCESS`:
             state = {
                 ...state,
@@ -67,8 +60,7 @@ export default (state = initState, action) => {
 
         case `${groupConstant.GROUP_MESSAGES}_FAILURE`:
             state = {
-                ...state,
-                messages: action.payload.messages
+                ...state
             }
             break;
 

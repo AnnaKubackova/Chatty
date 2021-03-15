@@ -77,7 +77,6 @@ export const getGroupList = (uid) => {
 export const getGroupMessages = (group) => {
     return async dispatch => {
         const groupMessages = [];
-        const resetGroupMessages = [];
         const db = firebase.firestore();
 
         db.collection("groupchatsmassages")
@@ -100,68 +99,14 @@ export const getGroupMessages = (group) => {
                 if (change.type === "modified") {
                     console.log("Modified: ", change.doc.data());
                 }
-                if (change.type === "removed") {
-                    console.log("Removed: ", change.doc.data());
-                }
             });
+
+            if (groupMessages.length === 0) {
+                dispatch({
+                    type: `${groupConstant.GROUP_MESSAGES}_FAILURE`
+                })
+            }
         });
-
-
-        /* db.collection('groupchatsmassages')
-            .where('group_to', '==', group.groupId)
-            .orderBy('createdAt', 'asc')
-            .onSnapshot((querySnapshot) => {
-                if (groupMessages.length === 0) {
-                    console.log('array is empty');
-                    querySnapshot.forEach(doc => {
-                        groupMessages.push(doc.data());
-                    })
-
-                    dispatch({
-                        type: `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
-                        payload: {
-                            messages: groupMessages
-                        }
-                    })
-                } else {
-                    console.log('array is NOT empty');
-                    dispatch({
-                        type: `${groupConstant.GROUP_MESSAGES}_REQUEST`,
-                        payload: {
-                            messages: []
-                        }
-                    })
-
-                    if (groupMessages.length > 0) {
-                        console.log('in 108');
-                        querySnapshot.forEach(doc => {
-                            console.log('in 109');
-
-                            resetGroupMessages.push(doc.data());
-                        })
-
-                        console.log('in 114');
-
-                        dispatch({
-                            type: `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
-                            payload: {
-                                messages: resetGroupMessages
-                            }
-                        })
-
-                        console.log('in 125');
-                    }
-                }
-            })
-
-        if (groupMessages.length === 0) {
-            dispatch({
-                type: `${groupConstant.GROUP_MESSAGES}_FAILURE`,
-                payload: {
-                    messages: groupMessages
-                }
-            })
-        }*/
 
         let members = [];
         let membersList = [];

@@ -88,7 +88,6 @@ const ChatPage = (props) => {
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
     dispatch(getMessages(user));
-    
   }
 
   const sendMessage = (e) => {

@@ -3,7 +3,7 @@ import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
 import './style.css';
-import { getMessages, updateMessage, getMessageCollection, getChatUsers } from '../../actions';
+import { getMessages, updateMessage, getMessageCollection, getChatUsers, clearChatPerson } from '../../actions';
 
 const User = (props) => {
   const {user, getUserToChat} = props;
@@ -36,7 +36,7 @@ const ChatPage = (props) => {
           inline: 'nearest'
         })
     }
-  });
+  }, [messageRef.current]);
 
   useEffect(() => {
     chats = dispatch(getMessageCollection(auth.uid))
@@ -49,7 +49,7 @@ const ChatPage = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (chatUser === '') {
+    if (chatUser === '' || chatUser == undefined) {
       if (user.newchatperson.length === 0) {
         setChatUser('')        
       } else {
@@ -67,7 +67,9 @@ const ChatPage = (props) => {
     })
 
     if (chatUser === `${user.newchatperson.firstName} ${user.newchatperson.lastName}`) {
+      console.log('sending message to new chatperson');
       dispatch(getMessages(user.newchatperson));
+
     }
   }, [user.chats]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -76,6 +78,7 @@ const ChatPage = (props) => {
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
     dispatch(getMessages(user));
+    dispatch(clearChatPerson(user));
   }
 
   const sendMessage = (e) => {
@@ -108,7 +111,8 @@ const ChatPage = (props) => {
         <section className="allUsers">
           <div className="listOfUsers">
           {
-            user.chatusers.length > 0 ?
+            console.log(user.chatusers),
+            user.chatusers !== undefined ?
             user.chatusers.map(user => {
               return(
                 <User 

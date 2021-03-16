@@ -232,36 +232,6 @@ export const searchUserName = (searchQuery) => {
     }
 }
 
-export const setSeenMessage = (userFromId, userToId) => {
-    return async dispatch => {
-        const db = firebase.firestore();
-        const falseSeenMessages = [];
-
-        if(userToId !== undefined){
-        db.collection('messages')
-            .where('user_from', '==', `${userFromId}`)
-            .where('user_to', '==', `${userToId}`)
-            .get()
-            .then(function (querySnapshot) {                
-                querySnapshot.forEach(function(doc) {
-                    doc.ref.update({
-                        isSeen: true
-                    })
-                    .then(() => {
-                      if(doc.data().isSeen === false) {
-                            console.log("helllooooo: ", doc.data());
-                            falseSeenMessages.push(doc.data());
-                        }       
-                    }) 
-                    console.log("these are the unseen messages:", falseSeenMessages);
-                    console.log("this the length of the unseen messages:", falseSeenMessages.length);                                  
-                });
-                
-            });
-        }
-    }
-}
-
 export const fetchUnseenMessages = () => {
     return async dispatch => {
         const db = firebase.firestore();

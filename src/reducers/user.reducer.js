@@ -34,8 +34,7 @@ export default (state = initState, action) => {
         case userConstant.GET_MESSAGE:
             state = {
                 ...state,
-                messages: action.payload.messages,
-                newchatperson: action.payload.user
+                messages: action.payload.messages
             }
             break;
 
@@ -123,6 +122,13 @@ export default (state = initState, action) => {
             state = {
                 ...state,
                 users: action.payload.users
+            }
+            break;
+        
+        case `${userConstant.CLEAR_CHAT_PERSON}_SUCCESS`:
+            state = {
+                ...state,
+                newchatperson: action.payload.user
             }
             break;
     }

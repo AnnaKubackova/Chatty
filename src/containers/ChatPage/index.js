@@ -11,7 +11,8 @@ import {
   getMessages, 
   updateMessage, 
   getMessageCollection, 
-  getChatUsers
+  getChatUsers,
+  clearChatPerson
 } from '../../actions';
 import './style.css';
 import LeftSide from '../../components/LeftSide';
@@ -90,6 +91,7 @@ const ChatPage = (props) => {
     setuserToMessageUid(user.uid);
     console.log("user: ", user)
     dispatch(getMessages(user));
+    dispatch(clearChatPerson(user));
   }
 
   const sendMessage = (e) => {

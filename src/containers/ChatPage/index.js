@@ -11,14 +11,13 @@ import {
   getMessages, 
   updateMessage, 
   getMessageCollection, 
-  getChatUsers 
+  getChatUsers,
+  clearChatPerson
 } from '../../actions';
 import './style.css';
 import LeftSide from '../../components/LeftSide';
-import RightSide from '../../components/RightSide'
-import { useDispatch, useSelector } from 'react-redux'
+import RightSide from '../../components/RightSide';
 import './style.css';
-import { getMessages, updateMessage, getMessageCollection, getChatUsers, clearChatPerson } from '../../actions';
 
 const User = (props) => {
   const {user, getUserToChat} = props;

@@ -1,4 +1,6 @@
-import { groupConstant } from "../actions/constant"
+import {
+    groupConstant
+} from "../actions/constant"
 
 const initState = {
     groups: [],
@@ -7,8 +9,8 @@ const initState = {
     newgroupId: ''
 }
 
-export default (state = initState, action) => {    
-    switch(action.type) {
+export default (state = initState, action) => {
+    switch (action.type) {
         case `${groupConstant.CREATE_GROUP}_REQUEST`:
             state = {
                 ...state
@@ -17,8 +19,8 @@ export default (state = initState, action) => {
 
         case groupConstant.CREATE_GROUP:
             state = {
-                ...state,           
-                messages: [],     
+                ...state,
+                messages: [],
                 members: action.payload.groupInfo,
                 newgroupId: action.payload.groupId
             }
@@ -58,8 +60,7 @@ export default (state = initState, action) => {
 
         case `${groupConstant.GROUP_MESSAGES}_FAILURE`:
             state = {
-                ...state,
-                messages: action.payload.messages
+                ...state
             }
             break;
 
@@ -74,7 +75,7 @@ export default (state = initState, action) => {
             state = {
                 ...state,
                 members: action.payload.membersList
-            }    
+            }
             break;
     }
 

@@ -5,21 +5,22 @@
     margin: 50px auto;
 }
 
-button.googleSignUp{
-          background: white;
-          color: #444;
-          width: 70%;
-          height: 40px;
-          border-radius: 12px;
-          border: none;
-          box-shadow: 1px 1px 1px grey;
-          white-space: nowrap;
-          display: flex;
-          align-items: center;
-          justify-content: space-evenly;
-          margin-bottom: 15px;
-          transition: all ease-in-out .2s;
+button.googleSignUp {
+    background: white;
+    color: #444;
+    width: 70%;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+    transition: all ease-in-out .2s;
 }
+
 button.googleSignUp:hover {
     cursor: pointer;
     background-color: #4285f4;
@@ -30,9 +31,9 @@ button.googleSignUp:hover span {
 }
 
 button.googleSignUp span {
-      font-size: 14px;
-      font-weight: bold;
-      font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
 }
 
 button.googleSignUp img {

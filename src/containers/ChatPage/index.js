@@ -1,4 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { 
+  useEffect, 
+  useState, 
+  useRef 
+} from 'react';
+import { 
+  useDispatch, 
+  useSelector 
+} from 'react-redux';
+import { 
+  getMessages, 
+  updateMessage, 
+  getMessageCollection, 
+  getChatUsers 
+} from '../../actions';
+import './style.css';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,11 +45,10 @@ const ChatPage = (props) => {
 
   useEffect(() => {
     if(messageRef.current){
-      messageRef.current.scrollIntoView(
-        {
-          block: 'end',
-          inline: 'nearest'
-        })
+      messageRef.current.scrollIntoView({
+        block: 'end',
+        inline: 'nearest'
+      })
     }
   }, [messageRef.current]);
 
@@ -100,7 +114,7 @@ const ChatPage = (props) => {
     if (message !== "") {
       dispatch(updateMessage(messageObj))
       .then(() => {
-          setMessage('');
+        setMessage('');
       })
     }
   }
@@ -111,23 +125,23 @@ const ChatPage = (props) => {
         <section className="allUsers">
           <div className="listOfUsers">
           {
-            console.log(user.chatusers),
-            user.chatusers !== undefined ?
-            user.chatusers.map(user => {
-              return(
-                <User 
-                  getUserToChat={initChat}
-                  key={user.uid} 
-                  user={user} 
-                />
-              );
-            })
+            user.chatusers.length > 0 ?
+              user.chatusers.map(user => {
+                return(
+                  <User 
+                    getUserToChat={initChat}
+                    key={user.uid} 
+                    user={user} 
+                  />
+                );
+              })
             :
-            null
+              null
           }
           </div>
         </section>      
       </LeftSide>
+
       <RightSide>
         <div className="chatArea">
           {
@@ -136,19 +150,21 @@ const ChatPage = (props) => {
                 <div className="userImage" style={{backgroundImage: `url(${userImage})`}}></div>
                 <p>{chatUser}</p>  
               </div>            
-            : null
+            : 
+              null
           }
           
           <div className="messageSections">
             {
               chatUser ? 
-              user.messages.map(msg => 
-                <div key={msg.createdAt}  className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' } ref={messageRef}>
-                  <p className="messageStyle" >{msg.message}</p>
-                  <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
-                </div> 
-              )            
-              : null
+                user.messages.map(msg => 
+                  <div key={msg.createdAt} className={ msg.user_from === auth.uid ? 'rightMessage' : 'leftMessage' } ref={messageRef}>
+                    <p className="messageStyle" >{msg.message}</p>
+                    <p className="messageCreatedAt">{new Date(msg.createdAt.seconds * 1000 + msg.createdAt.nanoseconds / 1000000).toLocaleDateString('en-GB', {hour: '2-digit', minute: '2-digit'})}</p>
+                  </div> 
+                )            
+              : 
+                null
             }
           </div>
 
@@ -159,7 +175,8 @@ const ChatPage = (props) => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => {
                 if(e.key === 'Enter' && message !== ''){
-                  sendMessage()
+                  sendMessage();
+                  e.preventDefault(); 
                 }
               }}
               placeholder="Write here"

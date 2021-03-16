@@ -3,7 +3,7 @@
     flex-direction: column-reverse;
 }
 
-.allUsers .listOfUsers .user{
+.allUsers .listOfUsers .user {
     flex-direction: row;
     width: 100%;
     border-bottom: 1px solid black;
@@ -43,7 +43,7 @@
 
 .messageSections {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     overflow-y: scroll;
     overflow-x: hidden;
     height: inherit;
@@ -54,11 +54,11 @@
     margin-bottom: 15px;
 }
 
-.messageSections div.rightMessage{
+.messageSections div.rightMessage {
     align-self: flex-end;
 }
 
-.messageSections div.leftMessage{
+.messageSections div.leftMessage {
     align-self: flex-start;
 }
 
@@ -81,7 +81,7 @@ div.leftMessage p.messageCreatedAt {
     text-align: start;
 }
 
-div.rightMessage p.messageCreatedAt{
+div.rightMessage p.messageCreatedAt {
     text-align: end;
 }
 

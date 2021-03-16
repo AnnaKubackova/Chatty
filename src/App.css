@@ -12,13 +12,13 @@
     --light-gray: #E9E9E9;
     --dark-gray: #636363;
     --light-green: #00AC56;
-  }
+}
 
-.App > div {
+.App>div {
     display: flex;
 }
 
-.App > div > section {
+.App>div>section {
     flex-grow: 1;
     flex-basis: 0;
 }
@@ -55,18 +55,19 @@ section.allUsers::-webkit-scrollbar {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 22px;
 }
- 
+
 section.allUsers::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.6);
-        border-top-left-radius: 0px;
-        border-top-right-radius: 22px;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 22px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 22px;
 }
+
 section.allUsers::-webkit-scrollbar-track-piece:end {
     margin-bottom: 8px;
 }
- 
+
 section.allUsers::-webkit-scrollbar-track-piece:start {
     margin-top: 8px;
 }
@@ -74,8 +75,8 @@ section.allUsers::-webkit-scrollbar-track-piece:start {
 .userImage {
     background-size: cover;
     width: 4vw;
-    height: 4vw;    
-    background-repeat: no-repeat;    
+    height: 4vw;
+    background-repeat: no-repeat;
     background-position: center;
     border-radius: 50%;
     border: 1px solid var(--light-blue);

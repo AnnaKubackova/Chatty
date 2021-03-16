@@ -1,8 +1,8 @@
-.header{
+.header {
     width: 100%;
 }
 
-.header > div {
+.header>div {
     height: 100vh;
     display: flex;
     align-items: center;
@@ -13,7 +13,7 @@
     width: 20vw;
 }
 
-.header > .loggedInLogo {
+.header>.loggedInLogo {
     height: 12vh;
     width: 100%;
     justify-content: start;
@@ -21,6 +21,6 @@
     padding-left: 25px;
 }
 
-.header > .loggedInLogo > img {
+.header>.loggedInLogo>img {
     width: 6vw;
 }

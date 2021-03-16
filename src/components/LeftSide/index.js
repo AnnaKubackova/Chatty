@@ -1,5 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { 
+  useSelector 
+} from 'react-redux';
 import './style.css';
 import Logo from '../Logo';
 import Navigation from '../Navigation';

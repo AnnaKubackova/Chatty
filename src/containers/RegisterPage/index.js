@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
+import React, { 
+  useState 
+} from 'react';
+import { 
+  useDispatch, 
+  useSelector 
+} from 'react-redux';
+import { 
+  Redirect, 
+  NavLink 
+} from 'react-router-dom';
+import { 
+  signup 
+} from '../../actions';
 import LeftSide from '../../components/LeftSide';
 import RightSide from '../../components/RightSide';
 import Card from '../../components/UI/Card';
-import { signup } from '../../actions';
 
 /**
 * @author
@@ -37,6 +47,7 @@ const RegisterPage = (props) => {
   return(
     <div>
       <LeftSide />
+
       <RightSide>        
           <h2>Register</h2>
           <Card>
@@ -82,8 +93,7 @@ const RegisterPage = (props) => {
           </p>
       </RightSide>
     </div>
-   )
-
- }
+  )
+}
 
 export default RegisterPage

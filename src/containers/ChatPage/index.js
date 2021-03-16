@@ -79,17 +79,12 @@ const ChatPage = (props) => {
     .catch(error => {
       console.log(error);
     })
-
-    if (chatUser === `${user.newchatperson.firstName} ${user.newchatperson.lastName}`) {
-      console.log("newuser: ", user.newchatperson);
-    }
   }, [user.chats]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initChat = (user) => {
     setChatUser(`${user.firstName} ${user.lastName}`);
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
-    console.log("user: ", user)
     dispatch(getMessages(user));
     dispatch(clearChatPerson(user));
   }

@@ -216,7 +216,6 @@ export const searchUserName = (searchQuery) => {
 
 export const clearChatPerson = (user) => {
     return async dispatch => {
-        user = [];
         dispatch ({
                 type: `${userConstant.CLEAR_CHAT_PERSON}_SUCCESS`,
                 payload: { user }

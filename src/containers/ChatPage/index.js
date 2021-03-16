@@ -12,7 +12,8 @@ import {
   updateMessage, 
   getMessageCollection, 
   getChatUsers,
-  setSeenMessage
+  setSeenMessage,
+  fetchUnseenMessages
 } from '../../actions';
 import './style.css';
 import LeftSide from '../../components/LeftSide';
@@ -64,7 +65,6 @@ const ChatPage = (props) => {
 
   useEffect(() => {
     if(chatUser !== ''){
-    dispatch(setSeenMessage(userToMessageUid, auth.uid));
     }
   },[chatUser])
 

@@ -20,11 +20,9 @@ const Navigation = (props) => {
 
     useEffect(() => {
         console.log("we are in the navgation!");
+        
         dispatch(fetchUnseenMessages());
     },[user.messages])
-
-
-
 
     return(
         <nav>

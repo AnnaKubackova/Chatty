@@ -108,6 +108,27 @@ export const getMessages = (user) => {
                     }
                 })
             })
+
+            db.collection('messages')
+                .where('user_from', '==', `${user.uid}`)
+                .where('user_to', '==', `${currentUser.uid}`)
+                .get()
+                .then(function (querySnapshot) {                
+                    querySnapshot.forEach(function(doc) {
+                        doc.ref.update({
+                            isSeen: true
+                        })
+                                                       
+                    });
+                })
+                .then(() => {
+                    dispatch({
+                        type: userConstant.GET_UNSEENMESSAGES,
+                        payload: {
+                            unseen: 0
+                        }
+                    })
+                });
     }
 }
 
@@ -212,8 +233,9 @@ export const searchUserName = (searchQuery) => {
 }
 
 export const setSeenMessage = (userFromId, userToId) => {
-    return async () => {
+    return async dispatch => {
         const db = firebase.firestore();
+        const falseSeenMessages = [];
 
         if(userToId !== undefined){
         db.collection('messages')
@@ -222,11 +244,19 @@ export const setSeenMessage = (userFromId, userToId) => {
             .get()
             .then(function (querySnapshot) {                
                 querySnapshot.forEach(function(doc) {
-                    console.log("doc ref: ", doc.ref);
                     doc.ref.update({
                         isSeen: true
                     })
+                    .then(() => {
+                      if(doc.data().isSeen === false) {
+                            console.log("helllooooo: ", doc.data());
+                            falseSeenMessages.push(doc.data());
+                        }       
+                    }) 
+                    console.log("these are the unseen messages:", falseSeenMessages);
+                    console.log("this the length of the unseen messages:", falseSeenMessages.length);                                  
                 });
+                
             });
         }
     }

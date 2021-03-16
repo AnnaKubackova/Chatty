@@ -11,11 +11,13 @@ import {
   getMessages, 
   updateMessage, 
   getMessageCollection, 
-  getChatUsers 
+  getChatUsers,
+  clearChatPerson
 } from '../../actions';
 import './style.css';
 import LeftSide from '../../components/LeftSide';
-import RightSide from '../../components/RightSide'
+import RightSide from '../../components/RightSide';
+import './style.css';
 
 const User = (props) => {
   const {user, getUserToChat} = props;
@@ -47,7 +49,7 @@ const ChatPage = (props) => {
         inline: 'nearest'
       })
     }
-  });
+  }, [messageRef.current]);
 
   useEffect(() => {
     chats = dispatch(getMessageCollection(auth.uid))
@@ -60,7 +62,7 @@ const ChatPage = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (chatUser === '') {
+    if (chatUser === '' || chatUser == undefined) {
       if (user.newchatperson.length === 0) {
         setChatUser('')        
       } else {
@@ -89,6 +91,7 @@ const ChatPage = (props) => {
     setuserToMessageUid(user.uid);
     console.log("user: ", user)
     dispatch(getMessages(user));
+    dispatch(clearChatPerson(user));
   }
 
   const sendMessage = (e) => {

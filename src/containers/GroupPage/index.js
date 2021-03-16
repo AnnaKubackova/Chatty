@@ -63,7 +63,7 @@ const GroupPage = (props) => {
               inline: 'nearest'
             })
         }
-    });
+    }, [messageRef.current]);
 
     useEffect(() => {
         dispatch(getGroupList(auth.uid))

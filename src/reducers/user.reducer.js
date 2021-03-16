@@ -124,6 +124,13 @@ export default (state = initState, action) => {
                 users: action.payload.users
             }
             break;
+        
+        case `${userConstant.CLEAR_CHAT_PERSON}_SUCCESS`:
+            state = {
+                ...state,
+                newchatperson: action.payload.user
+            }
+            break;
     }
 
     return state;

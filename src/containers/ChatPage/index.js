@@ -66,6 +66,7 @@ const ChatPage = (props) => {
       } else {
         setChatUser(`${user.newchatperson.firstName} ${user.newchatperson.lastName}`);
         setUserImage(user.newchatperson.image);
+        initChat(user.newchatperson);
       }      
     }
 
@@ -78,7 +79,7 @@ const ChatPage = (props) => {
     })
 
     if (chatUser === `${user.newchatperson.firstName} ${user.newchatperson.lastName}`) {
-      dispatch(getMessages(user.newchatperson));
+      console.log("newuser: ", user.newchatperson);
     }
   }, [user.chats]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -86,6 +87,7 @@ const ChatPage = (props) => {
     setChatUser(`${user.firstName} ${user.lastName}`);
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
+    console.log("user: ", user)
     dispatch(getMessages(user));
   }
 

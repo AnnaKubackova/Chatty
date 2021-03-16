@@ -82,12 +82,10 @@ export const getGroupMessages = (group) => {
         db.collection("groupchatsmassages")
         .where('group_to', '==', group.groupId)
         .orderBy('createdAt', 'asc')
-        .onSnapshot({ includeMetadataChanges: false },(snapshot) => {
+        .onSnapshot({ includeMetadataChanges: true },(snapshot) => {
             snapshot.docChanges().forEach((change) => {
                 if (change.type === "added") {
                     groupMessages.push(change.doc.data());
-                    console.log("groupMessages: ", groupMessages)
-                    console.log("Added: ", change.doc.data());
 
                     dispatch({
                         type: `${groupConstant.GROUP_MESSAGES}_SUCCESS`,
@@ -108,25 +106,32 @@ export const getGroupMessages = (group) => {
             }
         });
 
-        let members = [];
+        const members = [];
         let membersList = [];
-        db.collection("groupchats")
-            .onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    if (doc.data().groupId === group.groupId) {
-                        members.push(doc.data().members);
-                    }
-                });
-            }) 
 
+        db.collection('groupchats')
+        .doc(group.groupId)
+        .get()
+        .then((doc) => {
+            for(let b = 0; b < doc.data().members.length; b++) {
+                 members.push(doc.data().members[b]);
+            }
+            console.log("TEST memebers[]: ", members);
+            console.log("TEST memebers[] length: ", members.length);
 
-        db.collection("users")
-            .onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    for (let c = 0; c < members[0].length; c++) {
-                        if (doc.data().uid === members[0][c]) {
-                            membersList.push(doc.data());
+            db.collection("users")
+            .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
+                querySnapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        for (let c = 0; c < members.length; c++) {
+                            if (change.doc.data().uid === members[c]) {
+                                membersList.push(change.doc.data());
+                            }
                         }
+                        console.log("added", change.doc.data())
+                    }
+                    if (change.type === "modified") {
+                        console.log("Modified: ", change.doc.data());
                     }
                 })
 
@@ -146,6 +151,15 @@ export const getGroupMessages = (group) => {
                     });
                 }
             })
+
+
+
+        })
+        .catch((error) => {
+            console.log("error: ", error);
+        })
+
+       
     }
 }
 

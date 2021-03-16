@@ -73,13 +73,11 @@ export const getMessages = (user) => {
         const messages = [];
 
         const db = firebase.firestore();
-
         const currentUser = firebase.auth().currentUser;
-
         db.collection('messages')
             .where('user_from', 'in', [`${user.uid}`, `${currentUser.uid}`])
             .orderBy('createdAt', 'asc')
-            .onSnapshot({ includeMetadataChanges: false }, (querySnapshot) => {
+            .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
                 
                 querySnapshot.docChanges().forEach((change) => {
                     if (change.type === "added") {
@@ -92,10 +90,7 @@ export const getMessages = (user) => {
                             messages.push(change.doc.data());
                         }
 
-                        console.log("before dispatch: ", messages);
-
                         if (messages.length > 0) {
-                            console.log("ine success: ", messages);
                             dispatch({
                                 type: userConstant.GET_MESSAGE,
                                 payload: {
@@ -162,23 +157,25 @@ export const getChatUsers = (ids) => {
         const chatUsers = [];
 
         const db = firebase.firestore();
-        for (let a = 0; a < ids[0].length; a++) {
+        if(ids[0]) {
+            for (let a = 0; a < ids[0].length; a++) {
+                db.collection("users")
+                    .doc(ids[0][a])
+                    .onSnapshot((doc) => {
+                        chatUsers.push(doc.data());
 
-            db.collection("users")
-                .doc(ids[0][a])
-                .onSnapshot((doc) => {
-                    chatUsers.push(doc.data());
-
-                    if (chatUsers.length > 0) {
-                        dispatch({
-                            type: `${userConstant.GET_CHATUSERS}_REQUEST`,
-                            payload: {
-                                users: chatUsers
-                            }
-                        });
-                    }
-                });
+                        if (chatUsers.length > 0) {
+                            dispatch({
+                                type: `${userConstant.GET_CHATUSERS}_REQUEST`,
+                                payload: {
+                                    users: chatUsers
+                                }
+                            });
+                        }
+                    });
+            }
         }
+        
     }
 }
 

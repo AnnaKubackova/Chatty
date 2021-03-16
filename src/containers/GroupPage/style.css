@@ -152,6 +152,10 @@
     text-align: left;
 }
 
+div.modal-content .usersContainer {
+    width: 100%;
+}
+
 div.modal-content .usersContainer .user {
     place-items: center;
 }

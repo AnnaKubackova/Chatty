@@ -61,6 +61,13 @@ const ChatPage = (props) => {
     })
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+
+  useEffect(() => {
+    if(chatUser !== ''){
+    dispatch(setSeenMessage(userToMessageUid, auth.uid));
+    }
+  },[chatUser])
+
   useEffect(() => {
     if (chatUser === '' || chatUser == undefined) {
       if (user.newchatperson.length === 0) {
@@ -69,10 +76,10 @@ const ChatPage = (props) => {
         setChatUser(`${user.newchatperson.firstName} ${user.newchatperson.lastName}`);
         setUserImage(user.newchatperson.image);
         initChat(user.newchatperson);
+        
       }      
     }
-    
-    dispatch(setSeenMessage(chatUser.uid));
+
 
     chatUsers = dispatch(getChatUsers(user.chats))
     .then(chatUsers => {

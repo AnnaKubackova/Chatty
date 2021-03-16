@@ -211,22 +211,51 @@ export const searchUserName = (searchQuery) => {
     }
 }
 
-export const setSeenMessage = (userFromId) => {
+export const setSeenMessage = (userFromId, userToId) => {
     return async () => {
         const db = firebase.firestore();
-        const currentUser = firebase.auth().currentUser.uid;
 
+        if(userToId !== undefined){
         db.collection('messages')
             .where('user_from', '==', `${userFromId}`)
-            .where('user_to', '==', `${currentUser}`)
+            .where('user_to', '==', `${userToId}`)
             .get()
             .then(function (querySnapshot) {                
                 querySnapshot.forEach(function(doc) {
-                    console.log(doc.ref);
+                    console.log("doc ref: ", doc.ref);
                     doc.ref.update({
                         isSeen: true
                     })
                 });
             });
+        }
+    }
+}
+
+export const fetchUnseenMessages = () => {
+    return async dispatch => {
+        const db = firebase.firestore();
+        const currentUser = firebase.auth().currentUser;
+        const unSeenMessages = [];
+        console.log('before snapshot: ', unSeenMessages);
+        db.collection('messages')
+        .where('user_to', '==', `${currentUser.uid}`)
+        .where('isSeen', '==', false)
+        .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
+                
+                querySnapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        {
+                            unSeenMessages.push(change.doc.data());
+                        }
+                            dispatch({
+                                type: userConstant.GET_UNSEENMESSAGES,
+                                payload: {
+                                    unseen: unSeenMessages.length
+                                }
+                            })
+                    }
+                })
+            })
     }
 }

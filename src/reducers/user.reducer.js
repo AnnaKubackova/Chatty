@@ -10,7 +10,8 @@ const initState = {
     messages: [],
     chats: [],
     chatusers: [],
-    newchatperson: []
+    newchatperson: [],
+    unSeenMessages: 0
 }
 
 export default (state = initState, action) => {
@@ -129,6 +130,13 @@ export default (state = initState, action) => {
             state = {
                 ...state,
                 newchatperson: action.payload.user
+            }
+            break;
+
+        case userConstant.GET_UNSEENMESSAGES:
+            state = {
+                ...state,
+                unSeenMessages: action.payload.unseen
             }
             break;
     }

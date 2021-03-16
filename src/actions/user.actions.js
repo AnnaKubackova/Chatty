@@ -99,7 +99,9 @@ export const getMessages = (user) => {
                             dispatch({
                                 type: userConstant.GET_MESSAGE,
                                 payload: {
-                                    messages: messages
+                                    messages: messages,
+                                    user
+
                                 }
                             })
                         } else {
@@ -211,14 +213,5 @@ export const searchUserName = (searchQuery) => {
                 })
             });
 
-    }
-}
-
-export const clearChatPerson = (user) => {
-    return async dispatch => {
-        dispatch ({
-                type: `${userConstant.CLEAR_CHAT_PERSON}_SUCCESS`,
-                payload: { user }
-        })
     }
 }

@@ -13,8 +13,7 @@ export const userConstant = {
     GET_NEWMESSAGE: 'GET_NEWMESSAGE',
     GET_CHAT: 'GET_CHAT',
     GET_CHATUSERS: 'GET_CHATUSERS',
-    SEARCH: 'SEARCH',
-    CLEAR_CHAT_PERSON: 'CLEAR_CHAT_PERSON'
+    SEARCH: 'SEARCH'
 }
 
 export const groupConstant = {

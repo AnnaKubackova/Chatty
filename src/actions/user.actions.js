@@ -54,6 +54,7 @@ export const setNewPersonToChat = (user) => {
 
 export const updateMessage = (messageObj) => {
     return async dispatch => {
+        const user = [];
         const db = firebase.firestore();
         db.collection('messages')
             .add({
@@ -61,10 +62,17 @@ export const updateMessage = (messageObj) => {
                 isSeen: false,
                 createdAt: new Date()
             })
+            .then(() => {
+                dispatch ({
+                    type: `${userConstant.CLEAR_CHAT_PERSON}_SUCCESS`,
+                    payload: { user }
+                }) 
+            })
     }
 }
 
 export const getMessages = (user) => {
+    console.log("WHOS MESSAGE???", user);
     return async dispatch => {
         dispatch({
             type: `${userConstant.GET_MESSAGE}_REQUEST`
@@ -77,8 +85,7 @@ export const getMessages = (user) => {
         db.collection('messages')
             .where('user_from', 'in', [`${user.uid}`, `${currentUser.uid}`])
             .orderBy('createdAt', 'asc')
-            .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
-                
+            .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {                
                 querySnapshot.docChanges().forEach((change) => {
                     if (change.type === "added") {
                         if (
@@ -211,11 +218,3 @@ export const searchUserName = (searchQuery) => {
     }
 }
 
-export const clearChatPerson = (user) => {
-    return async dispatch => {
-        dispatch ({
-                type: `${userConstant.CLEAR_CHAT_PERSON}_SUCCESS`,
-                payload: { user }
-        })
-    }
-}

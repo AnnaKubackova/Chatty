@@ -11,7 +11,8 @@ import {
   getMessages, 
   updateMessage, 
   getMessageCollection, 
-  getChatUsers
+  getChatUsers,
+  setSeenMessage
 } from '../../actions';
 import './style.css';
 import LeftSide from '../../components/LeftSide';
@@ -70,6 +71,8 @@ const ChatPage = (props) => {
         initChat(user.newchatperson);
       }      
     }
+    
+    dispatch(setSeenMessage(chatUser.uid));
 
     chatUsers = dispatch(getChatUsers(user.chats))
     .then(chatUsers => {
@@ -85,6 +88,7 @@ const ChatPage = (props) => {
     setUserImage(user.image);
     setuserToMessageUid(user.uid);
     dispatch(getMessages(user));
+    
   }
 
   const sendMessage = (e) => {

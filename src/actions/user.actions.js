@@ -72,7 +72,6 @@ export const updateMessage = (messageObj) => {
 }
 
 export const getMessages = (user) => {
-    console.log("WHOS MESSAGE???", user);
     return async dispatch => {
         dispatch({
             type: `${userConstant.GET_MESSAGE}_REQUEST`
@@ -218,3 +217,22 @@ export const searchUserName = (searchQuery) => {
     }
 }
 
+export const setSeenMessage = (userFromId) => {
+    return async () => {
+        const db = firebase.firestore();
+        const currentUser = firebase.auth().currentUser.uid;
+
+        db.collection('messages')
+            .where('user_from', '==', `${userFromId}`)
+            .where('user_to', '==', `${currentUser}`)
+            .get()
+            .then(function (querySnapshot) {                
+                querySnapshot.forEach(function(doc) {
+                    console.log(doc.ref);
+                    doc.ref.update({
+                        isSeen: true
+                    })
+                });
+            });
+    }
+}

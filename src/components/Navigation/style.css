@@ -18,3 +18,9 @@ nav ul li a {
 nav ul li a.active {
     font-weight: bold;
 }
+
+.unseenMessages {
+    border-radius: 50%;
+    background-color: var(--dark-blue);
+    padding: 5px 10px;
+}

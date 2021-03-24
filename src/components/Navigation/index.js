@@ -28,7 +28,7 @@ const Navigation = (props) => {
         <nav>
             <ul>
                 <li><NavLink exact to={'/'}>All users</NavLink></li>
-                <li><NavLink to={'/chats'}>Your chats <span>{user.unSeenMessages > 0 ? user.unSeenMessages : null}</span></NavLink></li>
+                <li><NavLink to={'/chats'}>Your chats {user.unSeenMessages > 0 ?<span className="unseenMessages">{user.unSeenMessages}</span> : null}</NavLink></li>
                 <li><NavLink to={'/groups'}>Your groups</NavLink></li>
             </ul>
         </nav>

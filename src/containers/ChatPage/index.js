@@ -11,9 +11,7 @@ import {
   getMessages, 
   updateMessage, 
   getMessageCollection, 
-  getChatUsers,
-  setSeenMessage,
-  fetchUnseenMessages
+  getChatUsers
 } from '../../actions';
 import './style.css';
 import LeftSide from '../../components/LeftSide';
